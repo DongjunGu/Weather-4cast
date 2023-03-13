@@ -6,6 +6,7 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
+import com.mobileapp.a4cast.DatabaseItem;
 
 
 import java.io.File;
@@ -30,6 +31,14 @@ public class SQLiteManager extends SQLiteOpenHelper {
     public static final String COL_4 = "MAX_TEMP";
     public static final String COL_5 = "CONDITIONS";
     public static final String COL_6 = "LINK";
+    /*
+    public static final int TYPE = 0;
+    public static final int NAME = 1;
+    public static final int MIN_TEMP = 2;
+    public static final int MAX_TEMP = 3;
+    public static final int CONDITIONS = 4;
+    public static final int LINK = 5;
+     */
 
     public Context context;
     static SQLiteDatabase sqliteDataBase;
@@ -128,21 +137,105 @@ public class SQLiteManager extends SQLiteOpenHelper {
         // We should not update it as requirements of application.
     }
 
-    //GETS ALL RECOMMENDATIONS IN A TEMP RANGE
-    public List<String> getRecommendationsInRange(int temperature) {
+    // Method to get items by TEMP (input one int and gets all items that have that in range)
+    public List<DatabaseItem> getRecommendationsInRange(int temperature) {
         SQLiteDatabase db = this.getReadableDatabase();
-        List<String> recommendations = new ArrayList<>();
-        String query = "SELECT NAME FROM " + TABLE_NAME + " WHERE MIN_TEMP <= ? AND MAX_TEMP >= ?";
+        List<DatabaseItem> itemList = new ArrayList<>();
+        String query = "SELECT * FROM " + TABLE_NAME + " WHERE MIN_TEMP <= ? AND MAX_TEMP >= ?";
         Cursor cursor = db.rawQuery(query, new String[] { String.valueOf(temperature), String.valueOf(temperature) });
         if (cursor.moveToFirst()) {
             do {
-                String recommendation = cursor.getString(0);
-                recommendations.add(recommendation);
+                //String recommendation = cursor.getString(0);
+                //recommendations.add(recommendation);
+                DatabaseItem item = new DatabaseItem();
+                //item.setId(cursor.getInt(cursor.getColumnIndex(ID)));
+                item.setType(cursor.getString(0));
+                item.setName(cursor.getString(1));
+                item.setMinTemp(cursor.getInt(2));
+                item.setMaxTemp(cursor.getInt(3));
+                item.setConditions(cursor.getString(4));
+                item.setLink(cursor.getString(5));
+                itemList.add(item);
             } while (cursor.moveToNext());
         }
         cursor.close();
         db.close();
-        return recommendations;
+        return itemList;
     }
+
+    // Method to get items by TYPE
+    public List<DatabaseItem> getItemsByType(String type) {
+        List<DatabaseItem> itemList = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "SELECT * FROM " + TABLE_NAME + " WHERE TYPE = ?";
+        Cursor cursor = db.rawQuery(query, new String[]{type});
+        if (cursor.moveToFirst()) {
+            do {
+                DatabaseItem item = new DatabaseItem();
+                //item.setId(cursor.getInt(cursor.getColumnIndex(ID)));
+                item.setType(cursor.getString(1));
+                item.setName(cursor.getString(2));
+                item.setMinTemp(cursor.getInt(3));
+                item.setMaxTemp(cursor.getInt(4));
+                item.setConditions(cursor.getString(5));
+                item.setLink(cursor.getString(6));
+                itemList.add(item);
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        db.close();
+        return itemList;
+    }
+
+    // Method to get items by CONDITIONS
+    public List<DatabaseItem> getItemsByConditions(String conditions) {
+        List<DatabaseItem> itemList = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "SELECT * FROM " + TABLE_NAME + " WHERE CONDITIONS = ?";
+        Cursor cursor = db.rawQuery(query, new String[]{conditions});
+        if (cursor.moveToFirst()) {
+            do {
+                DatabaseItem item = new DatabaseItem();
+                //item.setId(cursor.getInt(cursor.getColumnIndex(ID)));
+                item.setType(cursor.getString(1));
+                item.setName(cursor.getString(2));
+                item.setMinTemp(cursor.getInt(3));
+                item.setMaxTemp(cursor.getInt(4));
+                item.setConditions(cursor.getString(5));
+                item.setLink(cursor.getString(6));
+                itemList.add(item);
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        db.close();
+        return itemList;
+    }
+
+    // Method to get items by CONDITIONS and TYPE
+    public List<DatabaseItem> getItemsByTypeAndConditions(String type, String conditions) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        List<DatabaseItem> itemList = new ArrayList<>();
+        String query = "SELECT * FROM " + TABLE_NAME + " WHERE CONDITIONS = ? AND TYPE = ?";
+        Cursor cursor = db.rawQuery(query, new String[]{type, conditions});
+        if (cursor.moveToFirst()) {
+            do {
+                DatabaseItem item = new DatabaseItem();
+                //item.setId(cursor.getInt(cursor.getColumnIndex(ID)));
+                item.setType(cursor.getString(0));
+                item.setName(cursor.getString(1));
+                item.setMinTemp(cursor.getInt(2));
+                item.setMaxTemp(cursor.getInt(3));
+                item.setConditions(cursor.getString(4));
+                item.setLink(cursor.getString(5));
+                itemList.add(item);
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        db.close();
+        return itemList;
+    }
+
+
+
 }
 

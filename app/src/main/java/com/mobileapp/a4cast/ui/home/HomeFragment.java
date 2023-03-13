@@ -26,7 +26,8 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.mobileapp.a4cast.SQLiteManager;
+import com.mobileapp.a4cast.DatabaseItem; //Database item class
+import com.mobileapp.a4cast.SQLiteManager; //Database helper class
 import com.mobileapp.a4cast.databinding.FragmentHomeBinding;
 
 import org.json.JSONArray;
@@ -42,7 +43,7 @@ public class HomeFragment extends Fragment {
     private FragmentHomeBinding binding;
     private SQLiteManager dbManager;
 
-    List<String> recommendations;
+    List<DatabaseItem> recommendations;
     EditText enterCityTextEdit;
     Button getWeatherButton;
     TextView showRecomTextView,showTempTextView;
@@ -143,8 +144,8 @@ public class HomeFragment extends Fragment {
                             recommendations = dbManager.getRecommendationsInRange((int)temp);
                             String temp = "";
                             for(int i = 0; i < recommendations.size(); i++) {
-                                Log.d("DEBUG", "RECOMMENDATIONS: " + recommendations.get(i));
-                                temp = temp + recommendations.get(i) + "\n";
+                                Log.d("DEBUG", "RECOMMENDATION " + (i + 1) + ":\n" + recommendations.get(i).printItemInfo());
+                                temp = temp + recommendations.get(i).getName() + "\n";
                             }
                             showRecomTextView.setText(temp);
                         } catch (JSONException e) {
