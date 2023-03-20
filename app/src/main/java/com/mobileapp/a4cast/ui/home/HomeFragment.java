@@ -25,6 +25,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.mobileapp.a4cast.R;
 import com.mobileapp.a4cast.databinding.FragmentHomeBinding;
 import com.mobileapp.a4cast.ui.home.HomeViewModel;
 
@@ -111,7 +112,7 @@ public class HomeFragment extends Fragment {
                             String cityName = response.getString("name");
                             JSONObject main = response.getJSONObject("main");
                             double temperature = main.getDouble("temp");
-                            //int pressure = main.getInt("pressure");
+                            double feelsLike = main.getDouble("feels_like");
                             int humidity = main.getInt("humidity");
                             JSONArray weather = response.getJSONArray("weather");
                             String description = weather.getJSONObject(0).getString("description");
@@ -119,8 +120,28 @@ public class HomeFragment extends Fragment {
                             binding.textCityName.setText(cityName);
                             binding.textTemperature.setText(String.format(Locale.getDefault(), "%.2f°F", (temperature - 273.15)* 9/5 + 32));
                             binding.textDescription.setText(description);
-                            //binding.textPressure.setText(String.format(Locale.getDefault(), "%d hPa", pressure));
+                            binding.textFeelslike.setText(String.format(Locale.getDefault(), "%.2f°F", (feelsLike - 273.15)* 9/5 + 32));
                             binding.textHumidity.setText(String.format(Locale.getDefault(), "%d%%", humidity));
+
+                            // weather icon change
+                            if(description.equals("clear sky"))
+                                binding.descriptionImage.setImageResource(R.drawable.sun);
+                            else if(description.equals("few clouds"))
+                                binding.descriptionImage.setImageResource(R.drawable.fewcloud);
+                            else if(description.equals("scattered clouds"))
+                                binding.descriptionImage.setImageResource(R.drawable.clouds);
+                            else if(description.equals("broken clouds"))
+                                binding.descriptionImage.setImageResource(R.drawable.clouds);
+                            else if(description.equals("shower rain"))
+                                binding.descriptionImage.setImageResource(R.drawable.shower);
+                            else if(description.equals("rain"))
+                                binding.descriptionImage.setImageResource(R.drawable.rain);
+                            else if(description.equals("thunderstorm"))
+                                binding.descriptionImage.setImageResource(R.drawable.storm);
+                            else if(description.equals("snow"))
+                                binding.descriptionImage.setImageResource(R.drawable.snow);
+                            else if(description.equals("mist"))
+                                binding.descriptionImage.setImageResource(R.drawable.mist);
 
                         } catch (JSONException e) {
                             e.printStackTrace();
