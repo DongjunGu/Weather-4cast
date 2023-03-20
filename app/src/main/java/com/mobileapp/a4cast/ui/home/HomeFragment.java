@@ -1,22 +1,21 @@
 package com.mobileapp.a4cast.ui.home;
 
-import android.annotation.SuppressLint;
-import android.database.Cursor;
-import android.database.SQLException;
-import android.database.sqlite.SQLiteDatabase;
-import android.graphics.Color;
+import android.Manifest;
+import android.content.Context;
+import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
-import android.util.Log;
-import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -24,146 +23,119 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.mobileapp.a4cast.DatabaseItem; //Database item class
-import com.mobileapp.a4cast.SQLiteManager; //Database helper class
 import com.mobileapp.a4cast.databinding.FragmentHomeBinding;
+import com.mobileapp.a4cast.ui.home.HomeViewModel;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.text.DecimalFormat;
-import java.util.List;
-
+import java.text.DateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 public class HomeFragment extends Fragment {
 
     private FragmentHomeBinding binding;
-    private SQLiteManager dbManager;
 
-    List<DatabaseItem> recommendations;
-    EditText enterCityTextEdit;
-    Button getWeatherButton;
-    TextView showRecomTextView,showTempTextView;
+    private static final String API_KEY = "dec0f72ce23604612032a38b00466f12";
+    private static final String BASE_URL = "https://api.openweathermap.org/data/2.5/weather";
 
-    double temp,feelsLike;
-    float pressure;
-    int humidity;
-    String description,wind,clouds,countryName,cityName;
+    private static final int REQUEST_LOCATION_PERMISSION = 1;
 
-    private final String url = "https://api.openweathermap.org/data/2.5/weather";
-    private final String appid = "dec0f72ce23604612032a38b00466f12";
-    //https://openweathermap.org/weather-conditions <-- List of conditions
-    DecimalFormat df = new DecimalFormat("#.##");
+    private LocationManager locationManager;
+    private LocationListener locationListener;
 
-    @SuppressLint("MissingInflatedId")
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater,ViewGroup container, Bundle savedInstanceState) {
         HomeViewModel homeViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        // SETUP FOR DATABASE
-        dbManager = new SQLiteManager(getContext());
-        try { dbManager.createDataBase(); } catch (Exception e) { Log.d("DEBUG", "EXCEPTION: " + e); }
-        try { dbManager.openDataBase(); } catch (SQLException e) { Log.d("DEBUG", "EXCEPTION: " + e); }
+        locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
 
-        SQLiteDatabase db1;
-        db1 = dbManager.getReadableDatabase();
-
-        //UI ELEMENTS
-        getWeatherButton = binding.getWeatherButton;
-        enterCityTextEdit = binding.enterCityTextEdit;
-        showRecomTextView = binding.showRecomTextView;
-        showTempTextView = binding.showTempTextView;
-
-        // GETS ALL DATA AND OUTPUTS TO LOG
-        String query = "SELECT * FROM " + SQLiteManager.TABLE_NAME;
-        Cursor cursor = db1.rawQuery(query, null);
-        StringBuilder stringBuilder = new StringBuilder();
-        while (cursor.moveToNext()) {
-            String type = cursor.getString(0);
-            String name = cursor.getString(1);
-            int minTemp = cursor.getInt(2);
-            int maxTemp = cursor.getInt(3);
-            String conditions = cursor.getString(4);
-            String link = cursor.getString(5);
-
-            stringBuilder.append(type).append(", ").append(name).append(", ").append(minTemp)
-                    .append(", ").append(maxTemp).append(", ").append(conditions).append(", ").append(link).append("\n");
-        }
-        Log.d("DEBUG", "DATA: " + "\n" +stringBuilder);
-
-        // GETS TEMP DATA AND OUTPUTS TO TEXTVIEW
-        getWeatherButton.setOnClickListener(new View.OnClickListener() {
+        locationListener = new LocationListener() {
             @Override
-            public void onClick(View view) {
-                Log.d("DEBUG", "update button clicked");
-                String tempUrl = "";
-                if(enterCityTextEdit.getText().toString() != "") {
-                    String city = enterCityTextEdit.getText().toString().trim();
-                    tempUrl = url + "?q=" + city + "&appid=" + appid;
-                }
-                StringRequest stringRequest = new StringRequest(Request.Method.POST, tempUrl, new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        String output = "";
-                        Log.d("response",response);
-                        try {
-                            //GET WEATHER INFO
-                            JSONObject jsonResponse = new JSONObject(response);
-                            JSONArray jsonArray = jsonResponse.getJSONArray("weather");
-                            JSONObject jsonObjectWeather = jsonArray.getJSONObject(0);
-                            description = jsonObjectWeather.getString("description");
-                            JSONObject jsonObjectMain = jsonResponse.getJSONObject("main");
-                            temp = (jsonObjectMain.getDouble("temp") - 273.15) * 9/5 + 32;
-                            feelsLike = (jsonObjectMain.getDouble("feels_like") - 273.15) * 9/5 +32;
-                            pressure = jsonObjectMain.getInt("pressure");
-                            humidity = jsonObjectMain.getInt("humidity");
-                            JSONObject jsonObjectWind = jsonResponse.getJSONObject("wind");
-                            wind = jsonObjectWind.getString("speed");
-                            JSONObject jsonObjectClouds = jsonResponse.getJSONObject("clouds");
-                            clouds = jsonObjectClouds.getString("all");
-                            JSONObject jsonObjectSys = jsonResponse.getJSONObject("sys");
-                            countryName = jsonObjectSys.getString("country");
-                            cityName = jsonResponse.getString("name");
-                            showTempTextView.setTextColor(Color.WHITE);
-                            showTempTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 15);
-                            output += "Current weather of " + cityName + " (" + countryName + ")"
-                                    + "\n Temp: " + df.format(temp) + " °F"
-                                    + "\n Feels Like: " + df.format(feelsLike) + " °F"
-                                    + "\n Humidity: " + humidity + "%"
-                                    + "\n Description: " + description
-                                    + "\n Wind Speed: " + wind + "m/s (meters per second)"
-                                    + "\n Cloudiness: " + clouds + "%"
-                                    + "\n Pressure: " + pressure + " hPa";
-                            showTempTextView.setText(output);
+            public void onLocationChanged(Location location) {
+                getWeatherData(location);
+            }
 
-                            //SHOW RECOMMENDATIONS:
-                            recommendations = dbManager.getRecommendationsInRange((int)temp);
-                            String temp = "";
-                            for(int i = 0; i < recommendations.size(); i++) {
-                                Log.d("DEBUG", "RECOMMENDATION " + (i + 1) + ":\n" + recommendations.get(i).printItemInfo());
-                                temp = temp + recommendations.get(i).getName() + "\n";
-                            }
-                            showRecomTextView.setText(temp);
+            @Override
+            public void onStatusChanged(String provider, int status, Bundle extras) {
+
+            }
+
+            @Override
+            public void onProviderEnabled(String provider) {
+
+            }
+
+            @Override
+            public void onProviderDisabled(String provider) {
+
+            }
+        };
+
+        if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(getActivity(),
+                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                    REQUEST_LOCATION_PERMISSION);
+        } else {
+            getLocation();
+        }
+
+        return root;
+    }
+
+    private void getLocation() {
+        if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION)
+                == PackageManager.PERMISSION_GRANTED) {
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,
+                    5000, 10, locationListener);
+        }
+    }
+
+    private void getWeatherData(Location location) {
+        String latitude = String.valueOf(location.getLatitude());
+        String longitude = String.valueOf(location.getLongitude());
+
+        String url = BASE_URL + "?lat=" + latitude + "&lon=" + longitude + "&appid=" + API_KEY;
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            String cityName = response.getString("name");
+                            JSONObject main = response.getJSONObject("main");
+                            double temperature = main.getDouble("temp");
+                            //int pressure = main.getInt("pressure");
+                            int humidity = main.getInt("humidity");
+                            JSONArray weather = response.getJSONArray("weather");
+                            String description = weather.getJSONObject(0).getString("description");
+
+                            binding.textCityName.setText(cityName);
+                            binding.textTemperature.setText(String.format(Locale.getDefault(), "%.2f°F", (temperature - 273.15)* 9/5 + 32));
+                            binding.textDescription.setText(description);
+                            //binding.textPressure.setText(String.format(Locale.getDefault(), "%d hPa", pressure));
+                            binding.textHumidity.setText(String.format(Locale.getDefault(), "%d%%", humidity));
+
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-
                     }
                 }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(binding.getRoot().getContext(), error.toString().trim(), Toast.LENGTH_SHORT).show();
-                    }
-                });
-                RequestQueue requestQueue = Volley.newRequestQueue(binding.getRoot().getContext());
-                requestQueue.add(stringRequest);
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(getActivity(), "Error retrieving weather data", Toast.LENGTH_SHORT).show();
+                error.printStackTrace();
             }
         });
-        return root;
+
+        RequestQueue requestQueue = Volley.newRequestQueue(binding.getRoot().getContext());
+        requestQueue.add(jsonObjectRequest);
     }
 
     @Override
@@ -171,6 +143,5 @@ public class HomeFragment extends Fragment {
         super.onDestroyView();
         binding = null;
     }
-
 }
 
