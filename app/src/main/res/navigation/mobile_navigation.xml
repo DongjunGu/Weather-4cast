@@ -12,14 +12,39 @@
         tools:layout="@layout/fragment_home" />
 
     <fragment
-        android:id="@+id/navigation_dashboard"
-        android:name="com.mobileapp.a4cast.ui.dashboard.DashboardFragment"
+        android:id="@+id/navigation_recommendations"
+        android:name="com.mobileapp.a4cast.ui.recommendations.RecommendationFragment"
         android:label="@string/title_Recommendations"
-        tools:layout="@layout/fragment_dashboard" />
+        tools:layout="@layout/fragment_recommendation" >
+        <action
+            android:id="@+id/action_navigation_recommendations_to_activityFragment"
+            app:destination="@id/activityFragment" />
+        <action
+            android:id="@+id/action_navigation_recommendations_to_clothesFragment"
+            app:destination="@id/clothesFragment" />
+        <action
+            android:id="@+id/action_navigation_recommendations_to_foodFragment"
+            app:destination="@id/foodFragment" />
+    </fragment>
 
     <fragment
-        android:id="@+id/navigation_notifications"
-        android:name="com.mobileapp.a4cast.ui.notifications.NotificationsFragment"
+        android:id="@+id/navigation_settings"
+        android:name="com.mobileapp.a4cast.ui.settings.SettingsFragment"
         android:label="@string/title_Settings"
-        tools:layout="@layout/fragment_notifications" />
+        tools:layout="@layout/fragment_settings" />
+    <fragment
+        android:id="@+id/foodFragment"
+        android:name="com.mobileapp.a4cast.ui.recommendations.FoodFragment"
+        android:label="Food"
+        tools:layout="@layout/fragment_food" />
+    <fragment
+        android:id="@+id/activityFragment"
+        android:name="com.mobileapp.a4cast.ui.recommendations.ActivityFragment"
+        android:label="Activities"
+        tools:layout="@layout/fragment_activity" />
+    <fragment
+        android:id="@+id/clothesFragment"
+        android:name="com.mobileapp.a4cast.ui.recommendations.ClothesFragment"
+        android:label="Clothes"
+        tools:layout="@layout/fragment_clothes" />
 </navigation>

@@ -1,4 +1,4 @@
-package com.mobileapp.a4cast.ui.notifications;
+package com.mobileapp.a4cast.ui.settings;
 
 import android.annotation.SuppressLint;
 import android.database.Cursor;
@@ -28,9 +28,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.mobileapp.a4cast.DatabaseItem; //Database item class
 import com.mobileapp.a4cast.SQLiteManager; //Database helper class
-import com.mobileapp.a4cast.databinding.FragmentHomeBinding;
-import com.mobileapp.a4cast.databinding.FragmentNotificationsBinding;
-import com.mobileapp.a4cast.ui.home.HomeViewModel;
+import com.mobileapp.a4cast.databinding.FragmentSettingsBinding;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -40,9 +38,9 @@ import java.text.DecimalFormat;
 import java.util.List;
 
 
-public class NotificationsFragment extends Fragment {
+public class SettingsFragment extends Fragment {
 
-    private FragmentNotificationsBinding binding;
+    private FragmentSettingsBinding binding;
     private SQLiteManager dbManager;
 
     List<DatabaseItem> recommendations;
@@ -62,8 +60,8 @@ public class NotificationsFragment extends Fragment {
 
     @SuppressLint("MissingInflatedId")
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        NotificationsViewModel notificationsViewModel = new ViewModelProvider(this).get(NotificationsViewModel.class);
-        binding = FragmentNotificationsBinding.inflate(inflater, container, false);
+        SettingsViewModel settingsViewModel = new ViewModelProvider(this).get(SettingsViewModel.class);
+        binding = FragmentSettingsBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
         // SETUP FOR DATABASE
@@ -143,7 +141,7 @@ public class NotificationsFragment extends Fragment {
                             showTempTextView.setText(output);
 
                             //SHOW RECOMMENDATIONS:
-                            recommendations = dbManager.getRecommendationsInRange((int)temp);
+                            recommendations = dbManager.getItemsByTemp((int)temp);
                             String temp = "";
                             for(int i = 0; i < recommendations.size(); i++) {
                                 Log.d("DEBUG", "RECOMMENDATION " + (i + 1) + ":\n" + recommendations.get(i).printItemInfo());

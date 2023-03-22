@@ -3,10 +3,13 @@ package com.mobileapp.a4cast.ui.home;
 import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.database.SQLException;
+import android.database.sqlite.SQLiteDatabase;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,7 +28,10 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.mobileapp.a4cast.DatabaseItem;
+import com.mobileapp.a4cast.GlobalData;
 import com.mobileapp.a4cast.R;
+import com.mobileapp.a4cast.SQLiteManager;
 import com.mobileapp.a4cast.databinding.FragmentHomeBinding;
 import com.mobileapp.a4cast.ui.home.HomeViewModel;
 
@@ -33,8 +39,12 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.text.DateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 public class HomeFragment extends Fragment {
@@ -44,15 +54,26 @@ public class HomeFragment extends Fragment {
     private static final String API_KEY = "dec0f72ce23604612032a38b00466f12";
     private static final String BASE_URL = "https://api.openweathermap.org/data/2.5/weather";
 
+    private SQLiteManager dbManager;
     private static final int REQUEST_LOCATION_PERMISSION = 1;
 
     private LocationManager locationManager;
     private LocationListener locationListener;
+    double temperature = 0, feelsLike = 0;
+    String mainDescription = "";
 
     public View onCreateView(@NonNull LayoutInflater inflater,ViewGroup container, Bundle savedInstanceState) {
         HomeViewModel homeViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
+
+        //Setup DB Manager
+        dbManager = new SQLiteManager(getContext());
+        try { dbManager.createDataBase(); } catch (Exception e) { Log.d("DEBUG", "EXCEPTION: " + e); }
+        try { dbManager.openDataBase(); } catch (SQLException e) { Log.d("DEBUG", "EXCEPTION: " + e); }
+        SQLiteDatabase db1;
+        db1 = dbManager.getReadableDatabase();
+        //----------
 
         locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
 
@@ -102,6 +123,7 @@ public class HomeFragment extends Fragment {
         String latitude = String.valueOf(location.getLatitude());
         String longitude = String.valueOf(location.getLongitude());
 
+
         String url = BASE_URL + "?lat=" + latitude + "&lon=" + longitude + "&appid=" + API_KEY;
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null,
@@ -109,19 +131,22 @@ public class HomeFragment extends Fragment {
                     @Override
                     public void onResponse(JSONObject response) {
                         try {
+                            //https://openweathermap.org/weather-conditions <-- List of conditions
+                            //SNOW, RAIN, DRIZZLE, THUNDERSTORM, CLEAR, CLOUDS <-- Main conditions
                             String cityName = response.getString("name");
                             JSONObject main = response.getJSONObject("main");
-                            double temperature = main.getDouble("temp");
-                            double feelsLike = main.getDouble("feels_like");
+                            temperature = main.getDouble("temp");
+                            feelsLike = main.getDouble("feels_like");
                             int humidity = main.getInt("humidity");
                             JSONArray weather = response.getJSONArray("weather");
                             String description = weather.getJSONObject(0).getString("description");
-
                             binding.textCityName.setText(cityName);
                             binding.textTemperature.setText(String.format(Locale.getDefault(), "%.2f°F", (temperature - 273.15)* 9/5 + 32));
                             binding.textDescription.setText(description);
                             binding.textFeelslike.setText(String.format(Locale.getDefault(), "%.2f°F", (feelsLike - 273.15)* 9/5 + 32));
                             binding.textHumidity.setText(String.format(Locale.getDefault(), "%d%%", humidity));
+
+                            Log.d("DEBUG", "JSON Data: " + response.toString(4));
 
                             // weather icon change
                             if(description.equals("clear sky"))
@@ -146,6 +171,7 @@ public class HomeFragment extends Fragment {
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
+
                     }
                 }, new Response.ErrorListener() {
             @Override
@@ -154,9 +180,15 @@ public class HomeFragment extends Fragment {
                 error.printStackTrace();
             }
         });
-
         RequestQueue requestQueue = Volley.newRequestQueue(binding.getRoot().getContext());
         requestQueue.add(jsonObjectRequest);
+
+        //CREATE GLOBAL DATA
+        List<DatabaseItem> conditions = dbManager.getItemsByConditions(mainDescription.toUpperCase());
+        List<DatabaseItem> temps = dbManager.getItemsByTemp((int)temperature);
+
+        GlobalData.getInstance().setTemps(temps);
+        GlobalData.getInstance().setConditions(conditions);
     }
 
     @Override
