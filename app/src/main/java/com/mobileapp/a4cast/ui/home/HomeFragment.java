@@ -136,14 +136,26 @@ public class HomeFragment extends Fragment {
                             String cityName = response.getString("name");
                             JSONObject main = response.getJSONObject("main");
                             temperature = main.getDouble("temp");
+
                             feelsLike = main.getDouble("feels_like");
                             int humidity = main.getInt("humidity");
                             JSONArray weather = response.getJSONArray("weather");
                             String description = weather.getJSONObject(0).getString("description");
                             binding.textCityName.setText(cityName);
-                            binding.textTemperature.setText(String.format(Locale.getDefault(), "%.2f°F", (temperature - 273.15)* 9/5 + 32));
+                            //TEMPS MATH
+                            temperature = ((temperature - 273.15)* 9/5 + 32);
+                            feelsLike = ((feelsLike - 273.15)* 9/5 + 32);
+                            if(!(GlobalData.getInstance().getFahrenheit())) {
+                                temperature = ((temperature - 32) * (0.55556));
+                                feelsLike = ((feelsLike - 32) * (0.55556));
+                                binding.textTemperature.setText(String.format(Locale.getDefault(), "%.2f°C", temperature));
+                                binding.textFeelslike.setText(String.format(Locale.getDefault(), "%.2f°C", feelsLike));
+                            } else {
+                                binding.textTemperature.setText(String.format(Locale.getDefault(), "%.2f°F", temperature));
+                                binding.textFeelslike.setText(String.format(Locale.getDefault(), "%.2f°F", feelsLike));
+                            }
                             binding.textDescription.setText(description);
-                            binding.textFeelslike.setText(String.format(Locale.getDefault(), "%.2f°F", (feelsLike - 273.15)* 9/5 + 32));
+
                             binding.textHumidity.setText(String.format(Locale.getDefault(), "%d%%", humidity));
 
                             Log.d("DEBUG", "JSON Data: " + response.toString(4));

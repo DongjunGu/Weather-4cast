@@ -69,6 +69,7 @@ public class ClothesFragment extends Fragment { // CLOTHES
          * clothesList.get(INT).getMinTemp()
          * clothesList.get(INT).getMaxTemp()
          * clothesList.get(INT).getType()
+         * clothesList.get(INT).getLink()
          * etc...
          */
 

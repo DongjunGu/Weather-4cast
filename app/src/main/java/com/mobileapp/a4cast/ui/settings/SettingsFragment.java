@@ -12,7 +12,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,6 +29,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.mobileapp.a4cast.DatabaseItem; //Database item class
+import com.mobileapp.a4cast.GlobalData;
 import com.mobileapp.a4cast.SQLiteManager; //Database helper class
 import com.mobileapp.a4cast.databinding.FragmentSettingsBinding;
 
@@ -47,6 +50,7 @@ public class SettingsFragment extends Fragment {
     EditText enterCityTextEdit;
     Button getWeatherButton;
     TextView showRecomTextView,showTempTextView;
+    Switch fToCSwitch;
 
     double temp,feelsLike;
     float pressure;
@@ -73,6 +77,7 @@ public class SettingsFragment extends Fragment {
         db1 = dbManager.getReadableDatabase();
 
         //UI ELEMENTS
+        fToCSwitch = binding.fToC;
         getWeatherButton = binding.getWeatherButton;
         enterCityTextEdit = binding.enterCityTextEdit;
         showRecomTextView = binding.showRecomTextView;
@@ -94,6 +99,20 @@ public class SettingsFragment extends Fragment {
                     .append(", ").append(maxTemp).append(", ").append(conditions).append(", ").append(link).append("\n");
         }
         Log.d("DEBUG", "DATA: " + "\n" +stringBuilder);
+
+        fToCSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    GlobalData.getInstance().setFahrenheit(false);
+                    Log.d("DEBUG", "SETTINGS FRAGMENT: Celsius On");
+                } else {
+                    GlobalData.getInstance().setFahrenheit(true);
+                    Log.d("DEBUG", "SETTINGS FRAGMENT: Fahrenheit On");
+                }
+            }
+        });
+
 
         // GETS TEMP DATA AND OUTPUTS TO TEXTVIEW
         getWeatherButton.setOnClickListener(new View.OnClickListener() {

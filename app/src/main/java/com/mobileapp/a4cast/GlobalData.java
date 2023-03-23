@@ -6,7 +6,7 @@ import java.util.List;
 
 public class GlobalData {
     private static GlobalData instance = null;
-    private List<DatabaseItem> extra;
+    private boolean fahrenheit = true;
     private List<DatabaseItem> conditions;
     private List<DatabaseItem> temps;
 
@@ -21,16 +21,13 @@ public class GlobalData {
         return instance;
     }
 
-    public List<DatabaseItem> getExtra() {
-        if (extra == null) {
-            extra = new ArrayList<>();
-        }
-        return extra;
+    public boolean getFahrenheit() {
+        return fahrenheit;
     }
 
-    public void setExtra(List<DatabaseItem> items) {
-        this.extra = items;
-        Log.d("DEBUG", "GLOBAL DATA FRAGMENT: Extra Data Saved");
+    public void setFahrenheit(boolean fOrC) { //True is Fahrenheit || False is Celsius
+        this.fahrenheit = fOrC;
+        Log.d("DEBUG", "GLOBAL DATA FRAGMENT: Temp Unit Data Saved");
     }
 
     public List<DatabaseItem> getConditions() {
