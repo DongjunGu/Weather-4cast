@@ -141,6 +141,7 @@ public class HomeFragment extends Fragment {
                             int humidity = main.getInt("humidity");
                             JSONArray weather = response.getJSONArray("weather");
                             String description = weather.getJSONObject(0).getString("description");
+                            String mainDescription = weather.getJSONObject(0).getString("main");
                             binding.textCityName.setText(cityName);
                             //TEMPS MATH
                             temperature = ((temperature - 273.15)* 9/5 + 32);
@@ -161,23 +162,37 @@ public class HomeFragment extends Fragment {
                             Log.d("DEBUG", "JSON Data: " + response.toString(4));
 
                             // weather icon change
-                            if(description.equals("clear sky"))
+//                            if(description.equals("clear sky"))
+//                                binding.descriptionImage.setImageResource(R.drawable.sun);
+//                            else if(description.equals("few clouds"))
+//                                binding.descriptionImage.setImageResource(R.drawable.fewcloud);
+//                            else if(description.equals("scattered clouds"))
+//                                binding.descriptionImage.setImageResource(R.drawable.clouds);
+//                            else if(description.equals("broken clouds"))
+//                                binding.descriptionImage.setImageResource(R.drawable.clouds);
+//                            else if(description.equals("shower rain"))
+//                                binding.descriptionImage.setImageResource(R.drawable.shower);
+//                            else if(description.equals("rain"))
+//                                binding.descriptionImage.setImageResource(R.drawable.rain);
+//                            else if(description.equals("thunderstorm"))
+//                                binding.descriptionImage.setImageResource(R.drawable.storm);
+//                            else if(description.equals("snow"))
+//                                binding.descriptionImage.setImageResource(R.drawable.snow);
+//                            else if(description.equals("mist"))
+//                                binding.descriptionImage.setImageResource(R.drawable.mist);
+                            if(mainDescription.equals("Clear"))
                                 binding.descriptionImage.setImageResource(R.drawable.sun);
-                            else if(description.equals("few clouds"))
+                            else if(mainDescription.equals("Clouds"))
                                 binding.descriptionImage.setImageResource(R.drawable.fewcloud);
-                            else if(description.equals("scattered clouds"))
-                                binding.descriptionImage.setImageResource(R.drawable.clouds);
-                            else if(description.equals("broken clouds"))
-                                binding.descriptionImage.setImageResource(R.drawable.clouds);
-                            else if(description.equals("shower rain"))
+                            else if(mainDescription.equals("Drizzle"))
                                 binding.descriptionImage.setImageResource(R.drawable.shower);
-                            else if(description.equals("rain"))
+                            else if(mainDescription.equals("Rain"))
                                 binding.descriptionImage.setImageResource(R.drawable.rain);
-                            else if(description.equals("thunderstorm"))
+                            else if(mainDescription.equals("Thunderstorm"))
                                 binding.descriptionImage.setImageResource(R.drawable.storm);
-                            else if(description.equals("snow"))
+                            else if(mainDescription.equals("Snow"))
                                 binding.descriptionImage.setImageResource(R.drawable.snow);
-                            else if(description.equals("mist"))
+                            else if(mainDescription.equals("Mist"))
                                 binding.descriptionImage.setImageResource(R.drawable.mist);
 
                         } catch (JSONException e) {
