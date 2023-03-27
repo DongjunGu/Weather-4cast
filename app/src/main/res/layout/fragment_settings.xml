@@ -57,38 +57,36 @@
                 android:textSize="20dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.497"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/enterCityTextView"
                 app:layout_constraintVertical_bias="0.051" />
 
 
             <TextView
-                android:id="@+id/showTempTextView"
+                android:id="@+id/showWeatherData"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginTop="24dp"
-                android:text="temp"
+                android:layout_marginTop="8dp"
+                android:text=""
                 android:textSize="15sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/getWeatherButton" />
 
             <TextView
-                android:id="@+id/showRecomTextView"
+                android:id="@+id/showRecom"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="24dp"
                 android:scrollbars="vertical"
-                android:text="recom"
+                android:text=""
                 android:textColor="@color/white"
                 android:textSize="15sp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.512"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/showTempTextView" />
+                app:layout_constraintTop_toBottomOf="@+id/showWeatherData" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

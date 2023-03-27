@@ -63,16 +63,16 @@ public class HomeFragment extends Fragment {
     double temperature = 0, feelsLike = 0, celsius = 0;
     String mainDescription = "";
     List<DatabaseItem> conditions, temps;
+    BottomNavigationView bottomNavigationView;
 
     public View onCreateView(@NonNull LayoutInflater inflater,ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_home, container, false);
+        //View view = inflater.inflate(R.layout.fragment_home, container, false);
         HomeViewModel homeViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
+        bottomNavigationView = getActivity().findViewById(R.id.nav_view);
 
         //HIDE NAV BAR
-        //BottomNavigationView bottomNavigationView = getActivity().findViewById(R.id.nav_view);
-        //bottomNavigationView.setVisibility(View.GONE);
 
         //Setup DB Manager
         dbManager = new SQLiteManager(getContext());
@@ -127,6 +127,8 @@ public class HomeFragment extends Fragment {
     }
 
     private void getWeatherData(Location location) {
+        bottomNavigationView = getActivity().findViewById(R.id.nav_view);
+        bottomNavigationView.setVisibility(View.GONE);
         String latitude = String.valueOf(location.getLatitude());
         String longitude = String.valueOf(location.getLongitude());
 
@@ -188,26 +190,26 @@ public class HomeFragment extends Fragment {
                             else if(mainDescription.equals("Mist"))
                                 binding.descriptionImage.setImageResource(R.drawable.mist);
 
+                            bottomNavigationView = getActivity().findViewById(R.id.nav_view);
+                            bottomNavigationView.setVisibility(View.VISIBLE);
 
                         } catch (JSONException e) {
+
                             e.printStackTrace();
                         }
                     }
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                bottomNavigationView = getActivity().findViewById(R.id.nav_view);
+                bottomNavigationView.setVisibility(View.VISIBLE);
                 Toast.makeText(getActivity(), "Error retrieving weather data", Toast.LENGTH_SHORT).show();
                 error.printStackTrace();
             }
         });
 
-        //BottomNavigationView bottomNavigationView = getActivity().findViewById(R.id.nav_view);
-        //bottomNavigationView.setVisibility(View.VISIBLE);
-
         RequestQueue requestQueue = Volley.newRequestQueue(binding.getRoot().getContext());
         requestQueue.add(jsonObjectRequest);
-
-        //CREATE GLOBAL DATA
 
 
     }
