@@ -5,6 +5,7 @@ import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.navigation.NavController;
+import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
@@ -13,8 +14,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.mobileapp.a4cast.DatabaseItem;
 import com.mobileapp.a4cast.GlobalData;
 import com.mobileapp.a4cast.R;
@@ -28,7 +31,10 @@ public class ClothesFragment extends Fragment { // CLOTHES
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_clothes, container, false);
+        Button backButton = view.findViewById(R.id.clothesBackButton);
 
+        BottomNavigationView bottomNavigationView = getActivity().findViewById(R.id.nav_view);
+        bottomNavigationView.setVisibility(View.GONE);
 
         TextView text1 = view.findViewById(R.id.textView1);
 
@@ -59,10 +65,12 @@ public class ClothesFragment extends Fragment { // CLOTHES
         }
 
         String tempSTR = "";
+        /**
         for (int i = 0; i < clothesList.size(); i++) {
             tempSTR += clothesList.get(i).getName() + "\n";
         }
-        text1.setText(tempSTR);
+         */
+        //text1.setText(clothesList.get(0).getName() + " " + clothesList.get(0).getMaxTemp() +" " +clothesList.get(0).getConditions());
 
         /**
          * Example:
@@ -73,6 +81,14 @@ public class ClothesFragment extends Fragment { // CLOTHES
          * clothesList.get(INT).getLink()
          * etc...
          */
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d("DEBUG", "CLOTHES FRAGMENT: Back Button Pressed");
+                NavDirections action = ClothesFragmentDirections.actionClothesFragmentToNavigationRecommendations();
+                Navigation.findNavController(view).navigate(action);
+            }
+        });
 
         return view;
     }

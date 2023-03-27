@@ -6,7 +6,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageButton;
 
 import androidx.annotation.NonNull;
@@ -15,6 +14,8 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.mobileapp.a4cast.R;
 import com.mobileapp.a4cast.databinding.FragmentRecommendationBinding;
 
 
@@ -23,7 +24,7 @@ public class RecommendationFragment extends Fragment {
     private FragmentRecommendationBinding binding;
 
     public View onCreateView(@NonNull LayoutInflater inflater,ViewGroup container, Bundle savedInstanceState) {
-
+        View view = inflater.inflate(R.layout.fragment_recommendation, container, false);
         RecommendationViewModel recommendationViewModel = new ViewModelProvider(this).get(RecommendationViewModel.class);
         binding = FragmentRecommendationBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
@@ -66,5 +67,11 @@ public class RecommendationFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
+    }
+    @Override
+    public void onResume() {
+        super.onResume();
+        BottomNavigationView bottomNavigationView = getActivity().findViewById(R.id.nav_view);
+        bottomNavigationView.setVisibility(View.VISIBLE);
     }
 }

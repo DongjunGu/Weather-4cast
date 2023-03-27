@@ -36,15 +36,28 @@
         android:id="@+id/foodFragment"
         android:name="com.mobileapp.a4cast.ui.recommendations.FoodFragment"
         android:label="Food"
-        tools:layout="@layout/fragment_food" />
+        
+        tools:layout="@layout/fragment_food" >
+        <action
+            android:id="@+id/action_foodFragment_to_navigation_recommendations"
+            app:destination="@id/navigation_recommendations" />
+    </fragment>
     <fragment
         android:id="@+id/activityFragment"
         android:name="com.mobileapp.a4cast.ui.recommendations.ActivityFragment"
         android:label="Activities"
-        tools:layout="@layout/fragment_activity" />
+        tools:layout="@layout/fragment_activity" >
+        <action
+            android:id="@+id/action_activityFragment_to_navigation_recommendations"
+            app:destination="@id/navigation_recommendations" />
+    </fragment>
     <fragment
         android:id="@+id/clothesFragment"
         android:name="com.mobileapp.a4cast.ui.recommendations.ClothesFragment"
         android:label="Clothes"
-        tools:layout="@layout/fragment_clothes" />
+        tools:layout="@layout/fragment_clothes" >
+        <action
+            android:id="@+id/action_clothesFragment_to_navigation_recommendations"
+            app:destination="@id/navigation_recommendations" />
+    </fragment>
 </navigation>

@@ -28,6 +28,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.mobileapp.a4cast.DatabaseItem;
 import com.mobileapp.a4cast.GlobalData;
 import com.mobileapp.a4cast.R;
@@ -63,9 +64,14 @@ public class HomeFragment extends Fragment {
     String mainDescription = "";
 
     public View onCreateView(@NonNull LayoutInflater inflater,ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_home, container, false);
         HomeViewModel homeViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
+
+        //HIDE NAV BAR
+        //BottomNavigationView bottomNavigationView = getActivity().findViewById(R.id.nav_view);
+        //bottomNavigationView.setVisibility(View.GONE);
 
         //Setup DB Manager
         dbManager = new SQLiteManager(getContext());
@@ -159,7 +165,7 @@ public class HomeFragment extends Fragment {
 
                             binding.textHumidity.setText(String.format(Locale.getDefault(), "%d%%", humidity));
 
-                            Log.d("DEBUG", "JSON Data: " + response.toString(4));
+                            //Log.d("DEBUG", "JSON Data: " + response.toString(4));
 
                             // weather icon change
 //                            if(description.equals("clear sky"))
@@ -195,10 +201,10 @@ public class HomeFragment extends Fragment {
                             else if(mainDescription.equals("Mist"))
                                 binding.descriptionImage.setImageResource(R.drawable.mist);
 
+
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-
                     }
                 }, new Response.ErrorListener() {
             @Override
@@ -207,6 +213,10 @@ public class HomeFragment extends Fragment {
                 error.printStackTrace();
             }
         });
+
+        //BottomNavigationView bottomNavigationView = getActivity().findViewById(R.id.nav_view);
+        //bottomNavigationView.setVisibility(View.VISIBLE);
+
         RequestQueue requestQueue = Volley.newRequestQueue(binding.getRoot().getContext());
         requestQueue.add(jsonObjectRequest);
 

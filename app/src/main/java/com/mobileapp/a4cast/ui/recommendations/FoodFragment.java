@@ -3,13 +3,17 @@ package com.mobileapp.a4cast.ui.recommendations;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavDirections;
+import androidx.navigation.Navigation;
 
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.mobileapp.a4cast.DatabaseItem;
 import com.mobileapp.a4cast.GlobalData;
 import com.mobileapp.a4cast.R;
@@ -21,7 +25,11 @@ public class FoodFragment extends Fragment { // FOOD
     View view;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_clothes, container, false);
+        view = inflater.inflate(R.layout.fragment_food, container, false);
+        Button backButton = view.findViewById(R.id.foodBackButton);
+
+        BottomNavigationView bottomNavigationView = getActivity().findViewById(R.id.nav_view);
+        bottomNavigationView.setVisibility(View.GONE);
 
         TextView text1 = view.findViewById(R.id.textView1);
 
@@ -65,7 +73,14 @@ public class FoodFragment extends Fragment { // FOOD
          * foodList.get(INT).getType()
          * etc...
          */
-
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d("DEBUG", "FOOD FRAGMENT: Back Button Pressed");
+                NavDirections action = FoodFragmentDirections.actionFoodFragmentToNavigationRecommendations();
+                Navigation.findNavController(view).navigate(action);
+            }
+        });
         return view;
     }
     @Override
