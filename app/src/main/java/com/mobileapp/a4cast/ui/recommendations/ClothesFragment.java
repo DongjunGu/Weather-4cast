@@ -29,6 +29,7 @@ public class ClothesFragment extends Fragment { // CLOTHES
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_clothes, container, false);
 
+
         TextView text1 = view.findViewById(R.id.textView1);
 
         // get the conditions list from another fragment

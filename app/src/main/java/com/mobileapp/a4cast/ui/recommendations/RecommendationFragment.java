@@ -29,8 +29,8 @@ public class RecommendationFragment extends Fragment {
         View root = binding.getRoot();
 
         ImageButton clothesButton = binding.outfitButton;
-        Button foodButton = binding.foodButton;
-        Button activityButton = binding.activityButton;
+        ImageButton foodButton = binding.foodButton;
+        ImageButton activityButton = binding.activityButton;
 
 
         clothesButton.setOnClickListener(new View.OnClickListener() {

@@ -8,35 +8,52 @@
 
     <ImageButton
         android:id="@+id/outfitButton"
-        android:layout_width="234dp"
-        android:layout_height="341dp"
+        android:layout_width="195dp"
+        android:layout_height="330dp"
         android:adjustViewBounds="true"
+        android:backgroundTint="@color/white"
         android:scaleType="centerCrop"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.033"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0"
         app:srcCompat="@drawable/outfit" />
 
-    <Button
-        android:id="@+id/foodButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:text="FOOD"
-        app:layout_constraintEnd_toEndOf="parent"
+    <ImageButton
+        android:id="@+id/todayButton"
+        android:layout_width="195dp"
+        android:layout_height="180dp"
+        android:layout_marginStart="4dp"
+        android:backgroundTint="@color/white"
+        android:src="@drawable/today"
         app:layout_constraintStart_toEndOf="@+id/outfitButton"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
+    <ImageButton
+        android:id="@+id/foodButton"
+        android:layout_width="195dp"
+        android:layout_height="180dp"
+        android:backgroundTint="@color/white"
+        android:text="FOOD"
+        android:src="@drawable/food"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/todayButton"
+        app:layout_constraintHorizontal_bias="0.636"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/outfitButton"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <ImageButton
         android:id="@+id/activityButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_width="195dp"
+        android:layout_height="330dp"
+        android:layout_marginStart="4dp"
+        android:backgroundTint="@color/white"
+        android:src="@drawable/activity"
         android:text="ACTIVITIES"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/outfitButton"
-        app:layout_constraintTop_toBottomOf="@+id/foodButton" />
+        app:layout_constraintStart_toEndOf="@+id/foodButton"
+        app:layout_constraintTop_toBottomOf="@+id/todayButton" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
