@@ -117,7 +117,7 @@ public class SettingsFragment extends Fragment {
         // GETS TEMP DATA AND OUTPUTS TO TEXTVIEW
         getWeatherButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick(View view) { // ADD DIFF TEMPS
                 Log.d("DEBUG", "update button clicked");
                 String tempUrl = "";
                 if(enterCityTextEdit.getText().toString() != "") {

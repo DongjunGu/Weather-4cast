@@ -60,8 +60,9 @@ public class HomeFragment extends Fragment {
 
     private LocationManager locationManager;
     private LocationListener locationListener;
-    double temperature = 0, feelsLike = 0;
+    double temperature = 0, feelsLike = 0, celsius = 0;
     String mainDescription = "";
+    List<DatabaseItem> conditions, temps;
 
     public View onCreateView(@NonNull LayoutInflater inflater,ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
@@ -153,9 +154,9 @@ public class HomeFragment extends Fragment {
                             temperature = ((temperature - 273.15)* 9/5 + 32);
                             feelsLike = ((feelsLike - 273.15)* 9/5 + 32);
                             if(!(GlobalData.getInstance().getFahrenheit())) {
-                                temperature = ((temperature - 32) * (0.55556));
+                                celsius = ((temperature - 32) * (0.55556));
                                 feelsLike = ((feelsLike - 32) * (0.55556));
-                                binding.textTemperature.setText(String.format(Locale.getDefault(), "%.2f°C", temperature));
+                                binding.textTemperature.setText(String.format(Locale.getDefault(), "%.2f°C", celsius));
                                 binding.textFeelslike.setText(String.format(Locale.getDefault(), "%.2f°C", feelsLike));
                             } else {
                                 binding.textTemperature.setText(String.format(Locale.getDefault(), "%.2f°F", temperature));
@@ -166,26 +167,12 @@ public class HomeFragment extends Fragment {
                             binding.textHumidity.setText(String.format(Locale.getDefault(), "%d%%", humidity));
 
                             //Log.d("DEBUG", "JSON Data: " + response.toString(4));
+                            conditions = dbManager.getItemsByConditions(mainDescription.toUpperCase());
+                            temps = dbManager.getItemsByTemp((int)temperature);
+                            GlobalData.getInstance().setTemps(temps);
+                            GlobalData.getInstance().setConditions(conditions);
 
                             // weather icon change
-//                            if(description.equals("clear sky"))
-//                                binding.descriptionImage.setImageResource(R.drawable.sun);
-//                            else if(description.equals("few clouds"))
-//                                binding.descriptionImage.setImageResource(R.drawable.fewcloud);
-//                            else if(description.equals("scattered clouds"))
-//                                binding.descriptionImage.setImageResource(R.drawable.clouds);
-//                            else if(description.equals("broken clouds"))
-//                                binding.descriptionImage.setImageResource(R.drawable.clouds);
-//                            else if(description.equals("shower rain"))
-//                                binding.descriptionImage.setImageResource(R.drawable.shower);
-//                            else if(description.equals("rain"))
-//                                binding.descriptionImage.setImageResource(R.drawable.rain);
-//                            else if(description.equals("thunderstorm"))
-//                                binding.descriptionImage.setImageResource(R.drawable.storm);
-//                            else if(description.equals("snow"))
-//                                binding.descriptionImage.setImageResource(R.drawable.snow);
-//                            else if(description.equals("mist"))
-//                                binding.descriptionImage.setImageResource(R.drawable.mist);
                             if(mainDescription.equals("Clear"))
                                 binding.descriptionImage.setImageResource(R.drawable.sun);
                             else if(mainDescription.equals("Clouds"))
@@ -221,11 +208,8 @@ public class HomeFragment extends Fragment {
         requestQueue.add(jsonObjectRequest);
 
         //CREATE GLOBAL DATA
-        List<DatabaseItem> conditions = dbManager.getItemsByConditions(mainDescription.toUpperCase());
-        List<DatabaseItem> temps = dbManager.getItemsByTemp((int)temperature);
 
-        GlobalData.getInstance().setTemps(temps);
-        GlobalData.getInstance().setConditions(conditions);
+
     }
 
     @Override

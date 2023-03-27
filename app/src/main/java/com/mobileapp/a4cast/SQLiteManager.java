@@ -142,6 +142,7 @@ public class SQLiteManager extends SQLiteOpenHelper {
 
     // Method to get items by TEMP (input one int and gets all items that have that in range)
     public List<DatabaseItem> getItemsByTemp(int temperature) {
+        Log.d("DEBUG", "DB: TEMP: " + temperature);
         SQLiteDatabase db = this.getReadableDatabase();
         List<DatabaseItem> itemList = new ArrayList<>();
         String query = "SELECT * FROM " + TABLE_NAME + " WHERE MIN_TEMP <= ? AND MAX_TEMP >= ?";
@@ -152,6 +153,7 @@ public class SQLiteManager extends SQLiteOpenHelper {
                 //recommendations.add(recommendation);
                 DatabaseItem item = new DatabaseItem();
                 //item.setId(cursor.getInt(cursor.getColumnIndex(ID)));
+                Log.d("DEBUG", "DB: ITEM: " + cursor.getString(1));
                 item.setType(cursor.getString(0));
                 item.setName(cursor.getString(1));
                 item.setMinTemp(cursor.getInt(2));
