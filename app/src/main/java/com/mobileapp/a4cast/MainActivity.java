@@ -12,6 +12,7 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.mobileapp.a4cast.databinding.ActivityMainBinding;
 
@@ -38,7 +39,6 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().hide();
 
         navView.setVisibility(View.GONE);
-
     }
     @Override
     public void onBackPressed() {

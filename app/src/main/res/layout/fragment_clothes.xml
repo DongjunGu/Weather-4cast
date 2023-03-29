@@ -1,355 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
     tools:context=".ui.recommendations.ClothesFragment">
 
-    <ScrollView
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:padding="16dp"
+        android:text="Clothing Recommendations"
+        android:textSize="25dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/clothesBackButton"
+        android:layout_width="239dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:text="Back"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerview"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fillViewport="true">
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <Button
-                android:id="@+id/clothesButton1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:backgroundTint="@color/cardview_dark_background"
-                android:text="Shop"
-                android:layout_marginStart="40dp"
-                app:layout_constraintBottom_toBottomOf="@+id/clothesImage1"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/clothesImage1"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.715" />
-
-            <Button
-                android:id="@+id/clothesButton2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="40dp"
-                android:layout_marginTop="280dp"
-                android:backgroundTint="@color/cardview_dark_background"
-                android:text="Shop"
-                app:layout_constraintBottom_toBottomOf="@+id/clothesImage2"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/clothesImage2"
-                app:layout_constraintTop_toBottomOf="@+id/clothesButton1"
-                app:layout_constraintVertical_bias="0.0" />
-
-            <Button
-                android:id="@+id/clothesButton3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:backgroundTint="@color/cardview_dark_background"
-                android:text="Shop"
-                android:layout_marginStart="40dp"
-                app:layout_constraintBottom_toBottomOf="@+id/clothesImage3"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/clothesImage3"
-                app:layout_constraintTop_toBottomOf="@+id/clothesButton2"
-                app:layout_constraintVertical_bias="0.794" />
-
-            <Button
-                android:id="@+id/clothesButton4"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="40dp"
-                android:layout_marginBottom="40dp"
-                android:backgroundTint="@color/cardview_dark_background"
-                android:text="Shop"
-                app:layout_constraintBottom_toBottomOf="@+id/clothesImage4"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/clothesImage4"
-                app:layout_constraintTop_toBottomOf="@+id/clothesButton3"
-                app:layout_constraintVertical_bias="0.928" />
-
-            <Button
-                android:id="@+id/clothesButton5"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="40dp"
-                android:layout_marginBottom="40dp"
-                android:backgroundTint="@color/cardview_dark_background"
-                android:text="Shop"
-                app:layout_constraintBottom_toBottomOf="@+id/clothesImage5"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/clothesImage5"
-                app:layout_constraintTop_toBottomOf="@+id/clothesButton4"
-                app:layout_constraintVertical_bias="0.903" />
-
-            <Button
-                android:id="@+id/clothesButton6"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="40dp"
-                android:layout_marginBottom="40dp"
-                android:backgroundTint="@color/cardview_dark_background"
-                android:text="Shop"
-                app:layout_constraintBottom_toBottomOf="@+id/clothesImage6"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/clothesImage6"
-                app:layout_constraintTop_toBottomOf="@+id/clothesButton5"
-                app:layout_constraintVertical_bias="0.916" />
-
-            <Button
-                android:id="@+id/clothesButton7"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="40dp"
-                android:layout_marginBottom="40dp"
-                android:backgroundTint="@color/cardview_dark_background"
-                android:text="Shop"
-                app:layout_constraintBottom_toBottomOf="@+id/clothesImage7"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/clothesImage7"
-                app:layout_constraintTop_toBottomOf="@+id/clothesButton6"
-                app:layout_constraintVertical_bias="0.9" />
-
-            <Button
-                android:id="@+id/clothesButton8"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="40dp"
-                android:layout_marginBottom="40dp"
-                android:backgroundTint="@color/cardview_dark_background"
-                android:text="Shop"
-                app:layout_constraintBottom_toBottomOf="@+id/clothesImage8"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/clothesImage8"
-                app:layout_constraintTop_toBottomOf="@+id/clothesButton7"
-                app:layout_constraintVertical_bias="0.946" />
-
-            <Button
-                android:id="@+id/clothesButton9"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="40dp"
-                android:layout_marginBottom="40dp"
-                android:backgroundTint="@color/cardview_dark_background"
-                android:text="Shop"
-                app:layout_constraintBottom_toBottomOf="@+id/clothesImage9"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/clothesImage9"
-                app:layout_constraintTop_toBottomOf="@+id/clothesButton8"
-                app:layout_constraintVertical_bias="0.915" />
-
-            <Button
-                android:id="@+id/clothesBackButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Back"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/clothesImage9"
-                app:layout_constraintVertical_bias="0.5" />
-
-            <ImageView
-                android:id="@+id/clothesImage1"
-                android:layout_width="170dp"
-                android:layout_height="180dp"
-                android:layout_marginStart="40dp"
-                android:layout_marginTop="40dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/clothesText1" />
-
-            <ImageView
-                android:id="@+id/clothesImage2"
-                android:layout_width="170dp"
-                android:layout_height="180dp"
-                android:layout_marginStart="40dp"
-                android:layout_marginTop="40dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/clothesText2" />
-
-            <ImageView
-                android:id="@+id/clothesImage3"
-                android:layout_width="170dp"
-                android:layout_height="180dp"
-                android:layout_marginStart="40dp"
-                android:layout_marginTop="40dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/clothesText3" />
-
-            <ImageView
-                android:id="@+id/clothesImage4"
-                android:layout_width="170dp"
-                android:layout_height="180dp"
-                android:layout_marginStart="40dp"
-                android:layout_marginTop="40dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/clothesText4" />
-
-            <ImageView
-                android:id="@+id/clothesImage5"
-                android:layout_width="170dp"
-                android:layout_height="180dp"
-                android:layout_marginStart="40dp"
-                android:layout_marginTop="40dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/clothesText5" />
-
-            <ImageView
-                android:id="@+id/clothesImage6"
-                android:layout_width="170dp"
-                android:layout_height="180dp"
-                android:layout_marginStart="40dp"
-                android:layout_marginTop="40dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/clothesText6"/>
-
-            <ImageView
-                android:id="@+id/clothesImage7"
-                android:layout_width="170dp"
-                android:layout_height="180dp"
-                android:layout_marginStart="40dp"
-                android:layout_marginTop="40dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/clothesText7" />
-
-            <ImageView
-                android:id="@+id/clothesImage8"
-                android:layout_width="170dp"
-                android:layout_height="180dp"
-                android:layout_marginStart="40dp"
-                android:layout_marginTop="40dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/clothesText8" />
-
-            <ImageView
-                android:id="@+id/clothesImage9"
-                android:layout_width="170dp"
-                android:layout_height="180dp"
-                android:layout_marginStart="40dp"
-                android:layout_marginTop="40dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/clothesText9" />
-
-            <TextView
-                android:id="@+id/clothesText1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="70dp"
-                android:text="Recom"
-                android:textSize="20sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.15"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/clothesText2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="70dp"
-                android:text="TextView"
-                android:textSize="20sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.15"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/clothesImage1" />
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
 
 
-            <TextView
-                android:id="@+id/clothesText3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="70dp"
-                android:text="TextView"
-                android:textSize="20sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.15"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/clothesImage2" />
-
-            <TextView
-                android:id="@+id/clothesText4"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="70dp"
-                android:text="TextView"
-                android:textSize="20sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.15"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/clothesImage3" />
-
-            <TextView
-                android:id="@+id/clothesText5"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="70dp"
-                android:text="TextView"
-                android:textSize="20sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.15"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/clothesImage4" />
-
-            <TextView
-                android:id="@+id/clothesText6"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="70dp"
-                android:text="TextView"
-                android:textSize="20sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.15"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/clothesImage5" />
-
-            <TextView
-                android:id="@+id/clothesText7"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="56dp"
-                android:text="TextView1"
-                android:textSize="20sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.15"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/clothesImage6" />
-
-            <TextView
-                android:id="@+id/clothesText8"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="70dp"
-                android:text="TextView2"
-                android:textSize="20sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.15"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/clothesImage7" />
-
-            <TextView
-                android:id="@+id/clothesText9"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="70dp"
-                android:text="TextView3"
-                android:textSize="20sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.15"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/clothesImage8" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </ScrollView>
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>
