@@ -65,7 +65,7 @@ public class HomeFragment extends Fragment {
     List<DatabaseItem> conditions, temps;
     BottomNavigationView bottomNavigationView;
 
-    public View onCreateView(@NonNull LayoutInflater inflater,ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         //View view = inflater.inflate(R.layout.fragment_home, container, false);
         HomeViewModel homeViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
         binding = FragmentHomeBinding.inflate(inflater, container, false);
@@ -76,8 +76,16 @@ public class HomeFragment extends Fragment {
 
         //Setup DB Manager
         dbManager = new SQLiteManager(getContext());
-        try { dbManager.createDataBase(); } catch (Exception e) { Log.d("DEBUG", "EXCEPTION: " + e); }
-        try { dbManager.openDataBase(); } catch (SQLException e) { Log.d("DEBUG", "EXCEPTION: " + e); }
+        try {
+            dbManager.createDataBase();
+        } catch (Exception e) {
+            Log.d("DEBUG", "EXCEPTION: " + e);
+        }
+        try {
+            dbManager.openDataBase();
+        } catch (SQLException e) {
+            Log.d("DEBUG", "EXCEPTION: " + e);
+        }
         SQLiteDatabase db1;
         db1 = dbManager.getReadableDatabase();
         //----------
@@ -153,9 +161,9 @@ public class HomeFragment extends Fragment {
                             String mainDescription = weather.getJSONObject(0).getString("main");
                             binding.textCityName.setText(cityName);
                             //TEMPS MATH
-                            temperature = ((temperature - 273.15)* 9/5 + 32);
-                            feelsLike = ((feelsLike - 273.15)* 9/5 + 32);
-                            if(!(GlobalData.getInstance().getFahrenheit())) {
+                            temperature = ((temperature - 273.15) * 9 / 5 + 32);
+                            feelsLike = ((feelsLike - 273.15) * 9 / 5 + 32);
+                            if (!(GlobalData.getInstance().getFahrenheit())) {
                                 celsius = ((temperature - 32) * (0.55556));
                                 feelsLike = ((feelsLike - 32) * (0.55556));
                                 binding.textTemperature.setText(String.format(Locale.getDefault(), "%.2f°C", celsius));
@@ -170,24 +178,24 @@ public class HomeFragment extends Fragment {
 
                             //Log.d("DEBUG", "JSON Data: " + response.toString(4));
                             conditions = dbManager.getItemsByConditions(mainDescription.toUpperCase());
-                            temps = dbManager.getItemsByTemp((int)temperature);
+                            temps = dbManager.getItemsByTemp((int) temperature);
                             GlobalData.getInstance().setTemps(temps);
                             GlobalData.getInstance().setConditions(conditions);
 
                             // weather icon change
-                            if(mainDescription.equals("Clear"))
+                            if (mainDescription.equals("Clear"))
                                 binding.descriptionImage.setImageResource(R.drawable.sun);
-                            else if(mainDescription.equals("Clouds"))
+                            else if (mainDescription.equals("Clouds"))
                                 binding.descriptionImage.setImageResource(R.drawable.fewcloud);
-                            else if(mainDescription.equals("Drizzle"))
+                            else if (mainDescription.equals("Drizzle"))
                                 binding.descriptionImage.setImageResource(R.drawable.shower);
-                            else if(mainDescription.equals("Rain"))
+                            else if (mainDescription.equals("Rain"))
                                 binding.descriptionImage.setImageResource(R.drawable.rain);
-                            else if(mainDescription.equals("Thunderstorm"))
+                            else if (mainDescription.equals("Thunderstorm"))
                                 binding.descriptionImage.setImageResource(R.drawable.storm);
-                            else if(mainDescription.equals("Snow"))
+                            else if (mainDescription.equals("Snow"))
                                 binding.descriptionImage.setImageResource(R.drawable.snow);
-                            else if(mainDescription.equals("Mist"))
+                            else if (mainDescription.equals("Mist"))
                                 binding.descriptionImage.setImageResource(R.drawable.mist);
 
                             bottomNavigationView = getActivity().findViewById(R.id.nav_view);

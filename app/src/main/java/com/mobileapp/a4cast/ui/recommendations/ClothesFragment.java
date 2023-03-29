@@ -66,12 +66,11 @@ public class ClothesFragment extends Fragment { // CLOTHES
         Button button2 = view.findViewById(R.id.clothesButton2);
         Button button3 = view.findViewById(R.id.clothesButton3);
         Button button4 = view.findViewById(R.id.clothesButton4);
-        Button button5= view.findViewById(R.id.clothesButton5);
+        Button button5 = view.findViewById(R.id.clothesButton5);
         Button button6 = view.findViewById(R.id.clothesButton6);
         Button button7 = view.findViewById(R.id.clothesButton7);
-        Button button8= view.findViewById(R.id.clothesButton8);
+        Button button8 = view.findViewById(R.id.clothesButton8);
         Button button9 = view.findViewById(R.id.clothesButton9);
-
 
 
         // get the conditions list from another fragment
@@ -109,7 +108,7 @@ public class ClothesFragment extends Fragment { // CLOTHES
 
         //text1.setText(clothesList.get(0).getName() + " " + clothesList.get(0).getMaxTemp() +" " +clothesList.get(0).getConditions());
 
-        if(clothesList.size() > 1 ){
+        if (clothesList.size() > 1) {
             text1.setText(clothesList.get(0).getName());
             String clothes = clothesList.get(0).getName();
             switch (clothes) {
@@ -195,13 +194,13 @@ public class ClothesFragment extends Fragment { // CLOTHES
                     image1.setImageResource(R.drawable.clouds);
                     break;
             }
-        }else {
+        } else {
             text1.setVisibility(View.INVISIBLE);
             image1.setVisibility(View.INVISIBLE);
             button1.setVisibility(View.INVISIBLE);
         }
 
-        if(clothesList.size() >2 ){
+        if (clothesList.size() > 2) {
             text2.setText(clothesList.get(1).getName());
             String clothes1 = clothesList.get(1).getName();
             switch (clothes1) {
@@ -284,13 +283,13 @@ public class ClothesFragment extends Fragment { // CLOTHES
                     image2.setImageResource(R.drawable.sandal);
                     break;
             }
-        }else {
+        } else {
             text2.setVisibility(View.INVISIBLE);
             image2.setVisibility(View.INVISIBLE);
             button2.setVisibility(View.INVISIBLE);
         }
 
-        if(clothesList.size() > 3) {
+        if (clothesList.size() > 3) {
             text3.setText(clothesList.get(2).getName());
             String clothes2 = clothesList.get(2).getName();
             switch (clothes2) {
@@ -374,13 +373,13 @@ public class ClothesFragment extends Fragment { // CLOTHES
                     break;
             }
 
-        }else {
+        } else {
             text3.setVisibility(View.INVISIBLE);
             image3.setVisibility(View.INVISIBLE);
             button3.setVisibility(View.INVISIBLE);
         }
 
-        if(clothesList.size() > 4) {
+        if (clothesList.size() > 4) {
             text4.setText(clothesList.get(3).getName());
             String clothes3 = clothesList.get(3).getName();
             switch (clothes3) {
@@ -463,13 +462,13 @@ public class ClothesFragment extends Fragment { // CLOTHES
                     image4.setImageResource(R.drawable.sandal);
                     break;
             }
-        }else {
+        } else {
             text4.setVisibility(View.INVISIBLE);
             image4.setVisibility(View.INVISIBLE);
             button4.setVisibility(View.INVISIBLE);
         }
 
-        if(clothesList.size() > 5) {
+        if (clothesList.size() > 5) {
             text5.setText(clothesList.get(4).getName());
             String clothes4 = clothesList.get(4).getName();
             switch (clothes4) {
@@ -552,13 +551,13 @@ public class ClothesFragment extends Fragment { // CLOTHES
                     image5.setImageResource(R.drawable.sandal);
                     break;
             }
-        }else {
+        } else {
             text5.setVisibility(View.INVISIBLE);
             image5.setVisibility(View.INVISIBLE);
             button5.setVisibility(View.INVISIBLE);
         }
 
-        if(clothesList.size() > 6) {
+        if (clothesList.size() > 6) {
             text6.setText(clothesList.get(5).getName());
             String clothes5 = clothesList.get(5).getName();
             switch (clothes5) {
@@ -641,13 +640,13 @@ public class ClothesFragment extends Fragment { // CLOTHES
                     image6.setImageResource(R.drawable.sandal);
                     break;
             }
-        }else {
+        } else {
             text6.setVisibility(View.INVISIBLE);
             image6.setVisibility(View.INVISIBLE);
             button6.setVisibility(View.INVISIBLE);
         }
 
-        if(clothesList.size() > 7) {
+        if (clothesList.size() > 7) {
             text7.setText(clothesList.get(6).getName());
             String clothes6 = clothesList.get(6).getName();
             switch (clothes6) {
@@ -730,13 +729,13 @@ public class ClothesFragment extends Fragment { // CLOTHES
                     image7.setImageResource(R.drawable.sandal);
                     break;
             }
-        }else {
+        } else {
             text7.setVisibility(View.INVISIBLE);
             image7.setVisibility(View.INVISIBLE);
             button7.setVisibility(View.INVISIBLE);
         }
 
-        if(clothesList.size() > 8) {
+        if (clothesList.size() > 8) {
             text8.setText(clothesList.get(7).getName());
             String clothes7 = clothesList.get(7).getName();
             switch (clothes7) {
@@ -819,13 +818,13 @@ public class ClothesFragment extends Fragment { // CLOTHES
                     image8.setImageResource(R.drawable.sandal);
                     break;
             }
-        }else {
+        } else {
             text8.setVisibility(View.INVISIBLE);
             image8.setVisibility(View.INVISIBLE);
             button8.setVisibility(View.INVISIBLE);
         }
 
-        if(clothesList.size() > 9) {
+        if (clothesList.size() > 9) {
             text9.setText(clothesList.get(8).getName());
             String clothes8 = clothesList.get(8).getName();
             switch (clothes8) {
@@ -908,12 +907,11 @@ public class ClothesFragment extends Fragment { // CLOTHES
                     image9.setImageResource(R.drawable.sandal);
                     break;
             }
-        }else {
+        } else {
             text9.setVisibility(View.INVISIBLE);
             image9.setVisibility(View.INVISIBLE);
             button9.setVisibility(View.INVISIBLE);
         }
-
 
 
         /**

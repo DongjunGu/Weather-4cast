@@ -91,8 +91,9 @@ public class ActivityFragment extends Fragment { // ACTIVITY
         });
         return view;
     }
+
     @Override
-    public void onDestroyView () {
+    public void onDestroyView() {
         Log.d("DEBUG", "ACTIVITY FRAGMENT: ON_DESTROY");
         super.onDestroyView();
 

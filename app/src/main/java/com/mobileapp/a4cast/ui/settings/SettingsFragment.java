@@ -50,13 +50,13 @@ public class SettingsFragment extends Fragment {
     List<DatabaseItem> tempRecommendations, activityReco, foodReco, clothingReco;
     EditText enterCityTextEdit;
     Button getWeatherButton;
-    TextView showRecom,showWeatherData;
+    TextView showRecom, showWeatherData;
     Switch fToCSwitch;
 
-    double temp,feelsLike;
+    double temp, feelsLike;
     float pressure;
     int humidity;
-    String description,wind,clouds,countryName,cityName;
+    String description, wind, clouds, countryName, cityName;
 
     private final String url = "https://api.openweathermap.org/data/2.5/weather";
     private final String appid = "dec0f72ce23604612032a38b00466f12";
@@ -71,8 +71,16 @@ public class SettingsFragment extends Fragment {
 
         // SETUP FOR DATABASE
         dbManager = new SQLiteManager(getContext());
-        try { dbManager.createDataBase(); } catch (Exception e) { Log.d("DEBUG", "EXCEPTION: " + e); }
-        try { dbManager.openDataBase(); } catch (SQLException e) { Log.d("DEBUG", "EXCEPTION: " + e); }
+        try {
+            dbManager.createDataBase();
+        } catch (Exception e) {
+            Log.d("DEBUG", "EXCEPTION: " + e);
+        }
+        try {
+            dbManager.openDataBase();
+        } catch (SQLException e) {
+            Log.d("DEBUG", "EXCEPTION: " + e);
+        }
 
         SQLiteDatabase db1;
         db1 = dbManager.getReadableDatabase();
@@ -99,7 +107,7 @@ public class SettingsFragment extends Fragment {
             stringBuilder.append(type).append(", ").append(name).append(", ").append(minTemp)
                     .append(", ").append(maxTemp).append(", ").append(conditions).append(", ").append(link).append("\n");
         }
-        Log.d("DEBUG", "DATA: " + "\n" +stringBuilder);
+        Log.d("DEBUG", "DATA: " + "\n" + stringBuilder);
 
         fToCSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -121,7 +129,7 @@ public class SettingsFragment extends Fragment {
             public void onClick(View view) { // ADD DIFF TEMPS
                 Log.d("DEBUG", "update button clicked");
                 String tempUrl = "";
-                if(enterCityTextEdit.getText().toString() != "") {
+                if (enterCityTextEdit.getText().toString() != "") {
                     String city = enterCityTextEdit.getText().toString().trim();
                     tempUrl = url + "?q=" + city + "&appid=" + appid;
                 }
@@ -129,7 +137,7 @@ public class SettingsFragment extends Fragment {
                     @Override
                     public void onResponse(String response) {
                         String output = "";
-                        Log.d("response",response);
+                        Log.d("response", response);
                         try {
                             //GET WEATHER INFO
                             JSONObject jsonResponse = new JSONObject(response);
@@ -137,8 +145,8 @@ public class SettingsFragment extends Fragment {
                             JSONObject jsonObjectWeather = jsonArray.getJSONObject(0);
                             description = jsonObjectWeather.getString("description");
                             JSONObject jsonObjectMain = jsonResponse.getJSONObject("main");
-                            temp = (jsonObjectMain.getDouble("temp") - 273.15) * 9/5 + 32;
-                            feelsLike = (jsonObjectMain.getDouble("feels_like") - 273.15) * 9/5 +32;
+                            temp = (jsonObjectMain.getDouble("temp") - 273.15) * 9 / 5 + 32;
+                            feelsLike = (jsonObjectMain.getDouble("feels_like") - 273.15) * 9 / 5 + 32;
                             pressure = jsonObjectMain.getInt("pressure");
                             humidity = jsonObjectMain.getInt("humidity");
                             JSONObject jsonObjectWind = jsonResponse.getJSONObject("wind");
@@ -161,30 +169,32 @@ public class SettingsFragment extends Fragment {
                             showWeatherData.setText(output);
 
                             //SHOW RECOMMENDATIONS:
-                            activityReco = new ArrayList<>(); clothingReco = new ArrayList<>(); foodReco = new ArrayList<>();
-                            tempRecommendations = dbManager.getItemsByTemp((int)temp);
+                            activityReco = new ArrayList<>();
+                            clothingReco = new ArrayList<>();
+                            foodReco = new ArrayList<>();
+                            tempRecommendations = dbManager.getItemsByTemp((int) temp);
                             Log.d("DEBUG", "SETTINGS FRAGMENT: LENGTH: " + tempRecommendations.size());
-                            for(int i = 0; i < tempRecommendations.size(); i++) {
-                                if(tempRecommendations.get(i).getType().equals("ACTIVITY")) {
+                            for (int i = 0; i < tempRecommendations.size(); i++) {
+                                if (tempRecommendations.get(i).getType().equals("ACTIVITY")) {
                                     activityReco.add(tempRecommendations.get(i));
-                                } else if(tempRecommendations.get(i).getType().equals("CLOTHING")) {
+                                } else if (tempRecommendations.get(i).getType().equals("CLOTHING")) {
                                     clothingReco.add(tempRecommendations.get(i));
-                                } else if(tempRecommendations.get(i).getType().equals("FOOD")) {
+                                } else if (tempRecommendations.get(i).getType().equals("FOOD")) {
                                     foodReco.add(tempRecommendations.get(i));
                                 }
                             }
 
                             String temp = "-----ACTIVITIES-----\n";
-                            for(int i = 0; i < activityReco.size(); i++) {
-                                temp = temp + "\t"+activityReco.get(i).getName() + "\n";
+                            for (int i = 0; i < activityReco.size(); i++) {
+                                temp = temp + "\t" + activityReco.get(i).getName() + "\n";
                             }
                             temp += "-----FOOD-----\n";
-                            for(int i = 0; i < foodReco.size(); i++) {
-                                temp = temp + "\t"+foodReco.get(i).getName() + "\n";
+                            for (int i = 0; i < foodReco.size(); i++) {
+                                temp = temp + "\t" + foodReco.get(i).getName() + "\n";
                             }
                             temp += "-----CLOTHING-----\n";
-                            for(int i = 0; i < clothingReco.size(); i++) {
-                                temp = temp + "\t"+clothingReco.get(i).getName() + "\n";
+                            for (int i = 0; i < clothingReco.size(); i++) {
+                                temp = temp + "\t" + clothingReco.get(i).getName() + "\n";
                             }
                             showRecom.setText(temp);
 
