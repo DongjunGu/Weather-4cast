@@ -178,7 +178,9 @@ public class HomeFragment extends Fragment {
 
                             //Log.d("DEBUG", "JSON Data: " + response.toString(4));
                             conditions = dbManager.getItemsByConditions(mainDescription.toUpperCase());
-                            temps = dbManager.getItemsByTemp((int) temperature);
+                            GlobalData.getInstance().setCurrentTemp(temperature);
+                            GlobalData.getInstance().setCurrentConditions(mainDescription.toUpperCase());
+                            temps = dbManager.getItemsByTemp((int) temperature + GlobalData.getInstance().getPersonalTemp());
                             GlobalData.getInstance().setTemps(temps);
                             GlobalData.getInstance().setConditions(conditions);
 

@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.SeekBar;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -50,12 +51,13 @@ public class SettingsFragment extends Fragment {
     List<DatabaseItem> tempRecommendations, activityReco, foodReco, clothingReco;
     EditText enterCityTextEdit;
     Button getWeatherButton;
-    TextView showRecom, showWeatherData;
+    TextView showRecom, showWeatherData, personalTempText;
     Switch fToCSwitch;
+    SeekBar hotColdSeekBar;
 
     double temp, feelsLike;
     float pressure;
-    int humidity;
+    int humidity, seekBarInt;
     String description, wind, clouds, countryName, cityName;
 
     private final String url = "https://api.openweathermap.org/data/2.5/weather";
@@ -68,6 +70,10 @@ public class SettingsFragment extends Fragment {
         SettingsViewModel settingsViewModel = new ViewModelProvider(this).get(SettingsViewModel.class);
         binding = FragmentSettingsBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
+        hotColdSeekBar = (SeekBar) binding.hotColdSeekBar;
+        hotColdSeekBar.setMax(40);
+        hotColdSeekBar.setProgress(20);
+        personalTempText = binding.personalTempTextView;
 
         // SETUP FOR DATABASE
         dbManager = new SQLiteManager(getContext());
@@ -108,6 +114,31 @@ public class SettingsFragment extends Fragment {
                     .append(", ").append(maxTemp).append(", ").append(conditions).append(", ").append(link).append("\n");
         }
         Log.d("DEBUG", "DATA: " + "\n" + stringBuilder);
+
+        hotColdSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                progress = progress - 20;
+                Log.d("DEBUG", "SETTING SEEKBAR: " + progress);
+                if(progress >= 0) {
+                    personalTempText.setText("+"+Integer.toString(progress));
+                } else {
+                    personalTempText.setText(Integer.toString(progress));
+                }
+
+                GlobalData.getInstance().setPersonalTemp(progress);
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
 
         fToCSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -218,6 +249,10 @@ public class SettingsFragment extends Fragment {
 
     @Override
     public void onDestroyView() {
+        List<DatabaseItem> conditions = dbManager.getItemsByConditions(GlobalData.getInstance().getCurrentConditions());
+        List<DatabaseItem> temps = dbManager.getItemsByTemp((int) GlobalData.getInstance().getCurrentTemp() + GlobalData.getInstance().getPersonalTemp());
+        GlobalData.getInstance().setTemps(temps);
+        GlobalData.getInstance().setConditions(conditions);
         super.onDestroyView();
         binding = null;
     }
