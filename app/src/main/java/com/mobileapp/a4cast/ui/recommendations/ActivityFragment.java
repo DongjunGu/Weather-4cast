@@ -204,7 +204,7 @@ public class ActivityFragment extends Fragment { // ACTIVITY
         layoutManager = new LinearLayoutManager(view.getContext());
         layoutManager.setOrientation(RecyclerView.VERTICAL);
         recyclerView.setLayoutManager(layoutManager);
-        adapter = new RecyclerViewAdaptor(displayList);
+        adapter = new RecyclerViewAdaptor(displayList, 2);
         adapter.notifyDataSetChanged();
     }
 }

@@ -1,8 +1,8 @@
 package com.mobileapp.a4cast;
 
-import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,19 +12,35 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.mobileapp.a4cast.ui.recommendations.ClothesFragment;
-
 import java.util.List;
 
 public class RecyclerViewAdaptor extends RecyclerView.Adapter<RecyclerViewAdaptor.ViewHolder>{
     private List<ModelClass> userList;
-    public RecyclerViewAdaptor(List<ModelClass>userList) {
+    private int recommendSwitch = 0; //0 = default | 1 = clothes | 2 = activity | 3 = food
+    public RecyclerViewAdaptor(List<ModelClass>userList, int intSwitch) {
+        recommendSwitch = intSwitch;
         this.userList = userList;
     }
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view;
+        switch (recommendSwitch) {
+            case 1:
+                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.clothes_recyclerview, parent, false);
+                break;
+            case 2:
+                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.activity_recyclerview, parent, false);
+                break;
+            case 3:
+                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.food_recyclerview, parent, false);
+                break;
+            default:
+                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.clothes_recyclerview, parent, false);
+                break;
+        }
 
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recyclerview, parent,false );
+
+        Log.d("DEBUG", "TEST RECYCLER: SWITCH:" + recommendSwitch);
         return new ViewHolder(view);
     }
 

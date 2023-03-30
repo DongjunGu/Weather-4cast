@@ -196,7 +196,7 @@ public class FoodFragment extends Fragment { // FOOD
         layoutManager = new LinearLayoutManager(view.getContext());
         layoutManager.setOrientation(RecyclerView.VERTICAL);
         recyclerView.setLayoutManager(layoutManager);
-        adapter = new RecyclerViewAdaptor(displayList);
+        adapter = new RecyclerViewAdaptor(displayList, 3);
         adapter.notifyDataSetChanged();
     }
 }
