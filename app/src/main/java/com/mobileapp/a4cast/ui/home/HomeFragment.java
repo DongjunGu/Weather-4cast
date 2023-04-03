@@ -279,20 +279,7 @@ public class HomeFragment extends Fragment {
                             GlobalData.getInstance().setConditions(conditions);
 
                             // weather icon change
-                            if (mainDescription.equals("Clear"))
-                                binding.descriptionImage.setImageResource(R.drawable.sun);
-                            else if (mainDescription.equals("Clouds"))
-                                binding.descriptionImage.setImageResource(R.drawable.fewcloud);
-                            else if (mainDescription.equals("Drizzle"))
-                                binding.descriptionImage.setImageResource(R.drawable.shower);
-                            else if (mainDescription.equals("Rain"))
-                                binding.descriptionImage.setImageResource(R.drawable.rain);
-                            else if (mainDescription.equals("Thunderstorm"))
-                                binding.descriptionImage.setImageResource(R.drawable.storm);
-                            else if (mainDescription.equals("Snow"))
-                                binding.descriptionImage.setImageResource(R.drawable.snow);
-                            else if (mainDescription.equals("Mist"))
-                                binding.descriptionImage.setImageResource(R.drawable.mist);
+                            binding.descriptionImage.setImageResource(getImageConditions(mainDescription));
 
                             bottomNavigationView = getActivity().findViewById(R.id.nav_view);
                             bottomNavigationView.setVisibility(View.VISIBLE);
@@ -346,55 +333,13 @@ public class HomeFragment extends Fragment {
                                 sb.append(formattedDate).append("\n\n");
                                 sb1.append(temp).append("°F").append("\n\n");
 
-                                switch (main) {
-                                    case "Clear":
-                                        binding.hourlyImage1.setImageResource(R.drawable.sun);
-                                        break;
-                                    case "Clouds":
-                                        binding.hourlyImage1.setImageResource(R.drawable.fewcloud);
-                                        break;
-                                    case "Drizzle":
-                                        binding.hourlyImage1.setImageResource(R.drawable.shower);
-                                        break;
-                                    case "Rain":
-                                        binding.hourlyImage1.setImageResource(R.drawable.rain);
-                                        break;
-                                    case "Thunderstorm":
-                                        binding.hourlyImage1.setImageResource(R.drawable.storm);
-                                        break;
-                                    case "Snow":
-                                        binding.hourlyImage1.setImageResource(R.drawable.snow);
-                                        break;
-                                    case "Mist":
-                                        binding.hourlyImage1.setImageResource(R.drawable.mist);
-                                        break;
-                                }
+                               //Set Hourly Images
+                                binding.hourlyImage1.setImageResource(getImageConditions(main));
+                                binding.hourlyImage2.setImageResource(getImageConditions(main));
+                                binding.hourlyImage3.setImageResource(getImageConditions(main));
+                                binding.hourlyImage4.setImageResource(getImageConditions(main));
+                                binding.hourlyImage5.setImageResource(getImageConditions(main));
 
-//                                switch (i){
-//                                    case 0:
-//                                        if(main.equals("Clear"))
-//                                            binding.hourlyImage1.setImageResource(R.drawable.sun);
-//                                        break;
-//                                    case "Clouds":
-//                                        binding.hourlyImage1.setImageResource(R.drawable.fewcloud);
-//                                        break;
-//                                    case "Drizzle":
-//                                        binding.hourlyImage1.setImageResource(R.drawable.shower);
-//                                        break;
-//                                    case "Rain":
-//                                        binding.hourlyImage1.setImageResource(R.drawable.rain);
-//                                        break;
-//                                    case "Thunderstorm":
-//                                        binding.hourlyImage1.setImageResource(R.drawable.storm);
-//                                        break;
-//                                    case "Snow":
-//                                        binding.hourlyImage1.setImageResource(R.drawable.snow);
-//                                        break;
-//                                    case "Mist":
-//                                        binding.hourlyImage1.setImageResource(R.drawable.mist);
-//                                        break;
-//
-//                                }
                             }
                             binding.hourlyHour.setText(sb.toString());
                             binding.hourlyTemp.setText(sb1.toString());
@@ -417,6 +362,26 @@ public class HomeFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
+    }
+
+    public int getImageConditions(String cond) {
+        switch (cond) {
+            case "Clear":
+                return R.drawable.sun;
+            case "Clouds":
+                return R.drawable.fewcloud;
+            case "Drizzle":
+                return R.drawable.shower;
+            case "Rain":
+                return R.drawable.rain;
+            case "Thunderstorm":
+                return R.drawable.storm;
+            case "Snow":
+                return R.drawable.snow;
+            case "Mist":
+                return R.drawable.mist;
+        }
+        return 0;
     }
 }
 
