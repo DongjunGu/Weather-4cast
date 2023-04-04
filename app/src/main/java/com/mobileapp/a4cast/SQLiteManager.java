@@ -56,6 +56,7 @@ public class SQLiteManager extends SQLiteOpenHelper {
      * of your application so we are gonna be able to overwrite that database with our database.
      * */
     public void createDataBase() throws IOException {
+        /*
         Log.d("DEBUG", "DB: onCreateDatabase");
         //check if the database exists
         boolean databaseExist = checkDataBase();
@@ -67,6 +68,17 @@ public class SQLiteManager extends SQLiteOpenHelper {
             this.getWritableDatabase();
             copyDataBase();
         }// end if else dbExist
+         */
+        Log.d("DEBUG", "DB: onCreateDatabase");
+
+        this.getWritableDatabase(); // This will create an empty database if it doesn't exist
+
+        // Always copy the new database, even if the old one exists
+        try {
+            copyDataBase();
+        } catch (IOException e) {
+            throw new Error("Error copying new database");
+        }
     } // end createDataBase().
 
     /**
@@ -84,6 +96,7 @@ public class SQLiteManager extends SQLiteOpenHelper {
      * This is done by transferring byte stream.
      * */
     private void copyDataBase() throws IOException{
+        Log.d("DEBUG", "DB: copyDataBase");
         //Open your local db as the input stream
         InputStream myInput = context.getAssets().open(DB_NAME);
         // Path to the just created empty db
@@ -160,6 +173,7 @@ public class SQLiteManager extends SQLiteOpenHelper {
                 item.setMaxTemp(cursor.getInt(3));
                 item.setConditions(cursor.getString(4));
                 item.setLink(cursor.getString(5));
+                item.setRecipe(cursor.getString(6));
                 itemList.add(item);
             } while (cursor.moveToNext());
         }
@@ -184,6 +198,7 @@ public class SQLiteManager extends SQLiteOpenHelper {
                 item.setMaxTemp(cursor.getInt(3));
                 item.setConditions(cursor.getString(4));
                 item.setLink(cursor.getString(5));
+                item.setRecipe(cursor.getString(6));
                 itemList.add(item);
             } while (cursor.moveToNext());
         }
@@ -196,7 +211,7 @@ public class SQLiteManager extends SQLiteOpenHelper {
     public List<DatabaseItem> getItemsByConditions(String conditions) {
         List<DatabaseItem> itemList = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
-        String query = "SELECT TYPE, NAME, MIN_TEMP, MAX_TEMP, CONDITIONS, LINK FROM " + TABLE_NAME + " WHERE CONDITIONS LIKE ? OR CONDITIONS LIKE ?";
+        String query = "SELECT * FROM " + TABLE_NAME + " WHERE CONDITIONS LIKE ? OR CONDITIONS LIKE ?";
         Cursor cursor = db.rawQuery(query, new String[]{"%" + conditions + "%", "%ANY%"});
         if (cursor.moveToFirst()) {
             do {
@@ -207,6 +222,7 @@ public class SQLiteManager extends SQLiteOpenHelper {
                 item.setMaxTemp(cursor.getInt(3));
                 item.setConditions(cursor.getString(4));
                 item.setLink(cursor.getString(5));
+                item.setRecipe(cursor.getString(6));
                 itemList.add(item);
             } while (cursor.moveToNext());
         }
@@ -232,6 +248,7 @@ public class SQLiteManager extends SQLiteOpenHelper {
                 item.setMaxTemp(cursor.getInt(3));
                 item.setConditions(cursor.getString(4));
                 item.setLink(cursor.getString(5));
+                item.setRecipe(cursor.getString(6));
                 itemList.add(item);
             } while (cursor.moveToNext());
         }
@@ -239,8 +256,5 @@ public class SQLiteManager extends SQLiteOpenHelper {
         db.close();
         return itemList;
     }
-
-
-
 }
 

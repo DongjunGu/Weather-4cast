@@ -8,12 +8,13 @@ public class DatabaseItem {
     private int maxTemp;
     private String conditions;
     private String link;
+    private String recipe;
 
     public DatabaseItem() {
         // Empty constructor
     }
 
-    public DatabaseItem(int id, String type, String name, int minTemp, int maxTemp, String conditions, String link) {
+    public DatabaseItem(int id, String type, String name, int minTemp, int maxTemp, String conditions, String link, String recipe) {
         this.id = id;
         this.type = type;
         this.name = name;
@@ -21,6 +22,7 @@ public class DatabaseItem {
         this.maxTemp = maxTemp;
         this.conditions = conditions;
         this.link = link;
+        this.recipe = recipe;
     }
 
     public int getId() {
@@ -79,6 +81,14 @@ public class DatabaseItem {
         this.link = link;
     }
 
+    public String getRecipe() {
+        return recipe;
+    }
+
+    public void setRecipe(String recipe) {
+        this.link = recipe;
+    }
+
     public String printItemInfo() {
         return "-------\n" +
                 "TYPE: " + this.getType() +
@@ -87,6 +97,7 @@ public class DatabaseItem {
                 "\nMAX_TEMP: " + this.getMaxTemp() +
                 "\nCONDITIONS: " + this.getConditions() +
                 "\nLINK: " + this.getLink() +
+                "\nRECIPE: " + this.getRecipe() +
                 "\n-------";
     }
 }

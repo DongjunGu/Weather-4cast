@@ -73,7 +73,6 @@ public class ActivityFragment extends Fragment { // ACTIVITY
             }
         }
 
-
         displayList = new ArrayList<>();
         initData();
         initRecyclerView();

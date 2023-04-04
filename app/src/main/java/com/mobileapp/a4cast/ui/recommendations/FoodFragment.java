@@ -71,6 +71,11 @@ public class FoodFragment extends Fragment { // FOOD
         displayList = new ArrayList<>();
         initData();
         initRecyclerView();
+        for (int i = 0; i < conditions.size(); i++) {
+            if (conditions.get(i).getName().equals("ICE CREAM")) {
+                Log.d("DEBUG", "FOOD FRAGMENT: ICECREAM RECIPE: " + conditions.get(i).getRecipe());
+            }
+        }
 
         recyclerView = view.findViewById(R.id.recyclerview);
         recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
