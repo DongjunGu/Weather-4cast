@@ -159,55 +159,57 @@
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_marginStart="68dp"
-                android:layout_marginTop="60dp"
+                android:layout_marginTop="55dp"
                 app:layout_constraintEnd_toStartOf="@+id/hourly_temp"
                 app:layout_constraintHorizontal_bias="0.222"
                 app:layout_constraintStart_toEndOf="@+id/hourly_hour"
                 app:layout_constraintTop_toBottomOf="@+id/text_description" />
 
             <ImageView
-                android:id="@+id/hourly_image4"
+                android:id="@+id/hourly_image2"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_marginStart="68dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="7dp"
                 app:layout_constraintEnd_toStartOf="@+id/hourly_temp"
                 app:layout_constraintHorizontal_bias="0.222"
                 app:layout_constraintStart_toEndOf="@+id/hourly_hour"
-                app:layout_constraintTop_toBottomOf="@+id/hourly_image3" />
+                app:layout_constraintTop_toBottomOf="@+id/hourly_image1" />
 
             <ImageView
                 android:id="@+id/hourly_image3"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_marginStart="68dp"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="7dp"
                 app:layout_constraintEnd_toStartOf="@+id/hourly_temp"
                 app:layout_constraintHorizontal_bias="0.222"
                 app:layout_constraintStart_toEndOf="@+id/hourly_hour"
                 app:layout_constraintTop_toBottomOf="@+id/hourly_image2" />
 
             <ImageView
+                android:id="@+id/hourly_image4"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginStart="68dp"
+                android:layout_marginTop="7dp"
+                app:layout_constraintEnd_toStartOf="@+id/hourly_temp"
+                app:layout_constraintHorizontal_bias="0.222"
+                app:layout_constraintStart_toEndOf="@+id/hourly_hour"
+                app:layout_constraintTop_toBottomOf="@+id/hourly_image3" />
+
+            <ImageView
                 android:id="@+id/hourly_image5"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_marginStart="68dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="7dp"
                 app:layout_constraintEnd_toStartOf="@+id/hourly_temp"
                 app:layout_constraintHorizontal_bias="0.222"
                 app:layout_constraintStart_toEndOf="@+id/hourly_hour"
                 app:layout_constraintTop_toBottomOf="@+id/hourly_image4" />
 
-            <ImageView
-                android:id="@+id/hourly_image2"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_marginStart="68dp"
-                android:layout_marginTop="12dp"
-                app:layout_constraintEnd_toStartOf="@+id/hourly_temp"
-                app:layout_constraintHorizontal_bias="0.222"
-                app:layout_constraintStart_toEndOf="@+id/hourly_hour"
-                app:layout_constraintTop_toBottomOf="@+id/hourly_image1" />
+
 
             <TextView
                 android:id="@+id/hourly_temp"

@@ -49,6 +49,7 @@ public class FoodFragment extends Fragment { // FOOD
         Log.d("DEBUG", "FOOD FRAGMENT: condition.size: " + conditions.size());
         Log.d("DEBUG", "FOOD FRAGMENT: temp.size: " + temps.size());
         foodList = new ArrayList<>();
+
         //CREATE NEW LIST
         for (int i = 0; i < conditions.size(); i++) {
             DatabaseItem item1 = conditions.get(i);
@@ -72,7 +73,7 @@ public class FoodFragment extends Fragment { // FOOD
         initData();
         initRecyclerView();
         for (int i = 0; i < conditions.size(); i++) {
-            if (conditions.get(i).getName().equals("ICE CREAM")) {
+            if (conditions.get(i).getName().equals("POT ROAST")) {
                 Log.d("DEBUG", "FOOD FRAGMENT: ICECREAM RECIPE: " + conditions.get(i).getRecipe());
             }
         }
@@ -111,84 +112,71 @@ public class FoodFragment extends Fragment { // FOOD
         for(int i = 0; i < foodList.size(); i++) {
             DatabaseItem dbItem = foodList.get(i);
             switch (dbItem.getName()) {
-                case "LEGGINGS":
-                    displayList.add(new ModelClass(R.drawable.leggings, "Leggings", dbItem.getLink()));
+                case "POT ROAST":
+                    displayList.add(new ModelClass(R.drawable.pot_roast, "Pot Roast", dbItem.getLink()));
                     break;
-                case "EARMUFFS":
-                    displayList.add(new ModelClass(R.drawable.earmuffs, "Earmuffs", dbItem.getLink()));
+                case "BEEF STEW":
+                    displayList.add(new ModelClass(R.drawable.beef_stew, "Beef Stew", dbItem.getLink()));
                     break;
-                case "GLOVES":
-                    displayList.add(new ModelClass(R.drawable.gloves, "Gloves", dbItem.getLink()));
+                case "RAMEN":
+                    displayList.add(new ModelClass(R.drawable.ramen, "Ramen", dbItem.getLink()));
                     break;
-                case "WOOLEN HAT":
-                    displayList.add(new ModelClass(R.drawable.woolenhat, "Woolen Hat", dbItem.getLink()));
+                case "CRUMBLE":
+                    displayList.add(new ModelClass(R.drawable.crumble, "Crumble", dbItem.getLink()));
                     break;
-                case "SWEATER":
-                    displayList.add(new ModelClass(R.drawable.sweater, "Sweater", dbItem.getLink()));
+                case "SUSHI":
+                    displayList.add(new ModelClass(R.drawable.sushi, "Sushi", dbItem.getLink()));
                     break;
-                case "PADDED JACKET":
-                    displayList.add(new ModelClass(R.drawable.paddedjacket, "Padded Jacket", dbItem.getLink()));
+                case "GRATIN":
+                    displayList.add(new ModelClass(R.drawable.gratin, "Gratin", dbItem.getLink()));
                     break;
-                case "FLEECE-LINED PANTS":
-                    displayList.add(new ModelClass(R.drawable.fleecelinedpants, "Fleece-lined Pants", dbItem.getLink()));
+                case "HOT TEA":
+                    displayList.add(new ModelClass(R.drawable.hot_tea, "Hot Tea", dbItem.getLink()));
                     break;
-                case "LONG UNDERWEAR":
-                    displayList.add(new ModelClass(R.drawable.longunderwear, "Long Underwear", dbItem.getLink()));
+                case "CHINESE":
+                    displayList.add(new ModelClass(R.drawable.chinese, "Chinese", dbItem.getLink()));
                     break;
-                case "COAT":
-                    displayList.add(new ModelClass(R.drawable.coat, "Coat", dbItem.getLink()));
+                case "PASTA":
+                    displayList.add(new ModelClass(R.drawable.pasta, "Pasta", dbItem.getLink()));
                     break;
-                case "BOOTS":
-                    displayList.add(new ModelClass(R.drawable.boots, "Boots", dbItem.getLink()));
+                case "SALAD":
+                    displayList.add(new ModelClass(R.drawable.salad, "Salad", dbItem.getLink()));
                     break;
-                case "JEANS":
-                    displayList.add(new ModelClass(R.drawable.jeans, "Jeans", dbItem.getLink()));
+                case "POTATO FOOD":
+                    displayList.add(new ModelClass(R.drawable.potato, "Potato Food", dbItem.getLink()));
                     break;
-                case "TRENCH COAT":
-                    displayList.add(new ModelClass(R.drawable.trenchcoat, "Trench Coat", dbItem.getLink()));
+                case "MEXICAN":
+                    displayList.add(new ModelClass(R.drawable.mexicans, "Mexican", dbItem.getLink()));
                     break;
-                case "HOOD T-SHIRT":
-                    displayList.add(new ModelClass(R.drawable.hoodtshirt, "Hood T-Shirt", dbItem.getLink()));
+                case "CARROT CAKE":
+                    displayList.add(new ModelClass(R.drawable.carrot_cake, "Carrot Cake", dbItem.getLink()));
                     break;
-                case "SNEAKERS":
-                    displayList.add(new ModelClass(R.drawable.sneakers, "Sneakers", dbItem.getLink()));
+                case "SALMON":
+                    displayList.add(new ModelClass(R.drawable.salmon, "Salmon", dbItem.getLink()));
                     break;
-                case "LOAFERS":
-                    displayList.add(new ModelClass(R.drawable.loafers, "Loafer", dbItem.getLink()));
+                case "LOBSTER":
+                    displayList.add(new ModelClass(R.drawable.lobster, "Lobster", dbItem.getLink()));
                     break;
-                case "LEATHER JACKET":
-                    displayList.add(new ModelClass(R.drawable.leatherjacket, "Leather Jacket", dbItem.getLink()));
+                case "PIE":
+                    displayList.add(new ModelClass(R.drawable.pie, "Pie", dbItem.getLink()));
                     break;
-                case "CHINO PANTS":
-                    displayList.add(new ModelClass(R.drawable.chinopants, "Chino Pants", dbItem.getLink()));
+                case "WATERMELON":
+                    displayList.add(new ModelClass(R.drawable.watermelon, "Watermelon", dbItem.getLink()));
                     break;
-                case "T-SHIRTS":
-                    displayList.add(new ModelClass(R.drawable.tshirts, "T-Shirts", dbItem.getLink()));
+                case "GRILLED CHICKEN":
+                    displayList.add(new ModelClass(R.drawable.grilled_chicken, "Grilled Chicken", dbItem.getLink()));
                     break;
-                case "JACKET":
-                    displayList.add(new ModelClass(R.drawable.jacket, "Jacket", dbItem.getLink()));
+                case "BBQ":
+                    displayList.add(new ModelClass(R.drawable.bbq, "BBQ", dbItem.getLink()));
                     break;
-                case "CARDIGAN":
-                    displayList.add(new ModelClass(R.drawable.cardigan, "Cardigan", dbItem.getLink()));
+                case "ICE CREAM":
+                    displayList.add(new ModelClass(R.drawable.icecream, "Ice cream", dbItem.getLink()));
                     break;
-                case "DRESS SHIRTS":
-                    displayList.add(new ModelClass(R.drawable.dressshirts, "Dress Shirts", dbItem.getLink()));
+                case "FISH TACO":
+                    displayList.add(new ModelClass(R.drawable.fish_taco, "Fish Taco", dbItem.getLink()));
                     break;
-                case "SUNGLASSES":
-                    displayList.add(new ModelClass(R.drawable.sunglasses, "Sunglasses", dbItem.getLink()));
-                    break;
-                case "SLEEVELESS":
-                    displayList.add(new ModelClass(R.drawable.sleeveless, "Sleeveless", dbItem.getLink()));
-                    break;
-                case "SHORTS":
-                    displayList.add(new ModelClass(R.drawable.shorts, "Shorts", dbItem.getLink()));
-                    break;
-                case "ONE PIECE":
-                    displayList.add(new ModelClass(R.drawable.onepiece, "One Piece", dbItem.getLink()));
-                    break;
-                case "SANDAL":
-                    displayList.add(new ModelClass(R.drawable.sandal, "Sandals", dbItem.getLink()));
-                    break;
+                case "FRUIT SALAD":
+                    displayList.add(new ModelClass(R.drawable.fruit_salad, "Fruit Salad", dbItem.getLink()));
                 default:
                     displayList.add(new ModelClass(R.drawable.sun, "DEFAULT", dbItem.getLink()));
                     break;

@@ -25,7 +25,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/boots" />
+                app:srcCompat="@drawable/pot_roast" />
 
             <TextView
                 android:id="@+id/itemNameTextView"
@@ -34,7 +34,7 @@
                 android:layout_gravity="center"
                 android:layout_marginStart="16dp"
                 android:layout_weight="1"
-                android:text="Black"
+                android:text="Pot Roast"
                 android:textSize="20sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/itemImage"
@@ -47,7 +47,7 @@
                 android:layout_gravity="center"
                 android:layout_marginEnd="8dp"
                 android:layout_weight="1"
-                android:text="Shop"
+                android:text="Get!"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
