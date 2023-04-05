@@ -20,6 +20,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
@@ -55,39 +57,42 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.TimeZone;
 
 public class HomeFragment extends Fragment {
-
+    //---BINDING---
     private FragmentHomeBinding binding;
-
-
+    //---API WEATHER INFO---
     private static final String API_KEY = "dec0f72ce23604612032a38b00466f12";
     private static final String BASE_URL = "https://api.openweathermap.org/data/2.5/weather";
     private static final String ONE_CALL_API_URL = "https://api.openweathermap.org/data/2.5";
     private static final String UNITS = "imperial";
     private static final String EXCLUDE = "minutely,daily,alerts";
-
+    //---DATABASE---
     private SQLiteManager dbManager;
+    //---LOCATION---
     private static final int REQUEST_LOCATION_PERMISSION = 1;
-
-    private LocationManager locationManager;
-    private LocationListener locationListener;
-
+    private ActivityResultLauncher<String[]> requestPermissionLauncher;
+    public LocationManager locationManager;
+    public LocationListener locationListener;
+    //---WEATHER DISPLAY VARS---
     double temperature = 0, feelsLike = 0, celsius = 0;
+    int humidity;
     DecimalFormat df = new DecimalFormat("#.##");
-    String mainDescription = "";
+    String mainDescription = "", description = "", cityName = "";
     List<DatabaseItem> conditions, temps;
     List<DatabaseItem> tempRecommendations, activityReco, foodReco, clothingReco;
+    //---NAV VAR---
     BottomNavigationView bottomNavigationView;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        //View view = inflater.inflate(R.layout.fragment_home, container, false);
         HomeViewModel homeViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
         bottomNavigationView = getActivity().findViewById(R.id.nav_view);
 
+        // START --- MANUAL LOCATION ---
         binding.getWeatherButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -166,93 +171,81 @@ public class HomeFragment extends Fragment {
                 requestQueue.add(jsonObjectRequest);
             }
         });
+        // END --- MANUAL LOCATION ---
 
-
-        //HIDE NAV BAR
-
-        //Setup DB Manager
+        // START --- SETUP DATABASE ---
         dbManager = new SQLiteManager(getContext());
-        try {
-            dbManager.createDataBase();
-        } catch (Exception e) {
-            Log.d("DEBUG", "EXCEPTION: " + e);
-        }
-        try {
-            dbManager.openDataBase();
-        } catch (SQLException e) {
-            Log.d("DEBUG", "EXCEPTION: " + e);
-        }
-        SQLiteDatabase db1;
-        db1 = dbManager.getReadableDatabase();
-        //----------
+        try { dbManager.createDataBase(); } catch (Exception e) { Log.d("DEBUG", "EXCEPTION: " + e); }
+        try { dbManager.openDataBase(); } catch (SQLException e) { Log.d("DEBUG", "EXCEPTION: " + e); }
+        SQLiteDatabase db1 = dbManager.getReadableDatabase();
+        // END --- SETUP DATABASE ---
 
+        // START --- SETUP LOCATION ---
         locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
-
+        requestPermissionLauncher = registerForActivityResult(new ActivityResultContracts.RequestMultiplePermissions(), result -> {
+            boolean allPermissionsGranted = true;
+            for (Map.Entry<String, Boolean> entry : result.entrySet()) {
+                if (!entry.getValue()) { allPermissionsGranted = false; break; }
+            }
+            if (allPermissionsGranted) { getLocation(); }
+            else { Toast.makeText(getActivity(), "Location permission is required for this app", Toast.LENGTH_SHORT).show(); }
+        });
+        if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
+            requestPermissionLauncher.launch(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}); }
+        else { getLocation(); }
         locationListener = new LocationListener() {
             @Override
             public void onLocationChanged(Location location) {
+                locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
                 getWeatherData(location);
                 getHourlyForecastData(location);
             }
-
             @Override
-            public void onStatusChanged(String provider, int status, Bundle extras) {
-
-            }
-
+            public void onStatusChanged(String provider, int status, Bundle extras) { /*Nothing*/ }
             @Override
-            public void onProviderEnabled(String provider) {
-
-            }
-
+            public void onProviderEnabled(String provider) { /*Nothing*/ }
             @Override
-            public void onProviderDisabled(String provider) {
-
-            }
+            public void onProviderDisabled(String provider) { /*Nothing*/ }
         };
+        // END --- SETUP LOCATION ---
 
-        if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(getActivity(),
-                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-                    REQUEST_LOCATION_PERMISSION);
-        } else {
-            getLocation();
-        }
         return root;
     }
 
     private void getLocation() {
         if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 10, locationListener);
-
+            try { locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 10, locationListener);
+            } catch (Exception e) { Log.d("DEBUG", "EXCEPTION: " + e); }
         }
     }
 
+    // START --- GET WEATHER DATA ---
+    //https://openweathermap.org/weather-conditions <-- List of conditions
+    //SNOW, RAIN, DRIZZLE, THUNDERSTORM, CLEAR, CLOUDS <-- Main conditions
     private void getWeatherData(Location location) {
+        //Make nav bar invisible while weather data is being gathered
         bottomNavigationView = getActivity().findViewById(R.id.nav_view);
         bottomNavigationView.setVisibility(View.GONE);
+        //Get the long and lat of the location
         String latitude = String.valueOf(location.getLatitude());
         String longitude = String.valueOf(location.getLongitude());
-
+        //Create the URL for the weather data
         String url = BASE_URL + "?lat=" + latitude + "&lon=" + longitude + "&appid=" + API_KEY;
-
+        //Request weather data
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
                         try {
-                            //https://openweathermap.org/weather-conditions <-- List of conditions
-                            //SNOW, RAIN, DRIZZLE, THUNDERSTORM, CLEAR, CLOUDS <-- Main conditions
-                            String cityName = response.getString("name");
+                            cityName = response.getString("name");
                             JSONObject main = response.getJSONObject("main");
                             temperature = main.getDouble("temp");
-
                             feelsLike = main.getDouble("feels_like");
-                            int humidity = main.getInt("humidity");
+                            humidity = main.getInt("humidity");
                             JSONArray weather = response.getJSONArray("weather");
-                            String description = weather.getJSONObject(0).getString("description");
-                            String mainDescription = weather.getJSONObject(0).getString("main");
+                            description = weather.getJSONObject(0).getString("description");
+                            mainDescription = weather.getJSONObject(0).getString("main");
                             binding.textCityName.setText(cityName);
                             //TEMPS MATH
                             temperature = ((temperature - 273.15) * 9 / 5 + 32);
@@ -267,28 +260,18 @@ public class HomeFragment extends Fragment {
                                 binding.textFeelslike.setText(String.format(Locale.getDefault(), "%.2f°F", feelsLike));
                             }
                             binding.textDescription.setText(description);
-
                             binding.textHumidity.setText(String.format(Locale.getDefault(), "%d%%", humidity));
-
-                            //Log.d("DEBUG", "JSON Data: " + response.toString(4));
                             conditions = dbManager.getItemsByConditions(mainDescription.toUpperCase());
                             GlobalData.getInstance().setCurrentTemp(temperature);
                             GlobalData.getInstance().setCurrentConditions(mainDescription.toUpperCase());
                             temps = dbManager.getItemsByTemp((int) temperature + GlobalData.getInstance().getPersonalTemp());
                             GlobalData.getInstance().setTemps(temps);
                             GlobalData.getInstance().setConditions(conditions);
-
                             // weather icon change
                             binding.descriptionImage.setImageResource(getImageConditions(mainDescription));
-
                             bottomNavigationView = getActivity().findViewById(R.id.nav_view);
                             bottomNavigationView.setVisibility(View.VISIBLE);
-
-
-                        } catch (JSONException e) {
-
-                            e.printStackTrace();
-                        }
+                        } catch (JSONException e) { e.printStackTrace(); }
                     }
                 }, new Response.ErrorListener() {
             @Override
@@ -299,19 +282,16 @@ public class HomeFragment extends Fragment {
                 error.printStackTrace();
             }
         });
-
         RequestQueue requestQueue = Volley.newRequestQueue(binding.getRoot().getContext());
         requestQueue.add(jsonObjectRequest);
-
     }
+    //END --- GET WEATHER DATA ---
 
-
+    //START --- HOURLY FORECAST ---
     private void getHourlyForecastData(Location location) {
         String latitude = String.valueOf(location.getLatitude());
         String longitude = String.valueOf(location.getLongitude());
-
         String url = ONE_CALL_API_URL + "/onecall?lat=" + latitude + "&lon=" + longitude + "&exclude=" + EXCLUDE + "&units=" + UNITS + "&appid=" + API_KEY;
-
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null,
                 new Response.Listener<JSONObject>() {
                     @Override
@@ -357,6 +337,7 @@ public class HomeFragment extends Fragment {
         RequestQueue requestQueue = Volley.newRequestQueue(getContext());
         requestQueue.add(jsonObjectRequest);
     }
+    //END --- HOURLY FORECAST ---
 
     @Override
     public void onDestroyView() {
@@ -382,6 +363,24 @@ public class HomeFragment extends Fragment {
                 return R.drawable.mist;
         }
         return 0;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+        if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION)
+                == PackageManager.PERMISSION_GRANTED) {
+            getLocation();
+        }
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (locationManager != null && locationListener != null) {
+            locationManager.removeUpdates(locationListener);
+        }
     }
 }
 

@@ -86,7 +86,7 @@ public class DatabaseItem {
     }
 
     public void setRecipe(String recipe) {
-        this.link = recipe;
+        this.recipe = recipe;
     }
 
     public String printItemInfo() {

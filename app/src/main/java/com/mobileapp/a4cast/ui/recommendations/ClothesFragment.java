@@ -45,7 +45,6 @@ public class ClothesFragment extends Fragment { // CLOTHES
     List<DatabaseItem> clothesList;
     List<DatabaseItem> conditions;
     List<DatabaseItem> temps;
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_clothes, container, false);
