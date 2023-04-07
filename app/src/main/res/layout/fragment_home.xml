@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -21,10 +22,9 @@
                 android:id="@+id/text_temperature"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Loading.."
-
+                android:text="@string/loadingText"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                android:textSize="38sp"
+                android:textSize="45sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.108"
@@ -36,7 +36,7 @@
                 android:id="@+id/text_description"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Loading.."
+                android:text="@string/loadingText"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                 android:textSize="17sp"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -64,7 +64,7 @@
                 android:id="@+id/text_humidity"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Loading.."
+                android:text="@string/loadingText"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                 android:textSize="17sp"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -106,7 +106,7 @@
                 android:id="@+id/text_city_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="City Name"
+                android:text="@string/loadingText"
                 android:textAppearance="@style/TextAppearance.AppCompat.Headline"
                 android:textSize="38sp"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -120,7 +120,7 @@
                 android:id="@+id/text_feelslike"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Loading.."
+                android:text="@string/loadingText"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                 android:textSize="17sp"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -146,7 +146,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="60dp"
-                android:text="hour"
+                android:text="@string/loadingText"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                 android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -209,71 +209,17 @@
                 app:layout_constraintStart_toEndOf="@+id/hourly_hour"
                 app:layout_constraintTop_toBottomOf="@+id/hourly_image4" />
 
-
-
             <TextView
                 android:id="@+id/hourly_temp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="60dp"
                 android:layout_marginEnd="44dp"
-                android:text="TextView"
+                android:text="@string/loadingText"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                 android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/text_description" />
-
-            <EditText
-                android:id="@+id/enterCityTextEdit"
-                android:layout_width="160dp"
-                android:layout_height="50dp"
-                android:layout_marginTop="80dp"
-                android:backgroundTint="@color/white"
-                android:hint="Type the City"
-                android:inputType="textPersonName"
-                android:textColor="@color/white"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/hourly_image5" />
-
-            <Button
-                android:id="@+id/getWeatherButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:padding="10dp"
-                android:text="Search City"
-                android:textSize="15sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/enterCityTextEdit" />
-
-            <TextView
-                android:id="@+id/showWeatherData"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text=""
-                android:textColor="@color/white"
-                android:textSize="15sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/getWeatherButton" />
-
-            <TextView
-                android:id="@+id/showRecom"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:scrollbars="vertical"
-                android:text=""
-                android:textColor="@color/white"
-                android:textSize="15sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/showWeatherData" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>

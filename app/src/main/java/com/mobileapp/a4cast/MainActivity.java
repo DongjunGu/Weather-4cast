@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
+import com.google.android.libraries.places.api.Places;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -48,6 +49,12 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().hide();
 
         navView.setVisibility(View.GONE);
+
+        String apiKey = "AIzaSyDNSC1pLhUVjLp9G7J4sm5FrELV-efALdM";
+
+        if (!Places.isInitialized()) {
+            Places.initialize(getApplicationContext(), apiKey);
+        }
     }
     @Override
     public void onBackPressed() {

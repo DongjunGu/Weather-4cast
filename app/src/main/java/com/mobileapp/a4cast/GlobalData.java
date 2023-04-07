@@ -6,12 +6,13 @@ import java.util.List;
 
 public class GlobalData {
     private static GlobalData instance = null;
-    private boolean fahrenheit = true;
+    private boolean fahrenheit = true, manualCity = false;
     private int personalTemp = 0;
     private double currentTemp;
-    private String currentConditions;
+    private String currentConditions, locationManual, locationGPS;
     private List<DatabaseItem> conditions;
     private List<DatabaseItem> temps;
+    private List<Double> latLong;
 
     private GlobalData() {
         // private constructor
@@ -94,4 +95,47 @@ public class GlobalData {
         Log.d("DEBUG", "GLOBAL DATA FRAGMENT: Temperature Data Saved");
     }
     //-----------------TEMPSLIST-------------------
+
+    //-----------------MANUALCITY-------------------
+    public List<Double> getLatLong() {
+        if (latLong == null) {
+            latLong = new ArrayList<>();
+        }
+        return latLong;
+    }
+
+    public void setLatLong(List<Double> latLong) {
+        this.latLong = latLong;
+        Log.d("DEBUG", "GLOBAL DATA FRAGMENT: LatLong Data Saved");
+    }
+
+    public boolean getManualCity() {
+        return manualCity;
+    }
+
+    public void setManualCity(Boolean manualCity) {
+        this.manualCity = manualCity;
+        Log.d("DEBUG", "GLOBAL DATA FRAGMENT: ManualCity Data Saved");
+    }
+
+    public String getLocationManual() {
+        return locationManual;
+    }
+
+    public void setLocationManual(String manualCity) {
+        this.locationManual = manualCity;
+        Log.d("DEBUG", "GLOBAL DATA FRAGMENT: ManualCity Data Saved");
+    }
+    //-----------------MANUALCITY-------------------
+
+    //-----------------CURRENTLOCATIONGPS-------------------
+    public String getLocationGPS() {
+        return locationGPS;
+    }
+
+    public void setLocationGPS(String locationGPS) {
+        this.locationGPS = locationGPS;
+        Log.d("DEBUG", "GLOBAL DATA FRAGMENT: Current Location Data Saved");
+    }
+    //-----------------CURRENTCONDITIONS-------------------
 }

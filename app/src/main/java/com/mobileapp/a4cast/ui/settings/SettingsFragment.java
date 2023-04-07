@@ -6,6 +6,7 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
@@ -27,10 +28,19 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.gms.common.api.Status;
+import com.google.android.libraries.places.api.model.AddressComponent;
+import com.google.android.libraries.places.api.model.AddressComponents;
+import com.google.android.libraries.places.api.model.Place;
+import com.google.android.libraries.places.api.net.FetchPlaceRequest;
+import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
+import com.google.android.libraries.places.widget.listener.PlaceSelectionListener;
 import com.mobileapp.a4cast.DatabaseItem; //Database item class
 import com.mobileapp.a4cast.GlobalData;
+import com.mobileapp.a4cast.R;
 import com.mobileapp.a4cast.SQLiteManager; //Database helper class
 import com.mobileapp.a4cast.databinding.FragmentSettingsBinding;
 
@@ -40,7 +50,9 @@ import org.json.JSONObject;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 
 
 public class SettingsFragment extends Fragment {
@@ -51,17 +63,17 @@ public class SettingsFragment extends Fragment {
     List<DatabaseItem> tempRecommendations, activityReco, foodReco, clothingReco;
     EditText enterCityTextEdit;
     Button getWeatherButton;
-    TextView showRecom, showWeatherData, personalTempText;
-    Switch fToCSwitch;
+    TextView showRecom, showWeatherData, personalTempText, selectedCityText;
+    Switch fToCSwitch, manualCitySwitch;
     SeekBar hotColdSeekBar;
+    AutocompleteSupportFragment autocompleteFragment;
 
-    double temp, feelsLike;
-    float pressure;
-    int humidity, seekBarInt;
-    String description, wind, clouds, countryName, cityName;
+    double temp;
+    int seekBarInt;
+    String descriptionMain, manualCity;
 
-    private final String url = "https://api.openweathermap.org/data/2.5/weather";
-    private final String appid = "dec0f72ce23604612032a38b00466f12";
+    private static final String API_KEY = "dec0f72ce23604612032a38b00466f12";
+    private static final String BASE_URL = "https://api.openweathermap.org/data/2.5/weather";
     //https://openweathermap.org/weather-conditions <-- List of conditions
     DecimalFormat df = new DecimalFormat("#.##");
 
@@ -74,6 +86,18 @@ public class SettingsFragment extends Fragment {
         hotColdSeekBar.setMax(40);
         hotColdSeekBar.setProgress(20);
         personalTempText = binding.personalTempTextView;
+        autocompleteFragment = (AutocompleteSupportFragment) getChildFragmentManager().findFragmentById(R.id.autocomplete_fragment);
+        selectedCityText = binding.currentSelectedCity;
+
+        if(!GlobalData.getInstance().getManualCity()) {
+            autocompleteFragment.getView().setVisibility(View.GONE);
+            selectedCityText.setVisibility(View.GONE);
+        } else {
+            selectedCityText.setVisibility(View.VISIBLE);
+            selectedCityText.setText("Current Selected City: " + GlobalData.getInstance().getLocationManual());
+            autocompleteFragment.getView().setVisibility(View.VISIBLE);
+        }
+
 
         // SETUP FOR DATABASE
         dbManager = new SQLiteManager(getContext());
@@ -93,10 +117,8 @@ public class SettingsFragment extends Fragment {
 
         //UI ELEMENTS
         fToCSwitch = binding.fToC;
-        getWeatherButton = binding.getWeatherButton;
-        enterCityTextEdit = binding.enterCityTextEdit;
-        showRecom = binding.showRecom;
-        showWeatherData = binding.showWeatherData;
+        manualCitySwitch = binding.CitySwitch;
+
 
         // GETS ALL DATA AND OUTPUTS TO LOG
         String query = "SELECT * FROM " + SQLiteManager.TABLE_NAME;
@@ -154,108 +176,75 @@ public class SettingsFragment extends Fragment {
         });
 
 
-        // GETS TEMP DATA AND OUTPUTS TO TEXTVIEW
-        getWeatherButton.setOnClickListener(new View.OnClickListener() {
+        manualCitySwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
-            public void onClick(View view) { // ADD DIFF TEMPS
-                Log.d("DEBUG", "update button clicked");
-                String tempUrl = "";
-                if (enterCityTextEdit.getText().toString() != "") {
-                    String city = enterCityTextEdit.getText().toString().trim();
-                    tempUrl = url + "?q=" + city + "&appid=" + appid;
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    GlobalData.getInstance().setManualCity(true);
+                    autocompleteFragment.getView().setVisibility(View.VISIBLE);
+                    selectedCityText.setVisibility(View.VISIBLE);
+                    selectedCityText.setText("Current Selected City: " + GlobalData.getInstance().getLocationManual());
+                    Log.d("DEBUG", "SETTINGS FRAGMENT: Manual On");
+                } else {
+                    GlobalData.getInstance().setManualCity(false);
+
+                    autocompleteFragment.getView().setVisibility(View.GONE);
+                    selectedCityText.setVisibility(View.GONE);
+                    Log.d("DEBUG", "SETTINGS FRAGMENT: Manual Off");
                 }
-                StringRequest stringRequest = new StringRequest(Request.Method.POST, tempUrl, new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        String output = "";
-                        Log.d("response", response);
-                        try {
-                            //GET WEATHER INFO
-                            JSONObject jsonResponse = new JSONObject(response);
-                            JSONArray jsonArray = jsonResponse.getJSONArray("weather");
-                            JSONObject jsonObjectWeather = jsonArray.getJSONObject(0);
-                            description = jsonObjectWeather.getString("description");
-                            JSONObject jsonObjectMain = jsonResponse.getJSONObject("main");
-                            temp = (jsonObjectMain.getDouble("temp") - 273.15) * 9 / 5 + 32;
-                            feelsLike = (jsonObjectMain.getDouble("feels_like") - 273.15) * 9 / 5 + 32;
-                            pressure = jsonObjectMain.getInt("pressure");
-                            humidity = jsonObjectMain.getInt("humidity");
-                            JSONObject jsonObjectWind = jsonResponse.getJSONObject("wind");
-                            wind = jsonObjectWind.getString("speed");
-                            JSONObject jsonObjectClouds = jsonResponse.getJSONObject("clouds");
-                            clouds = jsonObjectClouds.getString("all");
-                            JSONObject jsonObjectSys = jsonResponse.getJSONObject("sys");
-                            countryName = jsonObjectSys.getString("country");
-                            cityName = jsonResponse.getString("name");
-                            showWeatherData.setTextColor(Color.WHITE);
-                            showWeatherData.setTextSize(TypedValue.COMPLEX_UNIT_SP, 15);
-                            output += "Current weather of " + cityName + " (" + countryName + ")"
-                                    + "\n Temp: " + df.format(temp) + " °F"
-                                    + "\n Feels Like: " + df.format(feelsLike) + " °F"
-                                    + "\n Humidity: " + humidity + "%"
-                                    + "\n Description: " + description
-                                    + "\n Wind Speed: " + wind + "m/s (meters per second)"
-                                    + "\n Cloudiness: " + clouds + "%"
-                                    + "\n Pressure: " + pressure + " hPa";
-                            showWeatherData.setText(output);
-
-                            //SHOW RECOMMENDATIONS:
-                            activityReco = new ArrayList<>();
-                            clothingReco = new ArrayList<>();
-                            foodReco = new ArrayList<>();
-                            tempRecommendations = dbManager.getItemsByTemp((int) temp);
-                            Log.d("DEBUG", "SETTINGS FRAGMENT: LENGTH: " + tempRecommendations.size());
-                            for (int i = 0; i < tempRecommendations.size(); i++) {
-                                if (tempRecommendations.get(i).getType().equals("ACTIVITY")) {
-                                    activityReco.add(tempRecommendations.get(i));
-                                } else if (tempRecommendations.get(i).getType().equals("CLOTHING")) {
-                                    clothingReco.add(tempRecommendations.get(i));
-                                } else if (tempRecommendations.get(i).getType().equals("FOOD")) {
-                                    foodReco.add(tempRecommendations.get(i));
-                                }
-                            }
-
-                            String temp = "-----ACTIVITIES-----\n";
-                            for (int i = 0; i < activityReco.size(); i++) {
-                                temp = temp + "\t" + activityReco.get(i).getName() + "\n";
-                            }
-                            temp += "-----FOOD-----\n";
-                            for (int i = 0; i < foodReco.size(); i++) {
-                                temp = temp + "\t" + foodReco.get(i).getName() + "\n";
-                            }
-                            temp += "-----CLOTHING-----\n";
-                            for (int i = 0; i < clothingReco.size(); i++) {
-                                temp = temp + "\t" + clothingReco.get(i).getName() + "\n";
-                            }
-                            showRecom.setText(temp);
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-
-                    }
-                }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(binding.getRoot().getContext(), error.toString().trim(), Toast.LENGTH_SHORT).show();
-                    }
-                });
-                RequestQueue requestQueue = Volley.newRequestQueue(binding.getRoot().getContext());
-                requestQueue.add(stringRequest);
             }
         });
+        if (autocompleteFragment != null) {
+            autocompleteFragment.setPlaceFields(Arrays.asList(Place.Field.LAT_LNG, Place.Field.ADDRESS, Place.Field.ADDRESS_COMPONENTS));
+            autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
+                @Override
+                public void onPlaceSelected(@NonNull Place place) {
+                    //Log.d("DEBUG", "SETTINGS FRAGMENT: PLACE: " + place.getLatLng().latitude);
+                    AddressComponents addressComponents = place.getAddressComponents();
+                    List<Double> latLngList = new ArrayList<>();
+                    latLngList.add(place.getLatLng().latitude);
+                    latLngList.add(place.getLatLng().longitude);
+                    GlobalData.getInstance().setLatLong(latLngList);
+                    manualCity = null;
+
+                    if (addressComponents != null) {
+                        for (AddressComponent component : addressComponents.asList()) {
+                            List<String> types = component.getTypes();
+                            if (types.contains("locality")) {
+                                manualCity = component.getName();
+                                selectedCityText.setText("Current Selected City: " + component.getName());
+                                GlobalData.getInstance().setLocationManual(component.getName());
+                                break;
+                            }
+                        }
+                    }
+                }
+
+                @Override
+                public void onError(@NonNull Status status) {
+                    // Handle error
+                }
+            });
+        } else {
+            Log.d("DEBUG", "AutocompleteSupportFragment not found");
+        }
+        // GETS TEMP DATA AND OUTPUTS TO TEXTVIEW
         return root;
     }
 
     @Override
     public void onDestroyView() {
-        List<DatabaseItem> conditions = dbManager.getItemsByConditions(GlobalData.getInstance().getCurrentConditions());
-        List<DatabaseItem> temps = dbManager.getItemsByTemp((int) GlobalData.getInstance().getCurrentTemp() + GlobalData.getInstance().getPersonalTemp());
-        GlobalData.getInstance().setTemps(temps);
+        List<DatabaseItem> conditions;
+        List<DatabaseItem> temps;
+        conditions = dbManager.getItemsByConditions(GlobalData.getInstance().getCurrentConditions());
+        temps = dbManager.getItemsByTemp((int) GlobalData.getInstance().getCurrentTemp() + GlobalData.getInstance().getPersonalTemp());
         GlobalData.getInstance().setConditions(conditions);
+        GlobalData.getInstance().setTemps(temps);
+        //if (autocompleteFragment != null) {
+        //    requireActivity().getSupportFragmentManager().beginTransaction().remove(autocompleteFragment).commit();
+        //}
         super.onDestroyView();
         binding = null;
     }
-
 }
 

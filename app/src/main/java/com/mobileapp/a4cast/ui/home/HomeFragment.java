@@ -79,7 +79,7 @@ public class HomeFragment extends Fragment {
     //---WEATHER DISPLAY VARS---
     double temperature = 0, feelsLike = 0, celsius = 0;
     int humidity;
-    DecimalFormat df = new DecimalFormat("#.##");
+    DecimalFormat df = new DecimalFormat("#");
     String mainDescription = "", description = "", cityName = "";
     List<DatabaseItem> conditions, temps;
     List<DatabaseItem> tempRecommendations, activityReco, foodReco, clothingReco;
@@ -91,7 +91,9 @@ public class HomeFragment extends Fragment {
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
         bottomNavigationView = getActivity().findViewById(R.id.nav_view);
+        Boolean manual = GlobalData.getInstance().getManualCity();
 
+        /*
         // START --- MANUAL LOCATION ---
         binding.getWeatherButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -172,6 +174,7 @@ public class HomeFragment extends Fragment {
             }
         });
         // END --- MANUAL LOCATION ---
+         */
 
         // START --- SETUP DATABASE ---
         dbManager = new SQLiteManager(getContext());
@@ -181,34 +184,60 @@ public class HomeFragment extends Fragment {
         // END --- SETUP DATABASE ---
 
         // START --- SETUP LOCATION ---
-        locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
-        requestPermissionLauncher = registerForActivityResult(new ActivityResultContracts.RequestMultiplePermissions(), result -> {
-            boolean allPermissionsGranted = true;
-            for (Map.Entry<String, Boolean> entry : result.entrySet()) {
-                if (!entry.getValue()) { allPermissionsGranted = false; break; }
+        if(!manual) {
+            locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+            requestPermissionLauncher = registerForActivityResult(new ActivityResultContracts.RequestMultiplePermissions(), result -> {
+                boolean allPermissionsGranted = true;
+                for (Map.Entry<String, Boolean> entry : result.entrySet()) {
+                    if (!entry.getValue()) {
+                        allPermissionsGranted = false;
+                        break;
+                    }
+                }
+                if (allPermissionsGranted) {
+                    getLocation();
+                } else {
+                    Toast.makeText(getActivity(), "Location permission is required for this app", Toast.LENGTH_SHORT).show();
+                }
+            });
+            if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION)
+                    != PackageManager.PERMISSION_GRANTED) {
+                requestPermissionLauncher.launch(new String[]{Manifest.permission.ACCESS_FINE_LOCATION});
+            } else {
+                getLocation();
             }
-            if (allPermissionsGranted) { getLocation(); }
-            else { Toast.makeText(getActivity(), "Location permission is required for this app", Toast.LENGTH_SHORT).show(); }
-        });
-        if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED) {
-            requestPermissionLauncher.launch(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}); }
-        else { getLocation(); }
-        locationListener = new LocationListener() {
-            @Override
-            public void onLocationChanged(Location location) {
-                locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
-                getWeatherData(location);
-                getHourlyForecastData(location);
-            }
-            @Override
-            public void onStatusChanged(String provider, int status, Bundle extras) { /*Nothing*/ }
-            @Override
-            public void onProviderEnabled(String provider) { /*Nothing*/ }
-            @Override
-            public void onProviderDisabled(String provider) { /*Nothing*/ }
-        };
-        // END --- SETUP LOCATION ---
+            locationListener = new LocationListener() {
+                @Override
+                public void onLocationChanged(Location location) {
+                    locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+                    //ADDED
+                    String latitude = String.valueOf(location.getLatitude());
+                    String longitude = String.valueOf(location.getLongitude());
+                    //Create the URL for the weather data
+                    String regularURL = BASE_URL + "?lat=" + latitude + "&lon=" + longitude + "&appid=" + API_KEY;
+                    String hourlyURL = ONE_CALL_API_URL + "/onecall?lat=" + latitude + "&lon=" + longitude + "&exclude=" + EXCLUDE + "&units=" + UNITS + "&appid=" + API_KEY;
+                    //ADDED
+                    getWeatherData(regularURL);
+                    getHourlyForecastData(hourlyURL);
+                }
+
+                @Override
+                public void onStatusChanged(String provider, int status, Bundle extras) { /*Nothing*/ }
+
+                @Override
+                public void onProviderEnabled(String provider) { /*Nothing*/ }
+
+                @Override
+                public void onProviderDisabled(String provider) { /*Nothing*/ }
+            };
+            // END --- SETUP LOCATION ---
+        } else {
+            List<Double> latLngList = GlobalData.getInstance().getLatLong();
+            String regularURL = BASE_URL + "?lat=" + latLngList.get(0) + "&lon=" + latLngList.get(1) + "&appid=" + API_KEY;
+            String hourlyURL = ONE_CALL_API_URL + "/onecall?lat=" + latLngList.get(0) + "&lon=" + latLngList.get(1) + "&exclude=" + EXCLUDE + "&units=" + UNITS + "&appid=" + API_KEY;
+            getWeatherData(regularURL);
+            getHourlyForecastData(hourlyURL);
+        }
 
         return root;
     }
@@ -223,15 +252,15 @@ public class HomeFragment extends Fragment {
     // START --- GET WEATHER DATA ---
     //https://openweathermap.org/weather-conditions <-- List of conditions
     //SNOW, RAIN, DRIZZLE, THUNDERSTORM, CLEAR, CLOUDS <-- Main conditions
-    private void getWeatherData(Location location) {
+    private void getWeatherData(String url) { //Location location
         //Make nav bar invisible while weather data is being gathered
         bottomNavigationView = getActivity().findViewById(R.id.nav_view);
         bottomNavigationView.setVisibility(View.GONE);
         //Get the long and lat of the location
-        String latitude = String.valueOf(location.getLatitude());
-        String longitude = String.valueOf(location.getLongitude());
+        //String latitude = String.valueOf(location.getLatitude());
+        //String longitude = String.valueOf(location.getLongitude());
         //Create the URL for the weather data
-        String url = BASE_URL + "?lat=" + latitude + "&lon=" + longitude + "&appid=" + API_KEY;
+        //String url = BASE_URL + "?lat=" + latitude + "&lon=" + longitude + "&appid=" + API_KEY;
         //Request weather data
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null,
                 new Response.Listener<JSONObject>() {
@@ -239,6 +268,9 @@ public class HomeFragment extends Fragment {
                     public void onResponse(JSONObject response) {
                         try {
                             cityName = response.getString("name");
+                            if(!GlobalData.getInstance().getManualCity()){
+                                GlobalData.getInstance().setLocationGPS(cityName);
+                            }
                             JSONObject main = response.getJSONObject("main");
                             temperature = main.getDouble("temp");
                             feelsLike = main.getDouble("feels_like");
@@ -246,6 +278,7 @@ public class HomeFragment extends Fragment {
                             JSONArray weather = response.getJSONArray("weather");
                             description = weather.getJSONObject(0).getString("description");
                             mainDescription = weather.getJSONObject(0).getString("main");
+
                             binding.textCityName.setText(cityName);
                             //TEMPS MATH
                             temperature = ((temperature - 273.15) * 9 / 5 + 32);
@@ -253,11 +286,11 @@ public class HomeFragment extends Fragment {
                             if (!(GlobalData.getInstance().getFahrenheit())) {
                                 celsius = ((temperature - 32) * (0.55556));
                                 feelsLike = ((feelsLike - 32) * (0.55556));
-                                binding.textTemperature.setText(String.format(Locale.getDefault(), "%.2f°C", celsius));
-                                binding.textFeelslike.setText(String.format(Locale.getDefault(), "%.2f°C", feelsLike));
+                                binding.textTemperature.setText(String.format(Locale.getDefault(), "%.0f°C", celsius));
+                                binding.textFeelslike.setText(String.format(Locale.getDefault(), "%.0f°C", feelsLike));
                             } else {
-                                binding.textTemperature.setText(String.format(Locale.getDefault(), "%.2f°F", temperature));
-                                binding.textFeelslike.setText(String.format(Locale.getDefault(), "%.2f°F", feelsLike));
+                                binding.textTemperature.setText(String.format(Locale.getDefault(), "%.0f°F", temperature));
+                                binding.textFeelslike.setText(String.format(Locale.getDefault(), "%.0f°F", feelsLike));
                             }
                             binding.textDescription.setText(description);
                             binding.textHumidity.setText(String.format(Locale.getDefault(), "%d%%", humidity));
@@ -288,10 +321,10 @@ public class HomeFragment extends Fragment {
     //END --- GET WEATHER DATA ---
 
     //START --- HOURLY FORECAST ---
-    private void getHourlyForecastData(Location location) {
-        String latitude = String.valueOf(location.getLatitude());
-        String longitude = String.valueOf(location.getLongitude());
-        String url = ONE_CALL_API_URL + "/onecall?lat=" + latitude + "&lon=" + longitude + "&exclude=" + EXCLUDE + "&units=" + UNITS + "&appid=" + API_KEY;
+    private void getHourlyForecastData(String url) {
+        //String latitude = String.valueOf(location.getLatitude());
+        //String longitude = String.valueOf(location.getLongitude());
+        //String url = ONE_CALL_API_URL + "/onecall?lat=" + latitude + "&lon=" + longitude + "&exclude=" + EXCLUDE + "&units=" + UNITS + "&appid=" + API_KEY;
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null,
                 new Response.Listener<JSONObject>() {
                     @Override
@@ -311,8 +344,12 @@ public class HomeFragment extends Fragment {
                                 String main = hourlyData.getJSONArray("weather").getJSONObject(0).getString("main");
                                 //sb.append(formattedDate).append(" ").append(main).append("                  ").append(temp).append("°F").append("\n\n");
                                 sb.append(formattedDate).append("\n\n");
-                                sb1.append(temp).append("°F").append("\n\n");
-
+                                if (!(GlobalData.getInstance().getFahrenheit())) {
+                                    double celsius = ((temp - 32) * (0.55556));
+                                    sb1.append(df.format(celsius)).append("°C").append("\n\n");
+                                } else {
+                                    sb1.append(df.format(temp)).append("°F").append("\n\n");
+                                }
                                //Set Hourly Images
                                 binding.hourlyImage1.setImageResource(getImageConditions(main));
                                 binding.hourlyImage2.setImageResource(getImageConditions(main));
@@ -368,10 +405,12 @@ public class HomeFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
-        if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION)
-                == PackageManager.PERMISSION_GRANTED) {
-            getLocation();
+        if(!GlobalData.getInstance().getManualCity()) {
+            locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+            if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION)
+                    == PackageManager.PERMISSION_GRANTED) {
+                getLocation();
+            }
         }
     }
 
