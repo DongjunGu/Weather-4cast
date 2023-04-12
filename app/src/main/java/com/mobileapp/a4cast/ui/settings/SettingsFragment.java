@@ -21,6 +21,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.SwitchCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -64,7 +65,7 @@ public class SettingsFragment extends Fragment {
     EditText enterCityTextEdit;
     Button getWeatherButton;
     TextView showRecom, showWeatherData, personalTempText, selectedCityText;
-    Switch fToCSwitch, manualCitySwitch;
+    SwitchCompat fToCSwitch;
     SeekBar hotColdSeekBar;
     AutocompleteSupportFragment autocompleteFragment;
 
@@ -86,18 +87,7 @@ public class SettingsFragment extends Fragment {
         hotColdSeekBar.setMax(40);
         hotColdSeekBar.setProgress(20);
         personalTempText = binding.personalTempTextView;
-        autocompleteFragment = (AutocompleteSupportFragment) getChildFragmentManager().findFragmentById(R.id.autocomplete_fragment);
-        selectedCityText = binding.currentSelectedCity;
-
-        if(!GlobalData.getInstance().getManualCity()) {
-            autocompleteFragment.getView().setVisibility(View.GONE);
-            selectedCityText.setVisibility(View.GONE);
-        } else {
-            selectedCityText.setVisibility(View.VISIBLE);
-            selectedCityText.setText("Current Selected City: " + GlobalData.getInstance().getLocationManual());
-            autocompleteFragment.getView().setVisibility(View.VISIBLE);
-        }
-
+        //electedCityText = binding.currentSelectedCity;
 
         // SETUP FOR DATABASE
         dbManager = new SQLiteManager(getContext());
@@ -117,25 +107,7 @@ public class SettingsFragment extends Fragment {
 
         //UI ELEMENTS
         fToCSwitch = binding.fToC;
-        manualCitySwitch = binding.CitySwitch;
-
-
-        // GETS ALL DATA AND OUTPUTS TO LOG
-        String query = "SELECT * FROM " + SQLiteManager.TABLE_NAME;
-        Cursor cursor = db1.rawQuery(query, null);
-        StringBuilder stringBuilder = new StringBuilder();
-        while (cursor.moveToNext()) {
-            String type = cursor.getString(0);
-            String name = cursor.getString(1);
-            int minTemp = cursor.getInt(2);
-            int maxTemp = cursor.getInt(3);
-            String conditions = cursor.getString(4);
-            String link = cursor.getString(5);
-
-            stringBuilder.append(type).append(", ").append(name).append(", ").append(minTemp)
-                    .append(", ").append(maxTemp).append(", ").append(conditions).append(", ").append(link).append("\n");
-        }
-        Log.d("DEBUG", "DATA: " + "\n" + stringBuilder);
+        //manualCitySwitch = binding.CitySwitch;
 
         hotColdSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
@@ -175,60 +147,6 @@ public class SettingsFragment extends Fragment {
             }
         });
 
-
-        manualCitySwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    GlobalData.getInstance().setManualCity(true);
-                    autocompleteFragment.getView().setVisibility(View.VISIBLE);
-                    selectedCityText.setVisibility(View.VISIBLE);
-                    selectedCityText.setText("Current Selected City: " + GlobalData.getInstance().getLocationManual());
-                    Log.d("DEBUG", "SETTINGS FRAGMENT: Manual On");
-                } else {
-                    GlobalData.getInstance().setManualCity(false);
-
-                    autocompleteFragment.getView().setVisibility(View.GONE);
-                    selectedCityText.setVisibility(View.GONE);
-                    Log.d("DEBUG", "SETTINGS FRAGMENT: Manual Off");
-                }
-            }
-        });
-        if (autocompleteFragment != null) {
-            autocompleteFragment.setPlaceFields(Arrays.asList(Place.Field.LAT_LNG, Place.Field.ADDRESS, Place.Field.ADDRESS_COMPONENTS));
-            autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
-                @Override
-                public void onPlaceSelected(@NonNull Place place) {
-                    //Log.d("DEBUG", "SETTINGS FRAGMENT: PLACE: " + place.getLatLng().latitude);
-                    AddressComponents addressComponents = place.getAddressComponents();
-                    List<Double> latLngList = new ArrayList<>();
-                    latLngList.add(place.getLatLng().latitude);
-                    latLngList.add(place.getLatLng().longitude);
-                    GlobalData.getInstance().setLatLong(latLngList);
-                    manualCity = null;
-
-                    if (addressComponents != null) {
-                        for (AddressComponent component : addressComponents.asList()) {
-                            List<String> types = component.getTypes();
-                            if (types.contains("locality")) {
-                                manualCity = component.getName();
-                                selectedCityText.setText("Current Selected City: " + component.getName());
-                                GlobalData.getInstance().setLocationManual(component.getName());
-                                break;
-                            }
-                        }
-                    }
-                }
-
-                @Override
-                public void onError(@NonNull Status status) {
-                    // Handle error
-                }
-            });
-        } else {
-            Log.d("DEBUG", "AutocompleteSupportFragment not found");
-        }
-        // GETS TEMP DATA AND OUTPUTS TO TEXTVIEW
         return root;
     }
 
@@ -236,13 +154,11 @@ public class SettingsFragment extends Fragment {
     public void onDestroyView() {
         List<DatabaseItem> conditions;
         List<DatabaseItem> temps;
-        conditions = dbManager.getItemsByConditions(GlobalData.getInstance().getCurrentConditions());
-        temps = dbManager.getItemsByTemp((int) GlobalData.getInstance().getCurrentTemp() + GlobalData.getInstance().getPersonalTemp());
-        GlobalData.getInstance().setConditions(conditions);
-        GlobalData.getInstance().setTemps(temps);
-        //if (autocompleteFragment != null) {
-        //    requireActivity().getSupportFragmentManager().beginTransaction().remove(autocompleteFragment).commit();
-        //}
+        //conditions = dbManager.getItemsByConditions(GlobalData.getInstance().getCurrentConditions());
+        //temps = dbManager.getItemsByTemp((int) GlobalData.getInstance().getCurrentTemp() + GlobalData.getInstance().getPersonalTemp());
+        //GlobalData.getInstance().setConditions(conditions);
+        //GlobalData.getInstance().setTemps(temps);
+
         super.onDestroyView();
         binding = null;
     }

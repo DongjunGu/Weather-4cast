@@ -10,15 +10,13 @@
         android:id="@+id/outfitButton"
         android:layout_width="195dp"
         android:layout_height="330dp"
+        android:layout_marginStart="2dp"
+        android:layout_marginTop="8dp"
         android:adjustViewBounds="true"
         android:backgroundTint="@color/white"
         android:scaleType="centerCrop"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.032"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.069"
         app:srcCompat="@drawable/outfit" />
 
     <ImageButton
@@ -26,36 +24,73 @@
         android:layout_width="195dp"
         android:layout_height="330dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="4dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="2dp"
         android:backgroundTint="@color/white"
         android:src="@drawable/activity"
         android:text="ACTIVITIES"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/foodButton"
-        app:layout_constraintTop_toBottomOf="@+id/todayButton" />
+        app:layout_constraintTop_toBottomOf="@+id/cardViewReco" />
 
     <ImageButton
         android:id="@+id/foodButton"
         android:layout_width="195dp"
         android:layout_height="180dp"
+        android:layout_marginStart="2dp"
+        android:layout_marginTop="8dp"
         android:backgroundTint="@color/white"
         android:src="@drawable/food"
         android:text="FOOD"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/todayButton"
-        app:layout_constraintHorizontal_bias="0.466"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/outfitButton"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toBottomOf="@+id/outfitButton" />
 
-    <ImageButton
-        android:id="@+id/todayButton"
-        android:layout_width="195dp"
-        android:layout_height="180dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="28dp"
-        android:backgroundTint="@color/white"
-        android:src="@drawable/today"
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardViewReco"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:outlineProvider="none"
+        app:cardBackgroundColor="@color/transparent_black"
+        app:cardCornerRadius="15dp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/outfitButton"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/todayTempText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:text="TODAY:"
+                android:textColor="@color/white"
+                android:textSize="40sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/todayText" />
+
+            <TextView
+                android:id="@+id/todayText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:text="TODAY:"
+                android:textColor="@color/white"
+                android:textSize="40sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+

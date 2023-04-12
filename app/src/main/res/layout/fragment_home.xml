@@ -18,210 +18,266 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <TextView
-                android:id="@+id/text_temperature"
-                android:layout_width="wrap_content"
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardView"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/loadingText"
-                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                android:textSize="45sp"
-                app:layout_constraintBottom_toBottomOf="parent"
+                app:cardBackgroundColor="@color/transparent_black"
+                android:outlineProvider="none"
+                app:cardCornerRadius="15dp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.108"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.036" />
+                app:layout_constraintTop_toTopOf="parent">
 
-            <TextView
-                android:id="@+id/text_description"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/loadingText"
-                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                android:textSize="17sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.291"
-                app:layout_constraintStart_toEndOf="@+id/text_description_label"
-                app:layout_constraintTop_toBottomOf="@+id/text_humidity"
-                app:layout_constraintVertical_bias="0.053" />
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
 
-            <TextView
-                android:id="@+id/text_feelslike_label"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="FeelsLike: "
-                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                android:textSize="17sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.087"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/text_city_name"
-                app:layout_constraintVertical_bias="0.063" />
+                    <TextView
+                        android:id="@+id/text_temperature"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="16dp"
+                        android:textColor="@color/white"
+                        android:text="@string/loadingText"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                        android:textSize="45sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:id="@+id/text_humidity"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/loadingText"
-                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                android:textSize="17sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.35"
-                app:layout_constraintStart_toEndOf="@+id/text_humidity_label"
-                app:layout_constraintTop_toBottomOf="@+id/text_feelslike"
-                app:layout_constraintVertical_bias="0.033" />
+                    <TextView
+                        android:id="@+id/text_description"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:textColor="@color/white"
+                        android:text="@string/loadingText"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                        android:textSize="17sp"
+                        app:layout_constraintStart_toStartOf="@+id/guideline"
+                        app:layout_constraintTop_toBottomOf="@+id/text_humidity" />
 
-            <TextView
-                android:id="@+id/text_humidity_label"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Humidity: "
-                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                android:textSize="17sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.086"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/text_feelslike_label"
-                app:layout_constraintVertical_bias="0.033" />
+                    <TextView
+                        android:id="@+id/text_feelslike_label"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="24dp"
+                        android:textColor="@color/white"
+                        android:layout_marginTop="16dp"
+                        android:text="FeelsLike: "
+                        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                        android:textSize="17sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/text_city_name" />
 
-            <TextView
-                android:id="@+id/text_description_label"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Description: "
-                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                android:textSize="17sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.092"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/text_humidity_label"
-                app:layout_constraintVertical_bias="0.052" />
+                    <TextView
+                        android:id="@+id/text_humidity"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:textColor="@color/white"
+                        android:text="@string/loadingText"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                        android:textSize="17sp"
+                        app:layout_constraintStart_toStartOf="@+id/guideline"
+                        app:layout_constraintTop_toBottomOf="@+id/text_feelslike" />
 
-            <TextView
-                android:id="@+id/text_city_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/loadingText"
-                android:textAppearance="@style/TextAppearance.AppCompat.Headline"
-                android:textSize="38sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.118"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/text_temperature"
-                app:layout_constraintVertical_bias="0.094" />
+                    <TextView
+                        android:id="@+id/text_humidity_label"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="24dp"
+                        android:textColor="@color/white"
+                        android:layout_marginTop="16dp"
+                        android:text="Humidity: "
+                        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                        android:textSize="17sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/text_feelslike_label" />
 
-            <TextView
-                android:id="@+id/text_feelslike"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/loadingText"
-                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                android:textSize="17sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.34"
-                app:layout_constraintStart_toEndOf="@+id/text_feelslike_label"
-                app:layout_constraintTop_toBottomOf="@+id/text_city_name"
-                app:layout_constraintVertical_bias="0.062" />
+                    <TextView
+                        android:id="@+id/text_description_label"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="24dp"
+                        android:textColor="@color/white"
+                        android:layout_marginTop="16dp"
+                        android:text="Description: "
+                        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                        android:textSize="17sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/text_humidity_label" />
 
-            <ImageView
-                android:id="@+id/description_image"
-                android:layout_width="104dp"
-                android:layout_height="102dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.571"
-                app:layout_constraintStart_toEndOf="@+id/text_temperature"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.026" />
+                    <TextView
+                        android:id="@+id/text_city_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:textColor="@color/white"
+                        android:layout_marginTop="16dp"
+                        android:text="@string/loadingText"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+                        android:textSize="38sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/text_temperature" />
 
-            <TextView
-                android:id="@+id/hourly_hour"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="60dp"
-                android:text="@string/loadingText"
-                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                android:textSize="16sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.124"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/text_description_label" />
+                    <TextView
+                        android:id="@+id/text_feelslike"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:textColor="@color/white"
+                        android:text="@string/loadingText"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                        android:textSize="17sp"
+                        app:layout_constraintStart_toStartOf="@+id/guideline"
+                        app:layout_constraintTop_toBottomOf="@+id/text_city_name" />
 
-            <ImageView
-                android:id="@+id/hourly_image1"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_marginStart="68dp"
-                android:layout_marginTop="55dp"
-                app:layout_constraintEnd_toStartOf="@+id/hourly_temp"
-                app:layout_constraintHorizontal_bias="0.222"
-                app:layout_constraintStart_toEndOf="@+id/hourly_hour"
-                app:layout_constraintTop_toBottomOf="@+id/text_description" />
+                    <ImageView
+                        android:id="@+id/description_image"
+                        android:layout_width="104dp"
+                        android:layout_height="102dp"
+                        android:layout_marginTop="16dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/text_temperature"
+                        app:layout_constraintTop_toTopOf="parent" />
 
-            <ImageView
-                android:id="@+id/hourly_image2"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_marginStart="68dp"
-                android:layout_marginTop="7dp"
-                app:layout_constraintEnd_toStartOf="@+id/hourly_temp"
-                app:layout_constraintHorizontal_bias="0.222"
-                app:layout_constraintStart_toEndOf="@+id/hourly_hour"
-                app:layout_constraintTop_toBottomOf="@+id/hourly_image1" />
+                    <TextView
+                        android:id="@+id/hourly_hour"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="32dp"
+                        android:layout_marginTop="32dp"
+                        android:textColor="@color/white"
+                        android:text="@string/loadingText"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                        android:textSize="16sp"
+                        app:layout_constraintEnd_toStartOf="@+id/guideline"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/text_description_label" />
 
-            <ImageView
-                android:id="@+id/hourly_image3"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_marginStart="68dp"
-                android:layout_marginTop="7dp"
-                app:layout_constraintEnd_toStartOf="@+id/hourly_temp"
-                app:layout_constraintHorizontal_bias="0.222"
-                app:layout_constraintStart_toEndOf="@+id/hourly_hour"
-                app:layout_constraintTop_toBottomOf="@+id/hourly_image2" />
+                    <ImageView
+                        android:id="@+id/hourly_image1"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_marginTop="32dp"
+                        app:layout_constraintEnd_toStartOf="@+id/hourly_temp"
+                        app:layout_constraintHorizontal_bias="0.222"
+                        app:layout_constraintStart_toStartOf="@+id/guideline"
+                        app:layout_constraintTop_toBottomOf="@+id/text_description" />
 
-            <ImageView
-                android:id="@+id/hourly_image4"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_marginStart="68dp"
-                android:layout_marginTop="7dp"
-                app:layout_constraintEnd_toStartOf="@+id/hourly_temp"
-                app:layout_constraintHorizontal_bias="0.222"
-                app:layout_constraintStart_toEndOf="@+id/hourly_hour"
-                app:layout_constraintTop_toBottomOf="@+id/hourly_image3" />
+                    <ImageView
+                        android:id="@+id/hourly_image2"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_marginTop="7dp"
+                        app:layout_constraintEnd_toStartOf="@+id/hourly_temp"
+                        app:layout_constraintHorizontal_bias="0.222"
+                        app:layout_constraintStart_toStartOf="@+id/guideline"
+                        app:layout_constraintTop_toBottomOf="@+id/hourly_image1" />
 
-            <ImageView
-                android:id="@+id/hourly_image5"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_marginStart="68dp"
-                android:layout_marginTop="7dp"
-                app:layout_constraintEnd_toStartOf="@+id/hourly_temp"
-                app:layout_constraintHorizontal_bias="0.222"
-                app:layout_constraintStart_toEndOf="@+id/hourly_hour"
-                app:layout_constraintTop_toBottomOf="@+id/hourly_image4" />
+                    <ImageView
+                        android:id="@+id/hourly_image3"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_marginTop="7dp"
+                        app:layout_constraintEnd_toStartOf="@+id/hourly_temp"
+                        app:layout_constraintHorizontal_bias="0.222"
+                        app:layout_constraintStart_toStartOf="@+id/guideline"
+                        app:layout_constraintTop_toBottomOf="@+id/hourly_image2" />
 
-            <TextView
-                android:id="@+id/hourly_temp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="60dp"
-                android:layout_marginEnd="44dp"
-                android:text="@string/loadingText"
-                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                android:textSize="16sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/text_description" />
+                    <ImageView
+                        android:id="@+id/hourly_image4"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_marginTop="7dp"
+                        app:layout_constraintEnd_toStartOf="@+id/hourly_temp"
+                        app:layout_constraintHorizontal_bias="0.222"
+                        app:layout_constraintStart_toStartOf="@+id/guideline"
+                        app:layout_constraintTop_toBottomOf="@+id/hourly_image3" />
+
+                    <ImageView
+                        android:id="@+id/hourly_image5"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_marginTop="7dp"
+                        app:layout_constraintEnd_toStartOf="@+id/hourly_temp"
+                        app:layout_constraintHorizontal_bias="0.222"
+                        app:layout_constraintStart_toStartOf="@+id/guideline"
+                        app:layout_constraintTop_toBottomOf="@+id/hourly_image4" />
+
+                    <TextView
+                        android:id="@+id/hourly_temp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="32dp"
+                        android:layout_marginEnd="44dp"
+                        android:textColor="@color/white"
+                        android:text="@string/loadingText"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                        android:textSize="16sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@+id/guideline"
+                        app:layout_constraintTop_toBottomOf="@+id/text_description" />
+
+                    <fragment
+                        android:id="@+id/autocomplete_fragment"
+                        android:name="com.google.android.libraries.places.widget.AutocompleteSupportFragment"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/white"
+                        android:layout_marginTop="16dp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/manualCityText" />
+
+                    <androidx.appcompat.widget.SwitchCompat
+                        android:id="@+id/CitySwitch"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/manualCityText"
+                        app:layout_constraintTop_toBottomOf="@+id/hourly_image5" />
+
+                    <TextView
+                        android:id="@+id/manualCityText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="52dp"
+                        android:layout_marginTop="24dp"
+                        android:text="Enter Manual Address?"
+                        android:textColor="@color/white"
+                        android:textSize="17sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/hourly_image5" />
+
+                    <TextView
+                        android:id="@+id/currentSelectedCity"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="32dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginBottom="8dp"
+                        android:text="Current Selected City: "
+                        android:textColor="@color/white"
+                        android:textSize="17sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/autocomplete_fragment" />
+
+                    <androidx.constraintlayout.widget.Guideline
+                        android:id="@+id/guideline"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        app:layout_constraintGuide_begin="159dp" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.cardview.widget.CardView>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
+
     </ScrollView>
 
 

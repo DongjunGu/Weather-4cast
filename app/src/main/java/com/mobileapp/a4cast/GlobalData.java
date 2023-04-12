@@ -6,10 +6,10 @@ import java.util.List;
 
 public class GlobalData {
     private static GlobalData instance = null;
-    private boolean fahrenheit = true, manualCity = false;
+    private boolean fahrenheit = true;
     private int personalTemp = 0;
-    private double currentTemp;
-    private String currentConditions, locationManual, locationGPS;
+    private double currentTemp, locationTemp;
+    private String currentConditions, locationCity;
     private List<DatabaseItem> conditions;
     private List<DatabaseItem> temps;
     private List<Double> latLong;
@@ -109,33 +109,22 @@ public class GlobalData {
         Log.d("DEBUG", "GLOBAL DATA FRAGMENT: LatLong Data Saved");
     }
 
-    public boolean getManualCity() {
-        return manualCity;
+    public String getLocationCity() {
+        return locationCity;
     }
 
-    public void setManualCity(Boolean manualCity) {
-        this.manualCity = manualCity;
+    public void setLocationCity(String locationCity) {
+        this.locationCity = locationCity;
         Log.d("DEBUG", "GLOBAL DATA FRAGMENT: ManualCity Data Saved");
     }
 
-    public String getLocationManual() {
-        return locationManual;
+    public double getLocationTemp() {
+        return locationTemp;
     }
 
-    public void setLocationManual(String manualCity) {
-        this.locationManual = manualCity;
+    public void setLocationTemp(double locationTemp) {
+        this.locationTemp = locationTemp;
         Log.d("DEBUG", "GLOBAL DATA FRAGMENT: ManualCity Data Saved");
     }
     //-----------------MANUALCITY-------------------
-
-    //-----------------CURRENTLOCATIONGPS-------------------
-    public String getLocationGPS() {
-        return locationGPS;
-    }
-
-    public void setLocationGPS(String locationGPS) {
-        this.locationGPS = locationGPS;
-        Log.d("DEBUG", "GLOBAL DATA FRAGMENT: Current Location Data Saved");
-    }
-    //-----------------CURRENTCONDITIONS-------------------
 }

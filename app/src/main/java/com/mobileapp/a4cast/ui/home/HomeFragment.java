@@ -16,7 +16,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,6 +26,8 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.SwitchCompat;
+import androidx.cardview.widget.CardView;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
@@ -35,6 +39,12 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.gms.common.api.Status;
+import com.google.android.libraries.places.api.model.AddressComponent;
+import com.google.android.libraries.places.api.model.AddressComponents;
+import com.google.android.libraries.places.api.model.Place;
+import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
+import com.google.android.libraries.places.widget.listener.PlaceSelectionListener;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.mobileapp.a4cast.DatabaseItem;
 import com.mobileapp.a4cast.GlobalData;
@@ -54,6 +64,7 @@ import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -80,19 +91,100 @@ public class HomeFragment extends Fragment {
     double temperature = 0, feelsLike = 0, celsius = 0;
     int humidity;
     DecimalFormat df = new DecimalFormat("#");
-    String mainDescription = "", description = "", cityName = "";
+    String mainDescription = "", description = "", cityName = "", latitude, longitude, tempString = "";
     List<DatabaseItem> conditions, temps;
     List<DatabaseItem> tempRecommendations, activityReco, foodReco, clothingReco;
     //---NAV VAR---
     BottomNavigationView bottomNavigationView;
+    //---MANUAL VARS---
+    AutocompleteSupportFragment autocompleteFragment;
+    SwitchCompat manualCitySwitch;
+    TextView selectedCityText, manualCityText;
+    Boolean manual = false;
+    CardView cardView;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         HomeViewModel homeViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
         bottomNavigationView = getActivity().findViewById(R.id.nav_view);
-        Boolean manual = GlobalData.getInstance().getManualCity();
+        //Boolean manual = GlobalData.getInstance().getManualCity();
 
+        autocompleteFragment = (AutocompleteSupportFragment) getChildFragmentManager().findFragmentById(R.id.autocomplete_fragment);
+        selectedCityText = binding.currentSelectedCity;
+        manualCitySwitch = binding.CitySwitch;
+        manualCityText = binding.manualCityText;
+
+        autocompleteFragment.getView().setVisibility(View.GONE);
+        selectedCityText.setVisibility(View.GONE);
+        manualCitySwitch.setVisibility(View.GONE);
+        manualCityText.setVisibility(View.GONE);
+
+        cardView = binding.cardView;
+        //cardView.setRadius(100);
+        //cardView.setBackgroundColor(66000000);
+        //cardView.setCardBackgroundColor(66000000);
+        //cardView.setback
+        //cardView.setRadius(2);
+        manualCitySwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    autocompleteFragment.getView().setVisibility(View.VISIBLE);
+                    selectedCityText.setVisibility(View.VISIBLE);
+                    cityName = null;
+                    selectedCityText.setText("Current Selected City: ");
+                    Log.d("DEBUG", "HOME FRAGMENT: Manual Location On");
+                    manual = true;
+                } else {
+                    autocompleteFragment.getView().setVisibility(View.GONE);
+                    selectedCityText.setVisibility(View.GONE);
+                    Log.d("DEBUG", "SETTINGS FRAGMENT: Manual Off");
+                    manual = false;
+                    locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+                    String regularURL = BASE_URL + "?lat=" + latitude + "&lon=" + longitude + "&appid=" + API_KEY;
+                    String hourlyURL = ONE_CALL_API_URL + "/onecall?lat=" + latitude + "&lon=" + longitude + "&exclude=" + EXCLUDE + "&units=" + UNITS + "&appid=" + API_KEY;
+                    //ADDED
+                    getWeatherData(regularURL);
+                    getHourlyForecastData(hourlyURL);
+
+                }
+            }
+        });
+        if (autocompleteFragment != null) {
+            autocompleteFragment.setPlaceFields(Arrays.asList(Place.Field.LAT_LNG, Place.Field.ADDRESS, Place.Field.ADDRESS_COMPONENTS));
+            autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
+                @Override
+                public void onPlaceSelected(@NonNull Place place) {
+                    //Log.d("DEBUG", "SETTINGS FRAGMENT: PLACE: " + place.getLatLng().latitude);
+                    AddressComponents addressComponents = place.getAddressComponents();
+
+                    String regularURL = BASE_URL + "?lat=" + place.getLatLng().latitude + "&lon=" + place.getLatLng().longitude + "&appid=" + API_KEY;
+                    String hourlyURL = ONE_CALL_API_URL + "/onecall?lat=" + place.getLatLng().latitude + "&lon=" + place.getLatLng().longitude + "&exclude=" + EXCLUDE + "&units=" + UNITS + "&appid=" + API_KEY;
+                    getWeatherData(regularURL);
+                    getHourlyForecastData(hourlyURL);
+
+                    cityName = null;
+                    if (addressComponents != null) {
+                        for (AddressComponent component : addressComponents.asList()) {
+                            List<String> types = component.getTypes();
+                            if (types.contains("locality")) {
+                                cityName = component.getName();
+                                selectedCityText.setText("Current Selected City: " + component.getName());
+                                break;
+                            }
+                        }
+                    }
+                }
+
+                @Override
+                public void onError(@NonNull Status status) {
+                    // Handle error
+                }
+            });
+        } else {
+            Log.d("DEBUG", "AutocompleteSupportFragment not found");
+        }
         /*
         // START --- MANUAL LOCATION ---
         binding.getWeatherButton.setOnClickListener(new View.OnClickListener() {
@@ -183,62 +275,57 @@ public class HomeFragment extends Fragment {
         SQLiteDatabase db1 = dbManager.getReadableDatabase();
         // END --- SETUP DATABASE ---
 
+        //autocompleteFragment.getView().setVisibility(View.GONE);
+        //selectedCityText.setVisibility(View.GONE);
+        //manualCitySwitch.setVisibility(View.GONE);
+        //manualCityText.setVisibility(View.GONE);
+
         // START --- SETUP LOCATION ---
-        if(!manual) {
-            locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
-            requestPermissionLauncher = registerForActivityResult(new ActivityResultContracts.RequestMultiplePermissions(), result -> {
-                boolean allPermissionsGranted = true;
-                for (Map.Entry<String, Boolean> entry : result.entrySet()) {
-                    if (!entry.getValue()) {
-                        allPermissionsGranted = false;
-                        break;
-                    }
+        locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+        requestPermissionLauncher = registerForActivityResult(new ActivityResultContracts.RequestMultiplePermissions(), result -> {
+            boolean allPermissionsGranted = true;
+            for (Map.Entry<String, Boolean> entry : result.entrySet()) {
+                if (!entry.getValue()) {
+                    allPermissionsGranted = false;
+                    break;
                 }
-                if (allPermissionsGranted) {
-                    getLocation();
-                } else {
-                    Toast.makeText(getActivity(), "Location permission is required for this app", Toast.LENGTH_SHORT).show();
-                }
-            });
-            if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION)
-                    != PackageManager.PERMISSION_GRANTED) {
-                requestPermissionLauncher.launch(new String[]{Manifest.permission.ACCESS_FINE_LOCATION});
-            } else {
-                getLocation();
             }
-            locationListener = new LocationListener() {
-                @Override
-                public void onLocationChanged(Location location) {
-                    locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
-                    //ADDED
-                    String latitude = String.valueOf(location.getLatitude());
-                    String longitude = String.valueOf(location.getLongitude());
-                    //Create the URL for the weather data
-                    String regularURL = BASE_URL + "?lat=" + latitude + "&lon=" + longitude + "&appid=" + API_KEY;
-                    String hourlyURL = ONE_CALL_API_URL + "/onecall?lat=" + latitude + "&lon=" + longitude + "&exclude=" + EXCLUDE + "&units=" + UNITS + "&appid=" + API_KEY;
-                    //ADDED
-                    getWeatherData(regularURL);
-                    getHourlyForecastData(hourlyURL);
-                }
-
-                @Override
-                public void onStatusChanged(String provider, int status, Bundle extras) { /*Nothing*/ }
-
-                @Override
-                public void onProviderEnabled(String provider) { /*Nothing*/ }
-
-                @Override
-                public void onProviderDisabled(String provider) { /*Nothing*/ }
-            };
-            // END --- SETUP LOCATION ---
+            if (allPermissionsGranted) {
+                getLocation();
+            } else {
+                Toast.makeText(getActivity(), "Location permission is required for this app", Toast.LENGTH_SHORT).show();
+            }
+        });
+        if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
+            requestPermissionLauncher.launch(new String[]{Manifest.permission.ACCESS_FINE_LOCATION});
         } else {
-            List<Double> latLngList = GlobalData.getInstance().getLatLong();
-            String regularURL = BASE_URL + "?lat=" + latLngList.get(0) + "&lon=" + latLngList.get(1) + "&appid=" + API_KEY;
-            String hourlyURL = ONE_CALL_API_URL + "/onecall?lat=" + latLngList.get(0) + "&lon=" + latLngList.get(1) + "&exclude=" + EXCLUDE + "&units=" + UNITS + "&appid=" + API_KEY;
-            getWeatherData(regularURL);
-            getHourlyForecastData(hourlyURL);
+            getLocation();
         }
+        locationListener = new LocationListener() {
+            @Override
+            public void onLocationChanged(Location location) {
+                locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+                //ADDED
+                latitude = String.valueOf(location.getLatitude());
+                longitude = String.valueOf(location.getLongitude());
+                //Create the URL for the weather data
+                String regularURL = BASE_URL + "?lat=" + latitude + "&lon=" + longitude + "&appid=" + API_KEY;
+                String hourlyURL = ONE_CALL_API_URL + "/onecall?lat=" + latitude + "&lon=" + longitude + "&exclude=" + EXCLUDE + "&units=" + UNITS + "&appid=" + API_KEY;
+                //ADDED
+                getWeatherData(regularURL);
+                getHourlyForecastData(hourlyURL);
+            }
 
+            @Override
+            public void onStatusChanged(String provider, int status, Bundle extras) { /*Nothing*/ }
+
+            @Override
+            public void onProviderEnabled(String provider) { /*Nothing*/ }
+
+            @Override
+            public void onProviderDisabled(String provider) { /*Nothing*/ }
+        };
         return root;
     }
 
@@ -253,6 +340,17 @@ public class HomeFragment extends Fragment {
     //https://openweathermap.org/weather-conditions <-- List of conditions
     //SNOW, RAIN, DRIZZLE, THUNDERSTORM, CLEAR, CLOUDS <-- Main conditions
     private void getWeatherData(String url) { //Location location
+
+        autocompleteFragment = (AutocompleteSupportFragment) getChildFragmentManager().findFragmentById(R.id.autocomplete_fragment);
+        selectedCityText = binding.currentSelectedCity;
+        manualCitySwitch = binding.CitySwitch;
+        manualCityText = binding.manualCityText;
+
+        //autocompleteFragment.getView().setVisibility(View.GONE);
+        //selectedCityText.setVisibility(View.GONE);
+        manualCitySwitch.setVisibility(View.GONE);
+        manualCityText.setVisibility(View.GONE);
+
         //Make nav bar invisible while weather data is being gathered
         bottomNavigationView = getActivity().findViewById(R.id.nav_view);
         bottomNavigationView.setVisibility(View.GONE);
@@ -268,9 +366,6 @@ public class HomeFragment extends Fragment {
                     public void onResponse(JSONObject response) {
                         try {
                             cityName = response.getString("name");
-                            if(!GlobalData.getInstance().getManualCity()){
-                                GlobalData.getInstance().setLocationGPS(cityName);
-                            }
                             JSONObject main = response.getJSONObject("main");
                             temperature = main.getDouble("temp");
                             feelsLike = main.getDouble("feels_like");
@@ -283,6 +378,8 @@ public class HomeFragment extends Fragment {
                             //TEMPS MATH
                             temperature = ((temperature - 273.15) * 9 / 5 + 32);
                             feelsLike = ((feelsLike - 273.15) * 9 / 5 + 32);
+                            GlobalData.getInstance().setLocationTemp(temperature);
+                            GlobalData.getInstance().setLocationCity(cityName);
                             if (!(GlobalData.getInstance().getFahrenheit())) {
                                 celsius = ((temperature - 32) * (0.55556));
                                 feelsLike = ((feelsLike - 32) * (0.55556));
@@ -304,6 +401,13 @@ public class HomeFragment extends Fragment {
                             binding.descriptionImage.setImageResource(getImageConditions(mainDescription));
                             bottomNavigationView = getActivity().findViewById(R.id.nav_view);
                             bottomNavigationView.setVisibility(View.VISIBLE);
+
+                            //autocompleteFragment.getView().setVisibility(View.VISIBLE);
+                            //selectedCityText.setVisibility(View.VISIBLE);
+                            manualCitySwitch.setVisibility(View.VISIBLE);
+                            manualCityText.setVisibility(View.VISIBLE);
+
+
                         } catch (JSONException e) { e.printStackTrace(); }
                     }
                 }, new Response.ErrorListener() {
@@ -311,6 +415,11 @@ public class HomeFragment extends Fragment {
             public void onErrorResponse(VolleyError error) {
                 bottomNavigationView = getActivity().findViewById(R.id.nav_view);
                 bottomNavigationView.setVisibility(View.VISIBLE);
+                //autocompleteFragment.getView().setVisibility(View.VISIBLE);
+                //selectedCityText.setVisibility(View.VISIBLE);
+                manualCitySwitch.setVisibility(View.VISIBLE);
+                manualCityText.setVisibility(View.VISIBLE);
+
                 Toast.makeText(getActivity(), "Error retrieving weather data", Toast.LENGTH_SHORT).show();
                 error.printStackTrace();
             }
@@ -405,12 +514,10 @@ public class HomeFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        if(!GlobalData.getInstance().getManualCity()) {
-            locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
-            if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION)
-                    == PackageManager.PERMISSION_GRANTED) {
-                getLocation();
-            }
+        locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+        if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION)
+                == PackageManager.PERMISSION_GRANTED) {
+            getLocation();
         }
     }
 

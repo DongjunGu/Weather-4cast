@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -15,8 +16,11 @@ import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.mobileapp.a4cast.GlobalData;
 import com.mobileapp.a4cast.R;
 import com.mobileapp.a4cast.databinding.FragmentRecommendationBinding;
+
+import java.util.Locale;
 
 
 public class RecommendationFragment extends Fragment {
@@ -32,6 +36,19 @@ public class RecommendationFragment extends Fragment {
         ImageButton clothesButton = binding.outfitButton;
         ImageButton foodButton = binding.foodButton;
         ImageButton activityButton = binding.activityButton;
+
+        TextView cityText = binding.todayText;
+        TextView cityTempText = binding.todayTempText;
+
+        cityText.setText(GlobalData.getInstance().getLocationCity());
+
+
+        if(!GlobalData.getInstance().getFahrenheit()) {
+            double cel = (GlobalData.getInstance().getLocationTemp() - 32) * (0.55556);
+            cityTempText.setText(String.format(Locale.getDefault(), "%.0f°C", cel));
+        } else {
+            cityTempText.setText(String.format(Locale.getDefault(), "%.0f°F", GlobalData.getInstance().getLocationTemp()));
+        }
 
 
         clothesButton.setOnClickListener(new View.OnClickListener() {
