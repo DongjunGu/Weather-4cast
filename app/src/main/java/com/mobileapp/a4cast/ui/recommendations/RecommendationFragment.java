@@ -32,6 +32,7 @@ public class RecommendationFragment extends Fragment {
         RecommendationViewModel recommendationViewModel = new ViewModelProvider(this).get(RecommendationViewModel.class);
         binding = FragmentRecommendationBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
+        double currentTemp = GlobalData.getInstance().getLocationTemp();
 
         ImageButton clothesButton = binding.outfitButton;
         ImageButton foodButton = binding.foodButton;
