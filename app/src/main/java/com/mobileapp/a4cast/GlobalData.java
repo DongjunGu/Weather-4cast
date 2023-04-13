@@ -6,13 +6,13 @@ import java.util.List;
 
 public class GlobalData {
     private static GlobalData instance = null;
-    private boolean fahrenheit = true;
+    private boolean fahrenheit = true, manualSwitch = false;
     private int personalTemp = 0;
     private double currentTemp, locationTemp;
     private String currentConditions, locationCity;
     private List<DatabaseItem> conditions;
     private List<DatabaseItem> temps;
-    private List<Double> latLong;
+    private List<String> manualURLs;
 
     private GlobalData() {
         // private constructor
@@ -31,7 +31,6 @@ public class GlobalData {
 
     public void setFahrenheit(boolean fOrC) { //True is Fahrenheit || False is Celsius
         this.fahrenheit = fOrC;
-        Log.d("DEBUG", "GLOBAL DATA FRAGMENT: Temp Unit Data Saved");
     }
     //-----------------FAHRENHEIT-------------------
 
@@ -42,7 +41,6 @@ public class GlobalData {
 
     public void setPersonalTemp(int temp) { //True is Fahrenheit || False is Celsius
         this.personalTemp = temp;
-        Log.d("DEBUG", "GLOBAL DATA FRAGMENT: Temp Unit Data Saved");
     }
     //-----------------PERSONALTEMP-------------------
 
@@ -53,7 +51,6 @@ public class GlobalData {
 
     public void setCurrentTemp(double temp) { //True is Fahrenheit || False is Celsius
         this.currentTemp = temp;
-        Log.d("DEBUG", "GLOBAL DATA FRAGMENT: Current Temp Unit Data Saved");
     }
     //-----------------CURRENTTEMP-------------------
 
@@ -64,7 +61,6 @@ public class GlobalData {
 
     public void setCurrentConditions(String conditions) {
         this.currentConditions = conditions;
-        Log.d("DEBUG", "GLOBAL DATA FRAGMENT: Current Conditions Unit Data Saved");
     }
     //-----------------CURRENTCONDITIONS-------------------
 
@@ -78,7 +74,6 @@ public class GlobalData {
 
     public void setConditions(List<DatabaseItem> conditions) {
         this.conditions = conditions;
-        Log.d("DEBUG", "GLOBAL DATA FRAGMENT: Conditions Data Saved");
     }
     //-----------------CONDITONSLIST-------------------
 
@@ -92,21 +87,16 @@ public class GlobalData {
 
     public void setTemps(List<DatabaseItem> temps) {
         this.temps = temps;
-        Log.d("DEBUG", "GLOBAL DATA FRAGMENT: Temperature Data Saved");
     }
     //-----------------TEMPSLIST-------------------
 
     //-----------------MANUALCITY-------------------
-    public List<Double> getLatLong() {
-        if (latLong == null) {
-            latLong = new ArrayList<>();
-        }
-        return latLong;
+    public boolean getManualSwitch() {
+        return manualSwitch;
     }
 
-    public void setLatLong(List<Double> latLong) {
-        this.latLong = latLong;
-        Log.d("DEBUG", "GLOBAL DATA FRAGMENT: LatLong Data Saved");
+    public void setManualSwitch(boolean manualSwitch) {
+        this.manualSwitch = manualSwitch;
     }
 
     public String getLocationCity() {
@@ -115,7 +105,6 @@ public class GlobalData {
 
     public void setLocationCity(String locationCity) {
         this.locationCity = locationCity;
-        Log.d("DEBUG", "GLOBAL DATA FRAGMENT: ManualCity Data Saved");
     }
 
     public double getLocationTemp() {
@@ -124,7 +113,15 @@ public class GlobalData {
 
     public void setLocationTemp(double locationTemp) {
         this.locationTemp = locationTemp;
-        Log.d("DEBUG", "GLOBAL DATA FRAGMENT: ManualCity Data Saved");
+    }
+
+    public List<String> getManualURsL() {
+        return manualURLs;
+    }
+
+    public void setManualURLs(List<String> manualURLs) {
+        Log.d("DEBUG", "URLS SET");
+        this.manualURLs = manualURLs;
     }
     //-----------------MANUALCITY-------------------
 }

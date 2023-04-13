@@ -133,6 +133,7 @@ public class HomeFragment extends Fragment {
                     autocompleteFragment.getView().setVisibility(View.VISIBLE);
                     selectedCityText.setVisibility(View.VISIBLE);
                     cityName = null;
+                    GlobalData.getInstance().setManualSwitch(true);
                     selectedCityText.setText("Current Selected City: ");
                     Log.d("DEBUG", "HOME FRAGMENT: Manual Location On");
                     manual = true;
@@ -141,6 +142,7 @@ public class HomeFragment extends Fragment {
                     selectedCityText.setVisibility(View.GONE);
                     Log.d("DEBUG", "SETTINGS FRAGMENT: Manual Off");
                     manual = false;
+                    GlobalData.getInstance().setManualSwitch(false);
                     locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
                     String regularURL = BASE_URL + "?lat=" + latitude + "&lon=" + longitude + "&appid=" + API_KEY;
                     String hourlyURL = ONE_CALL_API_URL + "/onecall?lat=" + latitude + "&lon=" + longitude + "&exclude=" + EXCLUDE + "&units=" + UNITS + "&appid=" + API_KEY;
@@ -163,6 +165,10 @@ public class HomeFragment extends Fragment {
                     String hourlyURL = ONE_CALL_API_URL + "/onecall?lat=" + place.getLatLng().latitude + "&lon=" + place.getLatLng().longitude + "&exclude=" + EXCLUDE + "&units=" + UNITS + "&appid=" + API_KEY;
                     getWeatherData(regularURL);
                     getHourlyForecastData(hourlyURL);
+                    List<String> urls = new ArrayList<String>();
+                    urls.add(regularURL);
+                    urls.add(hourlyURL);
+                    GlobalData.getInstance().setManualURLs(urls);
 
                     cityName = null;
                     if (addressComponents != null) {
@@ -281,57 +287,68 @@ public class HomeFragment extends Fragment {
         //manualCityText.setVisibility(View.GONE);
 
         // START --- SETUP LOCATION ---
-        locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
-        requestPermissionLauncher = registerForActivityResult(new ActivityResultContracts.RequestMultiplePermissions(), result -> {
-            boolean allPermissionsGranted = true;
-            for (Map.Entry<String, Boolean> entry : result.entrySet()) {
-                if (!entry.getValue()) {
-                    allPermissionsGranted = false;
-                    break;
+        if(!GlobalData.getInstance().getManualSwitch()) {
+            locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+            requestPermissionLauncher = registerForActivityResult(new ActivityResultContracts.RequestMultiplePermissions(), result -> {
+                boolean allPermissionsGranted = true;
+                for (Map.Entry<String, Boolean> entry : result.entrySet()) {
+                    if (!entry.getValue()) {
+                        allPermissionsGranted = false;
+                        break;
+                    }
                 }
-            }
-            if (allPermissionsGranted) {
-                getLocation();
+                if (allPermissionsGranted) {
+                    getLocation();
+                } else {
+                    Toast.makeText(getActivity(), "Location permission is required for this app", Toast.LENGTH_SHORT).show();
+                }
+            });
+            if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION)
+                    != PackageManager.PERMISSION_GRANTED) {
+                requestPermissionLauncher.launch(new String[]{Manifest.permission.ACCESS_FINE_LOCATION});
             } else {
-                Toast.makeText(getActivity(), "Location permission is required for this app", Toast.LENGTH_SHORT).show();
+                getLocation();
             }
-        });
-        if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED) {
-            requestPermissionLauncher.launch(new String[]{Manifest.permission.ACCESS_FINE_LOCATION});
+            locationListener = new LocationListener() {
+                @Override
+                public void onLocationChanged(Location location) {
+                    if(!GlobalData.getInstance().getManualSwitch()) {
+                        locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+                        //ADDED
+                        latitude = String.valueOf(location.getLatitude());
+                        longitude = String.valueOf(location.getLongitude());
+                        //Create the URL for the weather data
+                        String regularURL = BASE_URL + "?lat=" + latitude + "&lon=" + longitude + "&appid=" + API_KEY;
+                        String hourlyURL = ONE_CALL_API_URL + "/onecall?lat=" + latitude + "&lon=" + longitude + "&exclude=" + EXCLUDE + "&units=" + UNITS + "&appid=" + API_KEY;
+                        //ADDED
+                        getWeatherData(regularURL);
+                        getHourlyForecastData(hourlyURL);
+                    }
+                }
+
+                @Override
+                public void onStatusChanged(String provider, int status, Bundle extras) { /*Nothing*/ }
+
+                @Override
+                public void onProviderEnabled(String provider) { /*Nothing*/ }
+
+                @Override
+                public void onProviderDisabled(String provider) { /*Nothing*/ }
+            };
         } else {
-            getLocation();
+            List<String> urls = GlobalData.getInstance().getManualURsL();
+            getWeatherData(urls.get(0));
+            getHourlyForecastData(urls.get(1));
+            selectedCityText.setText("Current Selected City: " + GlobalData.getInstance().getLocationCity());
         }
-        locationListener = new LocationListener() {
-            @Override
-            public void onLocationChanged(Location location) {
-                locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
-                //ADDED
-                latitude = String.valueOf(location.getLatitude());
-                longitude = String.valueOf(location.getLongitude());
-                //Create the URL for the weather data
-                String regularURL = BASE_URL + "?lat=" + latitude + "&lon=" + longitude + "&appid=" + API_KEY;
-                String hourlyURL = ONE_CALL_API_URL + "/onecall?lat=" + latitude + "&lon=" + longitude + "&exclude=" + EXCLUDE + "&units=" + UNITS + "&appid=" + API_KEY;
-                //ADDED
-                getWeatherData(regularURL);
-                getHourlyForecastData(hourlyURL);
-            }
-
-            @Override
-            public void onStatusChanged(String provider, int status, Bundle extras) { /*Nothing*/ }
-
-            @Override
-            public void onProviderEnabled(String provider) { /*Nothing*/ }
-
-            @Override
-            public void onProviderDisabled(String provider) { /*Nothing*/ }
-        };
         return root;
     }
 
     private void getLocation() {
         if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             try { locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 10, locationListener);
+                bottomNavigationView = getActivity().findViewById(R.id.nav_view);
+                bottomNavigationView.setVisibility(View.GONE);
             } catch (Exception e) { Log.d("DEBUG", "EXCEPTION: " + e); }
         }
     }
@@ -346,20 +363,13 @@ public class HomeFragment extends Fragment {
         manualCitySwitch = binding.CitySwitch;
         manualCityText = binding.manualCityText;
 
-        //autocompleteFragment.getView().setVisibility(View.GONE);
-        //selectedCityText.setVisibility(View.GONE);
         manualCitySwitch.setVisibility(View.GONE);
         manualCityText.setVisibility(View.GONE);
 
         //Make nav bar invisible while weather data is being gathered
         bottomNavigationView = getActivity().findViewById(R.id.nav_view);
         bottomNavigationView.setVisibility(View.GONE);
-        //Get the long and lat of the location
-        //String latitude = String.valueOf(location.getLatitude());
-        //String longitude = String.valueOf(location.getLongitude());
-        //Create the URL for the weather data
-        //String url = BASE_URL + "?lat=" + latitude + "&lon=" + longitude + "&appid=" + API_KEY;
-        //Request weather data
+
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null,
                 new Response.Listener<JSONObject>() {
                     @Override
@@ -431,9 +441,6 @@ public class HomeFragment extends Fragment {
 
     //START --- HOURLY FORECAST ---
     private void getHourlyForecastData(String url) {
-        //String latitude = String.valueOf(location.getLatitude());
-        //String longitude = String.valueOf(location.getLongitude());
-        //String url = ONE_CALL_API_URL + "/onecall?lat=" + latitude + "&lon=" + longitude + "&exclude=" + EXCLUDE + "&units=" + UNITS + "&appid=" + API_KEY;
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null,
                 new Response.Listener<JSONObject>() {
                     @Override
