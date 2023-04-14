@@ -114,85 +114,85 @@ public class ActivityFragment extends Fragment { // ACTIVITY
             switch (dbItem.getName()) {
                 case "LEGGINGS":
                     //displayList.add(new ModelClass(R.drawable.IMAGE, "MAIN_TEXT", dbItem.getLink())); <------
-                    displayList.add(new ModelClass(R.drawable.leggings, "Leggings", dbItem.getLink()));
+                    displayList.add(new ModelClass(R.drawable.leggings, "Leggings", dbItem.getLink(),dbItem.getRecipe()));
                     break;
                 case "EARMUFFS":
-                    displayList.add(new ModelClass(R.drawable.earmuffs, "Earmuffs", dbItem.getLink()));
+                    displayList.add(new ModelClass(R.drawable.earmuffs, "Earmuffs", dbItem.getLink(),dbItem.getRecipe()));
                     break;
                 case "GLOVES":
-                    displayList.add(new ModelClass(R.drawable.gloves, "Gloves", dbItem.getLink()));
+                    displayList.add(new ModelClass(R.drawable.gloves, "Gloves", dbItem.getLink(),dbItem.getRecipe()));
                     break;
                 case "WOOLEN HAT":
-                    displayList.add(new ModelClass(R.drawable.woolenhat, "Woolen Hat", dbItem.getLink()));
+                    displayList.add(new ModelClass(R.drawable.woolenhat, "Woolen Hat", dbItem.getLink(),dbItem.getRecipe()));
                     break;
                 case "SWEATER":
-                    displayList.add(new ModelClass(R.drawable.sweater, "Sweater", dbItem.getLink()));
+                    displayList.add(new ModelClass(R.drawable.sweater, "Sweater", dbItem.getLink(),dbItem.getRecipe()));
                     break;
                 case "PADDED JACKET":
-                    displayList.add(new ModelClass(R.drawable.paddedjacket, "Padded Jacket", dbItem.getLink()));
+                    displayList.add(new ModelClass(R.drawable.paddedjacket, "Padded Jacket", dbItem.getLink(),dbItem.getRecipe()));
                     break;
                 case "FLEECE-LINED PANTS":
-                    displayList.add(new ModelClass(R.drawable.fleecelinedpants, "Fleece-lined Pants", dbItem.getLink()));
+                    displayList.add(new ModelClass(R.drawable.fleecelinedpants, "Fleece-lined Pants", dbItem.getLink(),dbItem.getRecipe()));
                     break;
                 case "LONG UNDERWEAR":
-                    displayList.add(new ModelClass(R.drawable.longunderwear, "Long Underwear", dbItem.getLink()));
+                    displayList.add(new ModelClass(R.drawable.longunderwear, "Long Underwear", dbItem.getLink(),dbItem.getRecipe()));
                     break;
                 case "COAT":
-                    displayList.add(new ModelClass(R.drawable.coat, "Coat", dbItem.getLink()));
+                    displayList.add(new ModelClass(R.drawable.coat, "Coat", dbItem.getLink(),dbItem.getRecipe()));
                     break;
                 case "BOOTS":
-                    displayList.add(new ModelClass(R.drawable.boots, "Boots", dbItem.getLink()));
+                    displayList.add(new ModelClass(R.drawable.boots, "Boots", dbItem.getLink(),dbItem.getRecipe()));
                     break;
                 case "JEANS":
-                    displayList.add(new ModelClass(R.drawable.jeans, "Jeans", dbItem.getLink()));
+                    displayList.add(new ModelClass(R.drawable.jeans, "Jeans", dbItem.getLink(),dbItem.getRecipe()));
                     break;
                 case "TRENCH COAT":
-                    displayList.add(new ModelClass(R.drawable.trenchcoat, "Trench Coat", dbItem.getLink()));
+                    displayList.add(new ModelClass(R.drawable.trenchcoat, "Trench Coat", dbItem.getLink(),dbItem.getRecipe()));
                     break;
                 case "HOOD T-SHIRT":
-                    displayList.add(new ModelClass(R.drawable.hoodtshirt, "Hood T-Shirt", dbItem.getLink()));
+                    displayList.add(new ModelClass(R.drawable.hoodtshirt, "Hood T-Shirt", dbItem.getLink(),dbItem.getRecipe()));
                     break;
                 case "SNEAKERS":
-                    displayList.add(new ModelClass(R.drawable.sneakers, "Sneakers", dbItem.getLink()));
+                    displayList.add(new ModelClass(R.drawable.sneakers, "Sneakers", dbItem.getLink(),dbItem.getRecipe()));
                     break;
                 case "LOAFERS":
-                    displayList.add(new ModelClass(R.drawable.loafers, "Loafer", dbItem.getLink()));
+                    displayList.add(new ModelClass(R.drawable.loafers, "Loafer", dbItem.getLink(),dbItem.getRecipe()));
                     break;
                 case "LEATHER JACKET":
-                    displayList.add(new ModelClass(R.drawable.leatherjacket, "Leather Jacket", dbItem.getLink()));
+                    displayList.add(new ModelClass(R.drawable.leatherjacket, "Leather Jacket", dbItem.getLink(),dbItem.getRecipe()));
                     break;
                 case "CHINO PANTS":
-                    displayList.add(new ModelClass(R.drawable.chinopants, "Chino Pants", dbItem.getLink()));
+                    displayList.add(new ModelClass(R.drawable.chinopants, "Chino Pants", dbItem.getLink(),dbItem.getRecipe()));
                     break;
                 case "T-SHIRTS":
-                    displayList.add(new ModelClass(R.drawable.tshirts, "T-Shirts", dbItem.getLink()));
+                    displayList.add(new ModelClass(R.drawable.tshirts, "T-Shirts", dbItem.getLink(),dbItem.getRecipe()));
                     break;
                 case "JACKET":
-                    displayList.add(new ModelClass(R.drawable.jacket, "Jacket", dbItem.getLink()));
+                    displayList.add(new ModelClass(R.drawable.jacket, "Jacket", dbItem.getLink(),dbItem.getRecipe()));
                     break;
                 case "CARDIGAN":
-                    displayList.add(new ModelClass(R.drawable.cardigan, "Cardigan", dbItem.getLink()));
+                    displayList.add(new ModelClass(R.drawable.cardigan, "Cardigan", dbItem.getLink(),dbItem.getRecipe()));
                     break;
                 case "DRESS SHIRTS":
-                    displayList.add(new ModelClass(R.drawable.dressshirts, "Dress Shirts", dbItem.getLink()));
+                    displayList.add(new ModelClass(R.drawable.dressshirts, "Dress Shirts", dbItem.getLink(),dbItem.getRecipe()));
                     break;
                 case "SUNGLASSES":
-                    displayList.add(new ModelClass(R.drawable.sunglasses, "Sunglasses", dbItem.getLink()));
+                    displayList.add(new ModelClass(R.drawable.sunglasses, "Sunglasses", dbItem.getLink(),dbItem.getRecipe()));
                     break;
                 case "SLEEVELESS":
-                    displayList.add(new ModelClass(R.drawable.sleeveless, "Sleeveless", dbItem.getLink()));
+                    displayList.add(new ModelClass(R.drawable.sleeveless, "Sleeveless", dbItem.getLink(),dbItem.getRecipe()));
                     break;
                 case "SHORTS":
-                    displayList.add(new ModelClass(R.drawable.shorts, "Shorts", dbItem.getLink()));
+                    displayList.add(new ModelClass(R.drawable.shorts, "Shorts", dbItem.getLink(),dbItem.getRecipe()));
                     break;
                 case "ONE PIECE":
-                    displayList.add(new ModelClass(R.drawable.onepiece, "One Piece", dbItem.getLink()));
+                    displayList.add(new ModelClass(R.drawable.onepiece, "One Piece", dbItem.getLink(),dbItem.getRecipe()));
                     break;
                 case "SANDAL":
-                    displayList.add(new ModelClass(R.drawable.sandal, "Sandals", dbItem.getLink()));
+                    displayList.add(new ModelClass(R.drawable.sandal, "Sandals", dbItem.getLink(),dbItem.getRecipe()));
                     break;
                 default:
-                    displayList.add(new ModelClass(R.drawable.sun, "DEFAULT", dbItem.getLink()));
+                    displayList.add(new ModelClass(R.drawable.sun, "DEFAULT", dbItem.getLink(),dbItem.getRecipe()));
                     break;
             }
         }

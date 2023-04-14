@@ -3,12 +3,13 @@ package com.mobileapp.a4cast;
 public class ModelClass {
 
     private int imageview1;
-    private String textview1, itemLink;
+    private String textview1, itemLink, itemRecipe;
 
-    public ModelClass(int imageview1, String textview1, String link){
+    public ModelClass(int imageview1, String textview1, String link, String recipe){
         this.imageview1=imageview1;
         this.textview1=textview1;
         this.itemLink=link;
+        this.itemRecipe=recipe;
     }
 
     public int getImageview1() {
@@ -20,7 +21,19 @@ public class ModelClass {
     }
 
     public String getItemLink() {
-        return itemLink;
+        if(itemLink == null) {
+            return "No Link";
+        } else {
+            return itemLink;
+        }
+    }
+
+    public String getItemRecipe() {
+        if(itemRecipe == null) {
+            return "No Recipe";
+        } else {
+            return itemRecipe;
+        }
     }
 
 
