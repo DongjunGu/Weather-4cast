@@ -47,17 +47,19 @@ public class RecyclerViewAdaptor extends RecyclerView.Adapter<RecyclerViewAdapto
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         //Get name and picture for all items
+        String link;
         int resource = userList.get(position).getImageview1();
         String name = userList.get(position).getTextview1();
 
         //Get extra data based on recyclerView
         switch (recommendSwitch) {
             case 1: //CLOTHES
-                String link = userList.get(position).getItemLink();
+                link = userList.get(position).getItemLink();
                 holder.setDataClothes(resource,name,link);
                 break;
             case 2: //ACTIVITY
-                holder.setDataActivity(resource,name);
+                link = userList.get(position).getItemLink();
+                holder.setDataActivity(resource,name,link);
                 break;
             case 3: //FOOD
                 String recipe = userList.get(position).getItemRecipe(); //getItemRecipe in ModelClass.java
@@ -114,15 +116,15 @@ public class RecyclerViewAdaptor extends RecyclerView.Adapter<RecyclerViewAdapto
             textView.setText(name);
             itemLink = link;
         }
-        public void setDataActivity(int resource, String name) {
+        public void setDataActivity(int resource, String name, String link) {
             imageView.setImageResource(resource);
             textView.setText(name);
-
+            itemLink = link;
+            Log.d("DEBUG", "TEST RECYCLER:" + link + " | " + name);
         }
         public void setDataFood(int resource, String name, String recipe) {
             imageView.setImageResource(resource);
             textView.setText(name);
-            Log.d("DEBUG", "TEST RECYCLER:" + recipe + " | " + name);
             try {
                 testView.setText(recipe);
             } catch (Exception e) {
