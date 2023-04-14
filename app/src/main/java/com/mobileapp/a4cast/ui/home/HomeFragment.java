@@ -513,7 +513,21 @@ public class HomeFragment extends Fragment {
             case "Snow":
                 return R.drawable.snow;
             case "Mist":
+            case "Haze":
+            case "Fog":
                 return R.drawable.mist;
+            case "Smoke":
+                return R.drawable.sky;
+            case "Dust":
+                return R.drawable.dust;
+            case "Sand":
+                return R.drawable.sand;
+            case "Ash":
+                return R.drawable.ash;
+            case "Squall":
+                return R.drawable.squall;
+            case "Tornado":
+                return R.drawable.tornado;
         }
         return 0;
     }
