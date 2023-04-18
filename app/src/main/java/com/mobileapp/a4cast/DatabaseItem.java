@@ -9,12 +9,13 @@ public class DatabaseItem {
     private String conditions;
     private String link;
     private String recipe;
+    private String comment;
 
     public DatabaseItem() {
         // Empty constructor
     }
 
-    public DatabaseItem(int id, String type, String name, int minTemp, int maxTemp, String conditions, String link, String recipe) {
+    public DatabaseItem(int id, String type, String name, int minTemp, int maxTemp, String conditions, String link, String recipe, String comment) {
         this.id = id;
         this.type = type;
         this.name = name;
@@ -23,6 +24,7 @@ public class DatabaseItem {
         this.conditions = conditions;
         this.link = link;
         this.recipe = recipe;
+        this.comment = comment;
     }
 
     public int getId() {
@@ -89,6 +91,14 @@ public class DatabaseItem {
         this.recipe = recipe;
     }
 
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
+
     public String printItemInfo() {
         return "-------\n" +
                 "TYPE: " + this.getType() +
@@ -98,6 +108,7 @@ public class DatabaseItem {
                 "\nCONDITIONS: " + this.getConditions() +
                 "\nLINK: " + this.getLink() +
                 "\nRECIPE: " + this.getRecipe() +
+                "\nCOMMENT: " + this.getComment() +
                 "\n-------";
     }
 }

@@ -114,55 +114,55 @@ public class ActivityFragment extends Fragment { // ACTIVITY
             switch (dbItem.getName()) {
                 case "CAFE":
                     //displayList.add(new ModelClass(R.drawable.IMAGE, "MAIN_TEXT", dbItem.getLink())); <------
-                    displayList.add(new ModelClass(R.drawable.cafe, "Cafe", dbItem.getLink(),dbItem.getRecipe()));
+                    displayList.add(new ModelClass(R.drawable.cafe, "Cafe", dbItem.getLink(),dbItem.getRecipe(), dbItem.getComment()));
                     break;
                 case "SKI":
-                    displayList.add(new ModelClass(R.drawable.ski, "Ski", dbItem.getLink(),dbItem.getRecipe()));
+                    displayList.add(new ModelClass(R.drawable.ski, "Ski", dbItem.getLink(),dbItem.getRecipe(), dbItem.getComment()));
                     break;
                 case "ICE FISHING":
-                    displayList.add(new ModelClass(R.drawable.icefishing, "Ice Fishing", dbItem.getLink(),dbItem.getRecipe()));
+                    displayList.add(new ModelClass(R.drawable.icefishing, "Ice Fishing", dbItem.getLink(),dbItem.getRecipe(), dbItem.getComment()));
                     break;
                 case "ICE SKATE":
-                    displayList.add(new ModelClass(R.drawable.iceskate, "Ice Skating", dbItem.getLink(),dbItem.getRecipe()));
+                    displayList.add(new ModelClass(R.drawable.iceskate, "Ice Skating", dbItem.getLink(),dbItem.getRecipe(), dbItem.getComment()));
                     break;
                 case "MUSEUM":
-                    displayList.add(new ModelClass(R.drawable.museum, "Museum", dbItem.getLink(),dbItem.getRecipe()));
+                    displayList.add(new ModelClass(R.drawable.museum, "Museum", dbItem.getLink(),dbItem.getRecipe(), dbItem.getComment()));
                     break;
                 case "PLAY":
-                    displayList.add(new ModelClass(R.drawable.play, "Play", dbItem.getLink(),dbItem.getRecipe()));
+                    displayList.add(new ModelClass(R.drawable.play, "Play", dbItem.getLink(),dbItem.getRecipe(), dbItem.getComment()));
                     break;
                 case "BOWLING":
-                    displayList.add(new ModelClass(R.drawable.bowling, "Bowling", dbItem.getLink(),dbItem.getRecipe()));
+                    displayList.add(new ModelClass(R.drawable.bowling, "Bowling", dbItem.getLink(),dbItem.getRecipe(), dbItem.getComment()));
                     break;
                 case "MOVIE":
-                    displayList.add(new ModelClass(R.drawable.movie, "Movie", dbItem.getLink(),dbItem.getRecipe()));
+                    displayList.add(new ModelClass(R.drawable.movie, "Movie", dbItem.getLink(),dbItem.getRecipe(), dbItem.getComment()));
                     break;
                 case "HIKE":
-                    displayList.add(new ModelClass(R.drawable.hike, "Hike", dbItem.getLink(),dbItem.getRecipe()));
+                    displayList.add(new ModelClass(R.drawable.hike, "Hike", dbItem.getLink(),dbItem.getRecipe(), dbItem.getComment()));
                     break;
                 case "BIKE":
-                    displayList.add(new ModelClass(R.drawable.bike, "Bike", dbItem.getLink(),dbItem.getRecipe()));
+                    displayList.add(new ModelClass(R.drawable.bike, "Bike", dbItem.getLink(),dbItem.getRecipe(), dbItem.getComment()));
                     break;
                 case "AMUSEMENT PARK":
-                    displayList.add(new ModelClass(R.drawable.amusementpark, "Amusement Park", dbItem.getLink(),dbItem.getRecipe()));
+                    displayList.add(new ModelClass(R.drawable.amusementpark, "Amusement Park", dbItem.getLink(),dbItem.getRecipe(), dbItem.getComment()));
                     break;
                 case "PICNIC":
-                    displayList.add(new ModelClass(R.drawable.picnic, "Picnic", dbItem.getLink(),dbItem.getRecipe()));
+                    displayList.add(new ModelClass(R.drawable.picnic, "Picnic", dbItem.getLink(),dbItem.getRecipe(), dbItem.getComment()));
                     break;
                 case "BEACH":
-                    displayList.add(new ModelClass(R.drawable.beach, "Beach", dbItem.getLink(),dbItem.getRecipe()));
+                    displayList.add(new ModelClass(R.drawable.beach, "Beach", dbItem.getLink(),dbItem.getRecipe(), dbItem.getComment()));
                     break;
                 case "CONCERT":
-                    displayList.add(new ModelClass(R.drawable.concert, "Concert", dbItem.getLink(),dbItem.getRecipe()));
+                    displayList.add(new ModelClass(R.drawable.concert, "Concert", dbItem.getLink(),dbItem.getRecipe(), dbItem.getComment()));
                     break;
                 case "WATER PARK":
-                    displayList.add(new ModelClass(R.drawable.waterpark, "Water Park", dbItem.getLink(),dbItem.getRecipe()));
+                    displayList.add(new ModelClass(R.drawable.waterpark, "Water Park", dbItem.getLink(),dbItem.getRecipe(), dbItem.getComment()));
                     break;
                 case "WATER SPORTS":
-                    displayList.add(new ModelClass(R.drawable.watersports, "Water Sports", dbItem.getLink(),dbItem.getRecipe()));
+                    displayList.add(new ModelClass(R.drawable.watersports, "Water Sports", dbItem.getLink(),dbItem.getRecipe(), dbItem.getComment()));
                     break;
                 default:
-                    displayList.add(new ModelClass(R.drawable.sun, "DEFAULT", dbItem.getLink(),dbItem.getRecipe()));
+                    displayList.add(new ModelClass(R.drawable.sun, "DEFAULT", dbItem.getLink(),dbItem.getRecipe(), dbItem.getComment()));
                     break;
             }
         }

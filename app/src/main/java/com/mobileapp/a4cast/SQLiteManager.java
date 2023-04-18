@@ -174,6 +174,7 @@ public class SQLiteManager extends SQLiteOpenHelper {
                 item.setConditions(cursor.getString(4));
                 item.setLink(cursor.getString(5));
                 item.setRecipe(cursor.getString(6));
+                item.setComment(cursor.getString(7));
                 itemList.add(item);
             } while (cursor.moveToNext());
         }
@@ -199,6 +200,7 @@ public class SQLiteManager extends SQLiteOpenHelper {
                 item.setConditions(cursor.getString(4));
                 item.setLink(cursor.getString(5));
                 item.setRecipe(cursor.getString(6));
+                item.setComment(cursor.getString(7));
                 itemList.add(item);
             } while (cursor.moveToNext());
         }
@@ -223,6 +225,7 @@ public class SQLiteManager extends SQLiteOpenHelper {
                 item.setConditions(cursor.getString(4));
                 item.setLink(cursor.getString(5));
                 item.setRecipe(cursor.getString(6));
+                item.setComment(cursor.getString(7));
                 itemList.add(item);
             } while (cursor.moveToNext());
         }
@@ -249,6 +252,7 @@ public class SQLiteManager extends SQLiteOpenHelper {
                 item.setConditions(cursor.getString(4));
                 item.setLink(cursor.getString(5));
                 item.setRecipe(cursor.getString(6));
+                item.setComment(cursor.getString(7));
                 itemList.add(item);
             } while (cursor.moveToNext());
         }

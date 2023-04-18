@@ -114,70 +114,70 @@ public class FoodFragment extends Fragment { // FOOD
             DatabaseItem dbItem = foodList.get(i);
             switch (dbItem.getName()) {
                 case "POT ROAST":
-                    displayList.add(new ModelClass(R.drawable.pot_roast, "Pot Roast", dbItem.getLink(),dbItem.getRecipe()));
+                    displayList.add(new ModelClass(R.drawable.pot_roast, "Pot Roast", dbItem.getLink(),dbItem.getRecipe(), dbItem.getComment()));
                     break;
                 case "BEEF STEW":
-                    displayList.add(new ModelClass(R.drawable.beef_stew, "Beef Stew", dbItem.getLink(),dbItem.getRecipe()));
+                    displayList.add(new ModelClass(R.drawable.beef_stew, "Beef Stew", dbItem.getLink(),dbItem.getRecipe(), dbItem.getComment()));
                     break;
                 case "RAMEN":
-                    displayList.add(new ModelClass(R.drawable.ramen, "Ramen", dbItem.getLink(), dbItem.getRecipe()));
+                    displayList.add(new ModelClass(R.drawable.ramen, "Ramen", dbItem.getLink(), dbItem.getRecipe(), dbItem.getComment()));
                     break;
                 case "CRUMBLE":
-                    displayList.add(new ModelClass(R.drawable.crumble, "Crumble", dbItem.getLink(), dbItem.getRecipe()));
+                    displayList.add(new ModelClass(R.drawable.crumble, "Crumble", dbItem.getLink(), dbItem.getRecipe(), dbItem.getComment()));
                     break;
                 case "SUSHI":
-                    displayList.add(new ModelClass(R.drawable.sushi, "Sushi", dbItem.getLink(), dbItem.getRecipe()));
+                    displayList.add(new ModelClass(R.drawable.sushi, "Sushi", dbItem.getLink(), dbItem.getRecipe(), dbItem.getComment()));
                     break;
                 case "GRATIN":
-                    displayList.add(new ModelClass(R.drawable.gratin, "Gratin", dbItem.getLink(), dbItem.getRecipe()));
+                    displayList.add(new ModelClass(R.drawable.gratin, "Gratin", dbItem.getLink(), dbItem.getRecipe(), dbItem.getComment()));
                     break;
                 case "HOT TEA":
-                    displayList.add(new ModelClass(R.drawable.hot_tea, "Hot Tea", dbItem.getLink(), dbItem.getRecipe()));
+                    displayList.add(new ModelClass(R.drawable.hot_tea, "Hot Tea", dbItem.getLink(), dbItem.getRecipe(), dbItem.getComment()));
                     break;
                 case "CHINESE":
-                    displayList.add(new ModelClass(R.drawable.chinese, "Chinese", dbItem.getLink(),dbItem.getRecipe()));
+                    displayList.add(new ModelClass(R.drawable.chinese, "Chinese", dbItem.getLink(),dbItem.getRecipe(), dbItem.getComment()));
                     break;
                 case "PASTA":
-                    displayList.add(new ModelClass(R.drawable.pasta, "Pasta", dbItem.getLink(),dbItem.getRecipe()));
+                    displayList.add(new ModelClass(R.drawable.pasta, "Pasta", dbItem.getLink(),dbItem.getRecipe(), dbItem.getComment()));
                     break;
                 case "SALAD":
-                    displayList.add(new ModelClass(R.drawable.salad, "Salad", dbItem.getLink(),dbItem.getRecipe()));
+                    displayList.add(new ModelClass(R.drawable.salad, "Salad", dbItem.getLink(),dbItem.getRecipe(), dbItem.getComment()));
                     break;
                 case "POTATO FOOD":
-                    displayList.add(new ModelClass(R.drawable.potato, "Potato Food", dbItem.getLink(),dbItem.getRecipe()));
+                    displayList.add(new ModelClass(R.drawable.potato, "Potato Food", dbItem.getLink(),dbItem.getRecipe(), dbItem.getComment()));
                     break;
                 case "MEXICAN":
-                    displayList.add(new ModelClass(R.drawable.mexicans, "Mexican", dbItem.getLink(),dbItem.getRecipe()));
+                    displayList.add(new ModelClass(R.drawable.mexicans, "Mexican", dbItem.getLink(),dbItem.getRecipe(), dbItem.getComment()));
                     break;
                 case "CARROT CAKE":
-                    displayList.add(new ModelClass(R.drawable.carrot_cake, "Carrot Cake", dbItem.getLink(),dbItem.getRecipe()));
+                    displayList.add(new ModelClass(R.drawable.carrot_cake, "Carrot Cake", dbItem.getLink(),dbItem.getRecipe(), dbItem.getComment()));
                     break;
                 case "SALMON":
-                    displayList.add(new ModelClass(R.drawable.salmon, "Salmon", dbItem.getLink(),dbItem.getRecipe()));
+                    displayList.add(new ModelClass(R.drawable.salmon, "Salmon", dbItem.getLink(),dbItem.getRecipe(), dbItem.getComment()));
                     break;
                 case "LOBSTER":
-                    displayList.add(new ModelClass(R.drawable.lobster, "Lobster", dbItem.getLink(),dbItem.getRecipe()));
+                    displayList.add(new ModelClass(R.drawable.lobster, "Lobster", dbItem.getLink(),dbItem.getRecipe(), dbItem.getComment()));
                     break;
                 case "PIE":
-                    displayList.add(new ModelClass(R.drawable.pie, "Pie", dbItem.getLink(),dbItem.getRecipe()));
+                    displayList.add(new ModelClass(R.drawable.pie, "Pie", dbItem.getLink(),dbItem.getRecipe(), dbItem.getComment()));
                     break;
                 case "WATERMELON":
-                    displayList.add(new ModelClass(R.drawable.watermelon, "Watermelon", dbItem.getLink(),dbItem.getRecipe()));
+                    displayList.add(new ModelClass(R.drawable.watermelon, "Watermelon", dbItem.getLink(),dbItem.getRecipe(), dbItem.getComment()));
                     break;
                 case "GRILLED CHICKEN":
-                    displayList.add(new ModelClass(R.drawable.grilled_chicken, "Grilled Chicken", dbItem.getLink(),dbItem.getRecipe()));
+                    displayList.add(new ModelClass(R.drawable.grilled_chicken, "Grilled Chicken", dbItem.getLink(),dbItem.getRecipe(), dbItem.getComment()));
                     break;
                 case "BBQ":
-                    displayList.add(new ModelClass(R.drawable.bbq, "BBQ", dbItem.getLink(),dbItem.getRecipe()));
+                    displayList.add(new ModelClass(R.drawable.bbq, "BBQ", dbItem.getLink(),dbItem.getRecipe(), dbItem.getComment()));
                     break;
                 case "ICE CREAM":
-                    displayList.add(new ModelClass(R.drawable.icecream, "Ice cream", dbItem.getLink(),dbItem.getRecipe()));
+                    displayList.add(new ModelClass(R.drawable.icecream, "Ice cream", dbItem.getLink(),dbItem.getRecipe(), dbItem.getComment()));
                     break;
                 case "FISH TACO":
-                    displayList.add(new ModelClass(R.drawable.fish_taco, "Fish Taco", dbItem.getLink(),dbItem.getRecipe()));
+                    displayList.add(new ModelClass(R.drawable.fish_taco, "Fish Taco", dbItem.getLink(),dbItem.getRecipe(), dbItem.getComment()));
                     break;
                 case "FRUIT SALAD":
-                    displayList.add(new ModelClass(R.drawable.fruit_salad, "Fruit Salad", dbItem.getLink(),dbItem.getRecipe()));
+                    displayList.add(new ModelClass(R.drawable.fruit_salad, "Fruit Salad", dbItem.getLink(),dbItem.getRecipe(), dbItem.getComment()));
             }
         }
     }

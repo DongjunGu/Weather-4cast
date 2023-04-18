@@ -47,7 +47,7 @@ public class RecyclerViewAdaptor extends RecyclerView.Adapter<RecyclerViewAdapto
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         //Get name and picture for all items
-        String link;
+        String link, recipe, comment;
         int resource = userList.get(position).getImageview1();
         String name = userList.get(position).getTextview1();
 
@@ -59,10 +59,11 @@ public class RecyclerViewAdaptor extends RecyclerView.Adapter<RecyclerViewAdapto
                 break;
             case 2: //ACTIVITY
                 link = userList.get(position).getItemLink();
-                holder.setDataActivity(resource,name,link);
+                comment = userList.get(position).getItemComment();
+                holder.setDataActivity(resource,name,link,comment);
                 break;
             case 3: //FOOD
-                String recipe = userList.get(position).getItemRecipe(); //getItemRecipe in ModelClass.java
+                recipe = userList.get(position).getItemRecipe(); //getItemRecipe in ModelClass.java
                 holder.setDataFood(resource,name,recipe);
                 break;
         }
@@ -74,7 +75,7 @@ public class RecyclerViewAdaptor extends RecyclerView.Adapter<RecyclerViewAdapto
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        private TextView textView, testView;
+        private TextView nameTextView, itemRecipeText, itemCommentText;
         private ImageView imageView;
         private String itemLink;
 
@@ -83,7 +84,7 @@ public class RecyclerViewAdaptor extends RecyclerView.Adapter<RecyclerViewAdapto
 
             //All Views
             imageView = itemView.findViewById(R.id.itemImage);
-            textView= itemView.findViewById(R.id.itemNameTextView);
+            nameTextView= itemView.findViewById(R.id.itemNameTextView);
 
             /*
             This switch statement is here to initialize any UI elements that are unique to that recycler view
@@ -100,9 +101,10 @@ public class RecyclerViewAdaptor extends RecyclerView.Adapter<RecyclerViewAdapto
                             v.getContext().startActivity(intent);
                         }
                     });
+                    itemCommentText = itemView.findViewById(R.id.itemCommentTextView);
                     break;
                 case 3: //FOOD
-                    testView = itemView.findViewById(R.id.testTextView);
+                    itemRecipeText = itemView.findViewById(R.id.itemRecipeText);
                     break;
 
             }
@@ -113,20 +115,21 @@ public class RecyclerViewAdaptor extends RecyclerView.Adapter<RecyclerViewAdapto
          */
         public void setDataClothes(int resource, String name, String link) {
             imageView.setImageResource(resource);
-            textView.setText(name);
+            nameTextView.setText(name);
             itemLink = link;
         }
-        public void setDataActivity(int resource, String name, String link) {
+        public void setDataActivity(int resource, String name, String link, String comment) {
             imageView.setImageResource(resource);
-            textView.setText(name);
+            nameTextView.setText(name);
+            itemCommentText.setText(comment);
             itemLink = link;
-            Log.d("DEBUG", "TEST RECYCLER:" + link + " | " + name);
+            //Log.d("DEBUG", "TEST RECYCLER:" + link + " | " + name);
         }
         public void setDataFood(int resource, String name, String recipe) {
             imageView.setImageResource(resource);
-            textView.setText(name);
+            nameTextView.setText(name);
             try {
-                testView.setText(recipe);
+                itemRecipeText.setText(recipe);
             } catch (Exception e) {
                 Log.d("DEBUG", "EXCEPTION:" + e);
             }
