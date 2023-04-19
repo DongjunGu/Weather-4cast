@@ -18,7 +18,8 @@
         android:scaleType="centerCrop"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/outfit" />
+        app:srcCompat="@drawable/outfit"
+        />
 
     <ImageButton
         android:id="@+id/activityButton"
@@ -50,7 +51,6 @@
         android:layout_width="190dp"
         android:layout_height="210dp"
         android:layout_marginTop="20dp"
-        android:outlineProvider="none"
         app:cardBackgroundColor="@color/transparent_black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/outfitButton"

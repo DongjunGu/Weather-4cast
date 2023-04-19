@@ -1,5 +1,6 @@
 package com.mobileapp.a4cast.ui.recommendations;
 
+import android.media.Image;
 import android.os.Bundle;
 
 import android.util.Log;
@@ -16,10 +17,12 @@ import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.mobileapp.a4cast.DatabaseItem;
 import com.mobileapp.a4cast.GlobalData;
 import com.mobileapp.a4cast.R;
 import com.mobileapp.a4cast.databinding.FragmentRecommendationBinding;
 
+import java.util.List;
 import java.util.Locale;
 
 
@@ -34,9 +37,7 @@ public class RecommendationFragment extends Fragment {
         View root = binding.getRoot();
         double currentTemp = GlobalData.getInstance().getLocationTemp();
 
-        ImageButton clothesButton = binding.outfitButton;
-        ImageButton foodButton = binding.foodButton;
-        ImageButton activityButton = binding.activityButton;
+
 
         TextView cityText = binding.todayText;
         TextView cityTempText = binding.todayTempText;
@@ -52,7 +53,7 @@ public class RecommendationFragment extends Fragment {
         }
 
 
-        clothesButton.setOnClickListener(new View.OnClickListener() {
+        binding.outfitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Log.d("DEBUG", "RECOMMENDATION FRAGMENT: Clothes Button Pressed");
@@ -61,7 +62,7 @@ public class RecommendationFragment extends Fragment {
             }
         });
 
-        foodButton.setOnClickListener(new View.OnClickListener() {
+        binding.foodButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Log.d("DEBUG", "RECOMMENDATION FRAGMENT: Food Button Pressed");
@@ -70,7 +71,7 @@ public class RecommendationFragment extends Fragment {
             }
         });
 
-        activityButton.setOnClickListener(new View.OnClickListener() {
+        binding.activityButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Log.d("DEBUG", "RECOMMENDATION FRAGMENT: Activities Button Pressed");

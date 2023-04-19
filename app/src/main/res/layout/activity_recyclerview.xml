@@ -37,12 +37,12 @@
                 android:layout_gravity="center"
                 android:layout_marginTop="4dp"
                 android:layout_weight="1"
-                android:textStyle="bold"
                 android:text="Amusement Park"
                 android:textColor="@color/white"
                 android:textSize="27sp"
+                android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.05"
+                app:layout_constraintHorizontal_bias="0.022"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
