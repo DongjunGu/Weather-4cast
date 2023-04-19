@@ -113,6 +113,9 @@ public class FoodFragment extends Fragment { // FOOD
         for(int i = 0; i < foodList.size(); i++) {
             DatabaseItem dbItem = foodList.get(i);
             switch (dbItem.getName()) {
+                case "SOUP NOODLE":
+                    displayList.add(new ModelClass(R.drawable.soupnoodle, "Soup Noodle", dbItem.getLink(),dbItem.getRecipe(), dbItem.getComment()));
+                    break;
                 case "POT ROAST":
                     displayList.add(new ModelClass(R.drawable.pot_roast, "Pot Roast", dbItem.getLink(),dbItem.getRecipe(), dbItem.getComment()));
                     break;
