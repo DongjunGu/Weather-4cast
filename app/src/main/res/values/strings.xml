@@ -5,4 +5,24 @@
     <string name="title_Settings">Settings</string>
     <string name="loadingText">Loading…</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="switch_text">Change    °F   to   °C</string>
+    <string name="seekBar_text">How do you feel?</string>
+    <string name="seekBar_cold">More Cold?</string>
+    <string name="seekBar_hot">More Hot?</string>
+    <string name="seekBar_initial">+0℉</string>
+    <string name="activity_text">Activity</string>
+    <string name="activity_comment">Comment</string>
+    <string name="activity_nearby">Near By</string>
+    <string name="clothes_text">Clothes</string>
+    <string name="clothes_shop">shop</string>
+    <string name="food_recipe">Recipe</string>
+    <string name="food_text">Food</string>
+    <string name="back_button">BACK</string>
+    <string name="home_manual">Enter Manual Address?</string>
+    <string name="home_current_city">Current Selected City:</string>
+    <string name="home_feelsLike">FeelsLike:</string>
+    <string name="home_humidity">Humidity:</string>
+    <string name="home_description">Description:</string>
+    <string name="today_city">City:</string>
+    <string name="today_temp">Temp:</string>
 </resources>

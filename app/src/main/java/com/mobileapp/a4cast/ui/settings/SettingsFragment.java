@@ -115,9 +115,9 @@ public class SettingsFragment extends Fragment {
                 progress = progress - 20;
                 Log.d("DEBUG", "SETTING SEEKBAR: " + progress);
                 if(progress >= 0) {
-                    personalTempText.setText("+"+Integer.toString(progress));
+                    personalTempText.setText("+"+Integer.toString(progress)+"℉");
                 } else {
-                    personalTempText.setText(Integer.toString(progress));
+                    personalTempText.setText(Integer.toString(progress)+"℉");
                 }
 
                 GlobalData.getInstance().setPersonalTemp(progress);

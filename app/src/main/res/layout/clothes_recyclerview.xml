@@ -35,7 +35,7 @@
                 android:layout_gravity="center"
                 android:layout_marginStart="16dp"
                 android:layout_weight="1"
-                android:text="Black"
+                android:text="@string/clothes_text"
                 android:textSize="20sp"
                 android:textStyle="bold"
                 android:textColor="@color/white"
@@ -51,7 +51,7 @@
                 android:layout_marginEnd="8dp"
                 android:layout_weight="1"
                 android:backgroundTint="@color/transparent_black"
-                android:text="Shop"
+                android:text="@string/clothes_shop"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
