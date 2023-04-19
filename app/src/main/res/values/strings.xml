@@ -6,9 +6,9 @@
     <string name="loadingText">Loading…</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="switch_text">Change    °F   to   °C</string>
-    <string name="seekBar_text">How do you feel?</string>
-    <string name="seekBar_cold">More Cold?</string>
-    <string name="seekBar_hot">More Hot?</string>
+    <string name="seekBar_text">How do you normally feel?</string>
+    <string name="seekBar_cold">Colder?</string>
+    <string name="seekBar_hot">Hotter?</string>
     <string name="seekBar_initial">+0℉</string>
     <string name="activity_text">Activity</string>
     <string name="activity_comment">Comment</string>

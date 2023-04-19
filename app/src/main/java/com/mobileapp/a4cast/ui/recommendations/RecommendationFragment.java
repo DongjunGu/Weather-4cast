@@ -53,6 +53,7 @@ public class RecommendationFragment extends Fragment {
         }
 
 
+
         binding.outfitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

@@ -154,10 +154,10 @@ public class SettingsFragment extends Fragment {
     public void onDestroyView() {
         List<DatabaseItem> conditions;
         List<DatabaseItem> temps;
-        //conditions = dbManager.getItemsByConditions(GlobalData.getInstance().getCurrentConditions());
-        //temps = dbManager.getItemsByTemp((int) GlobalData.getInstance().getCurrentTemp() + GlobalData.getInstance().getPersonalTemp());
-        //GlobalData.getInstance().setConditions(conditions);
-        //GlobalData.getInstance().setTemps(temps);
+        conditions = dbManager.getItemsByConditions(GlobalData.getInstance().getCurrentConditions());
+        temps = dbManager.getItemsByTemp((int) GlobalData.getInstance().getCurrentTemp() + GlobalData.getInstance().getPersonalTemp());
+        GlobalData.getInstance().setConditions(conditions);
+        GlobalData.getInstance().setTemps(temps);
 
         super.onDestroyView();
         binding = null;
