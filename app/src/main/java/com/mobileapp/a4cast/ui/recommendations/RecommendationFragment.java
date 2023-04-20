@@ -52,7 +52,7 @@ public class RecommendationFragment extends Fragment {
             cityTempText.setText(String.format(Locale.getDefault(), "%.0f°F", GlobalData.getInstance().getLocationTemp()));
         }
         //Change image based on temperature
-        double temp = GlobalData.getInstance().getCurrentTemp();
+        double temp = GlobalData.getInstance().getCurrentTemp() + GlobalData.getInstance().getPersonalTemp();
         System.out.println(temp);
         if(temp < 11) {
             binding.outfitButton.setImageResource(R.drawable.outfits1);
