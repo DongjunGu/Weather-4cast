@@ -51,7 +51,42 @@ public class RecommendationFragment extends Fragment {
         } else {
             cityTempText.setText(String.format(Locale.getDefault(), "%.0f°F", GlobalData.getInstance().getLocationTemp()));
         }
-
+        //Change image based on temperature
+        double temp = GlobalData.getInstance().getCurrentTemp();
+        System.out.println(temp);
+        if(temp < 11) {
+            binding.outfitButton.setImageResource(R.drawable.outfits1);
+            binding.foodButton.setImageResource(R.drawable.food1);
+            binding.activityButton.setImageResource(R.drawable.activity1);
+        }else if(temp > 10 && temp < 24){
+            binding.outfitButton.setImageResource(R.drawable.outfits2);
+            binding.foodButton.setImageResource(R.drawable.food2);
+            binding.activityButton.setImageResource(R.drawable.activity2);
+        }else if(temp > 23 && temp < 33){
+            binding.outfitButton.setImageResource(R.drawable.outfits3);
+            binding.foodButton.setImageResource(R.drawable.food3);
+            binding.activityButton.setImageResource(R.drawable.activity3);
+        }else if(temp > 32 && temp < 42){
+            binding.outfitButton.setImageResource(R.drawable.outfits4);
+            binding.foodButton.setImageResource(R.drawable.food4);
+            binding.activityButton.setImageResource(R.drawable.activity4);
+        }else if(temp > 41 && temp < 51){
+            binding.outfitButton.setImageResource(R.drawable.outfits5);
+            binding.foodButton.setImageResource(R.drawable.food5);
+            binding.activityButton.setImageResource(R.drawable.activity5);
+        }else if(temp > 50 && temp < 60){
+            binding.outfitButton.setImageResource(R.drawable.outfits6);
+            binding.foodButton.setImageResource(R.drawable.food6);
+            binding.activityButton.setImageResource(R.drawable.activity6);
+        }else if(temp > 59 && temp < 69){
+            binding.outfitButton.setImageResource(R.drawable.outfits7);
+            binding.foodButton.setImageResource(R.drawable.food7);
+            binding.activityButton.setImageResource(R.drawable.activity7);
+        }else if(temp > 68){
+            binding.outfitButton.setImageResource(R.drawable.outfits7);
+            binding.foodButton.setImageResource(R.drawable.food8);
+            binding.activityButton.setImageResource(R.drawable.activity8);
+        }
 
 
         binding.outfitButton.setOnClickListener(new View.OnClickListener() {

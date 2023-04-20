@@ -14,7 +14,6 @@
         android:layout_marginStart="3dp"
         android:layout_marginTop="20dp"
         android:adjustViewBounds="true"
-        android:scaleType="centerCrop"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/outfit" />
@@ -28,6 +27,7 @@
         android:layout_marginEnd="3dp"
         android:src="@drawable/activity"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/foodButton"
         app:layout_constraintTop_toBottomOf="@+id/cardViewReco" />
 
     <ImageButton
@@ -37,7 +37,8 @@
         android:layout_height="210dp"
         android:layout_marginStart="3dp"
         android:layout_marginTop="5dp"
-        android:src="@drawable/food"
+        android:backgroundTint="@color/transparent_black"
+        android:src="@drawable/food1"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/outfitButton" />
 
@@ -47,26 +48,28 @@
         android:layout_height="210dp"
         android:layout_marginTop="20dp"
         android:layout_marginEnd="3dp"
-        app:cardBackgroundColor="@color/transparent_black"
+        app:cardBackgroundColor="@color/transparent"
         app:layout_constraintEnd_toEndOf="parent"
-
+        app:layout_constraintStart_toEndOf="@+id/outfitButton"
         app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:background="@drawable/today">
 
             <TextView
                 android:id="@+id/todayText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="68dp"
                 android:layout_marginEnd="16dp"
                 android:text="@string/today_city"
                 android:textColor="@color/white"
-                android:textSize="35sp"
+                android:textSize="25sp"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -77,11 +80,13 @@
                 android:layout_marginBottom="16dp"
                 android:text="@string/today_temp"
                 android:textColor="@color/white"
-                android:textSize="35sp"
+                android:textSize="25sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/todayText" />
+                app:layout_constraintTop_toBottomOf="@+id/todayText"
+                app:layout_constraintVertical_bias="0.5" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
