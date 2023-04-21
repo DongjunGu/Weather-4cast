@@ -11,12 +11,12 @@
         style="@style/Widget.AppCompat.Button.Borderless"
         android:layout_width="190dp"
         android:layout_height="400dp"
-        android:layout_marginStart="3dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="16dp"
         android:adjustViewBounds="true"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/outfit" />
+        app:srcCompat="@drawable/outfits1" />
 
     <ImageButton
         android:id="@+id/activityButton"
@@ -25,8 +25,9 @@
         android:layout_height="400dp"
         android:layout_marginTop="5dp"
         android:layout_marginEnd="3dp"
-        android:src="@drawable/activity"
+        android:src="@drawable/activity1"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.521"
         app:layout_constraintStart_toEndOf="@+id/foodButton"
         app:layout_constraintTop_toBottomOf="@+id/cardViewReco" />
 
@@ -35,7 +36,7 @@
         style="@style/Widget.AppCompat.Button.Borderless"
         android:layout_width="190dp"
         android:layout_height="210dp"
-        android:layout_marginStart="3dp"
+        android:layout_marginStart="10dp"
         android:layout_marginTop="5dp"
         android:backgroundTint="@color/transparent_black"
         android:src="@drawable/food1"
@@ -46,7 +47,7 @@
         android:id="@+id/cardViewReco"
         android:layout_width="190dp"
         android:layout_height="210dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="3dp"
         app:cardBackgroundColor="@color/transparent"
         app:layout_constraintEnd_toEndOf="parent"
