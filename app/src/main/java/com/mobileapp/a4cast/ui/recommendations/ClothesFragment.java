@@ -209,6 +209,15 @@ public class ClothesFragment extends Fragment { // CLOTHES
                 case "SANDAL":
                     displayList.add(new ModelClass(R.drawable.sandal, "Sandals", dbItem.getLink(),dbItem.getRecipe(), dbItem.getComment()));
                     break;
+                case "UMBRELLA":
+                    displayList.add(new ModelClass(R.drawable.umbrella, "Umbrella", dbItem.getLink(),dbItem.getRecipe(), dbItem.getComment()));
+                    break;
+                case "RAINCOAT":
+                    displayList.add(new ModelClass(R.drawable.raincoat, "Raincoat", dbItem.getLink(),dbItem.getRecipe(), dbItem.getComment()));
+                    break;
+                case "RAINBOOTS":
+                    displayList.add(new ModelClass(R.drawable.rainboots, "Rainboots", dbItem.getLink(),dbItem.getRecipe(), dbItem.getComment()));
+                    break;
             }
         }
     }
