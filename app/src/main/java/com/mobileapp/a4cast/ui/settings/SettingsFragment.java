@@ -87,7 +87,6 @@ public class SettingsFragment extends Fragment {
         hotColdSeekBar.setMax(40);
         hotColdSeekBar.setProgress(20);
         personalTempText = binding.personalTempTextView;
-        //electedCityText = binding.currentSelectedCity;
 
         // SETUP FOR DATABASE
         dbManager = new SQLiteManager(getContext());
@@ -107,7 +106,6 @@ public class SettingsFragment extends Fragment {
 
         //UI ELEMENTS
         fToCSwitch = binding.fToC;
-        //manualCitySwitch = binding.CitySwitch;
 
         hotColdSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override

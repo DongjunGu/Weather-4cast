@@ -72,7 +72,6 @@ public class ClothesFragment extends Fragment { // CLOTHES
             for (int j = 0; j < temps.size(); j++) {
                 DatabaseItem item2 = temps.get(j);
                 // check if the items are equal
-                //Log.d("DEBUG", "CLOTHES FRAGMENT: " + item1.getName() + " COMPAIRED TO " + item2.getName());
                 if (item1.getName().equals(item2.getName())) {
                     // add the item to the commonItems list if it's present in both lists
                     if (item1.getType().equals("CLOTHING")) {
@@ -83,7 +82,7 @@ public class ClothesFragment extends Fragment { // CLOTHES
                 }
             }
         }
-        //clothesList
+        //clothesList / Getting Rain info
         rainList = dbManager.getItemsByConditions("RAIN", false);
         for (int i = 0; i < rainList.size(); i++ ) {
             //Log.d("DEBUG", "CLOTHES FRAGMENT: i: " + i);
@@ -98,19 +97,11 @@ public class ClothesFragment extends Fragment { // CLOTHES
 
 
 
+        //Setup Recycler View
         recyclerView = view.findViewById(R.id.recyclerview);
         recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
-        //adapter = new RecyclerViewAdaptor(this, colorsNames);
         recyclerView.setAdapter(adapter);
 
-        //String tempSTR = "";
-        /**
-         for (int i = 0; i < clothesList.size(); i++) {
-         tempSTR += clothesList.get(i).getName() + "\n";
-         }
-         */
-
-        //text1.setText(clothesList.get(0).getName() + " " + clothesList.get(0).getMaxTemp() +" " +clothesList.get(0).getConditions());
         /**
          * Example:
          * clothesList.get(INT).getName()

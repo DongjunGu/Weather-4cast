@@ -121,11 +121,6 @@ public class HomeFragment extends Fragment {
         manualCityText.setVisibility(View.GONE);
 
         cardView = binding.cardView;
-        //cardView.setRadius(100);
-        //cardView.setBackgroundColor(66000000);
-        //cardView.setCardBackgroundColor(66000000);
-        //cardView.setback
-        //cardView.setRadius(2);
         manualCitySwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -198,11 +193,6 @@ public class HomeFragment extends Fragment {
         try { dbManager.openDataBase(); } catch (SQLException e) { Log.d("DEBUG", "EXCEPTION: " + e); }
         SQLiteDatabase db1 = dbManager.getReadableDatabase();
         // END --- SETUP DATABASE ---
-
-        //autocompleteFragment.getView().setVisibility(View.GONE);
-        //selectedCityText.setVisibility(View.GONE);
-        //manualCitySwitch.setVisibility(View.GONE);
-        //manualCityText.setVisibility(View.GONE);
 
         // START --- SETUP LOCATION ---
         if(!GlobalData.getInstance().getManualSwitch()) {
@@ -343,8 +333,6 @@ public class HomeFragment extends Fragment {
             public void onErrorResponse(VolleyError error) {
                 bottomNavigationView = getActivity().findViewById(R.id.nav_view);
                 bottomNavigationView.setVisibility(View.VISIBLE);
-                //autocompleteFragment.getView().setVisibility(View.VISIBLE);
-                //selectedCityText.setVisibility(View.VISIBLE);
                 manualCitySwitch.setVisibility(View.VISIBLE);
                 manualCityText.setVisibility(View.VISIBLE);
 

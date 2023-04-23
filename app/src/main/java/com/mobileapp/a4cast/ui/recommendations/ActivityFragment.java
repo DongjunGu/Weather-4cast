@@ -90,7 +90,6 @@ public class ActivityFragment extends Fragment { // ACTIVITY
 
         recyclerView = view.findViewById(R.id.recyclerview);
         recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
-        //adapter = new RecyclerViewAdaptor(this, colorsNames);
         recyclerView.setAdapter(adapter);
 
         /**
