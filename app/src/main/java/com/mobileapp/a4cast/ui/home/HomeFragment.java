@@ -319,7 +319,7 @@ public class HomeFragment extends Fragment {
                             }
                             binding.textDescription.setText(description);
                             binding.textHumidity.setText(String.format(Locale.getDefault(), "%d%%", humidity));
-                            conditions = dbManager.getItemsByConditions(mainDescription.toUpperCase());
+                            conditions = dbManager.getItemsByConditions(mainDescription.toUpperCase(), true);
                             GlobalData.getInstance().setCurrentTemp(temperature);
                             GlobalData.getInstance().setCurrentConditions(mainDescription.toUpperCase());
                             temps = dbManager.getItemsByTemp((int) temperature + GlobalData.getInstance().getPersonalTemp());

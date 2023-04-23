@@ -21,6 +21,7 @@ import com.mobileapp.a4cast.GlobalData;
 import com.mobileapp.a4cast.ModelClass;
 import com.mobileapp.a4cast.R;
 import com.mobileapp.a4cast.RecyclerViewAdaptor;
+import com.mobileapp.a4cast.SQLiteManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,9 +35,11 @@ public class ActivityFragment extends Fragment { // ACTIVITY
     List<DatabaseItem> activityList;
     List<DatabaseItem> conditions;
     List<DatabaseItem> temps;
-
+    List<DatabaseItem> rainList;
+    private SQLiteManager dbManager;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        dbManager = new SQLiteManager(getContext());
         view = inflater.inflate(R.layout.fragment_activity, container, false);
         Button backButton = view.findViewById(R.id.activityBackButton);
 
@@ -73,6 +76,14 @@ public class ActivityFragment extends Fragment { // ACTIVITY
             }
         }
 
+        rainList = dbManager.getItemsByConditions("RAIN", false);
+        for (int i = 0; i < rainList.size(); i++ ) {
+            Log.d("DEBUG", "CLOTHES FRAGMENT: i: " + i);
+            if(rainList.get(i).getType().equals("ACTIVITY")) {
+                Log.d("DEBUG", "CLOTHES FRAGMENT: forLoop: " +rainList.get(i).getName() );
+                activityList.add(rainList.get(i));
+            }
+        }
         displayList = new ArrayList<>();
         initData();
         initRecyclerView();

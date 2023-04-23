@@ -210,11 +210,17 @@ public class SQLiteManager extends SQLiteOpenHelper {
     }
 
     // Method to get items by CONDITIONS //SNOW, RAIN, DRIZZLE, THUNDERSTORM, CLEAR, CLOUDS
-    public List<DatabaseItem> getItemsByConditions(String conditions) {
+    public List<DatabaseItem> getItemsByConditions(String conditions, boolean anyBool) {
         List<DatabaseItem> itemList = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
-        String query = "SELECT * FROM " + TABLE_NAME + " WHERE CONDITIONS LIKE ? OR CONDITIONS LIKE ?";
-        Cursor cursor = db.rawQuery(query, new String[]{"%" + conditions + "%", "%ANY%"});
+        Cursor cursor;
+        if(anyBool) {
+            String query = "SELECT * FROM " + TABLE_NAME + " WHERE CONDITIONS LIKE ? OR CONDITIONS LIKE ?";
+            cursor = db.rawQuery(query, new String[]{"%" + conditions + "%", "%ANY%"});
+        } else {
+            String query = "SELECT * FROM " + TABLE_NAME + " WHERE CONDITIONS LIKE ? OR CONDITIONS LIKE ?";
+            cursor = db.rawQuery(query, new String[]{"%" + conditions + "%"});
+        }
         if (cursor.moveToFirst()) {
             do {
                 DatabaseItem item = new DatabaseItem();

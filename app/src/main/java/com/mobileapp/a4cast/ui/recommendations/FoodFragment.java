@@ -21,6 +21,7 @@ import com.mobileapp.a4cast.GlobalData;
 import com.mobileapp.a4cast.ModelClass;
 import com.mobileapp.a4cast.R;
 import com.mobileapp.a4cast.RecyclerViewAdaptor;
+import com.mobileapp.a4cast.SQLiteManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,8 +35,11 @@ public class FoodFragment extends Fragment { // FOOD
     List<DatabaseItem> foodList;
     List<DatabaseItem> conditions;
     List<DatabaseItem> temps;
+    List<DatabaseItem> rainList;
+    private SQLiteManager dbManager;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        dbManager = new SQLiteManager(getContext());
         view = inflater.inflate(R.layout.fragment_food, container, false);
         Button backButton = view.findViewById(R.id.foodBackButton);
 
@@ -70,6 +74,12 @@ public class FoodFragment extends Fragment { // FOOD
             }
         }
         displayList = new ArrayList<>();
+        rainList = dbManager.getItemsByConditions("RAIN", false);
+        for (int i = 0; i < rainList.size(); i++ ) {
+            if(rainList.get(i).getType().equals("FOOD")) {
+                foodList.add(rainList.get(i));
+            }
+        }
         initData();
         initRecyclerView();
 //        for (int i = 0; i < conditions.size(); i++) {
