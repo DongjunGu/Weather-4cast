@@ -83,13 +83,20 @@ public class ClothesFragment extends Fragment { // CLOTHES
             }
         }
         //clothesList / Getting Rain info
-        rainList = dbManager.getItemsByConditions("RAIN", false);
-        for (int i = 0; i < rainList.size(); i++ ) {
-            //Log.d("DEBUG", "CLOTHES FRAGMENT: i: " + i);
-            if(rainList.get(i).getType().equals("CLOTHING")) {
-                //Log.d("DEBUG", "CLOTHES FRAGMENT: forLoop: " + );
-                clothesList.add(rainList.get(i));
-            }
+        switch (GlobalData.getInstance().getCurrentConditions()) {
+            case "RAIN":
+            case "DRIZZLE":
+            case "THUNDERSTORM":
+            case "MIST":
+                rainList = dbManager.getItemsByConditions("RAIN", false);
+                for (int i = 0; i < rainList.size(); i++) {
+                    //Log.d("DEBUG", "CLOTHES FRAGMENT: i: " + i);
+                    if (rainList.get(i).getType().equals("CLOTHING")) {
+                        //Log.d("DEBUG", "CLOTHES FRAGMENT: forLoop: " + );
+                        clothesList.add(rainList.get(i));
+                    }
+                }
+                break;
         }
         displayList = new ArrayList<>();
         initData();

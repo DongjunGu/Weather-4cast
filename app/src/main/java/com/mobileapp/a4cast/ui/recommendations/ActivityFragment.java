@@ -57,36 +57,46 @@ public class ActivityFragment extends Fragment { // ACTIVITY
             Log.d("DEBUG", "ACTIVITY FRAGMENT: TEST: " + temps.get(i).getName());
         }
         //CREATE NEW LIST
-        for (int i = 0; i < conditions.size(); i++) {
-            DatabaseItem item1 = conditions.get(i);
-            // iterate over the second list
-            for (int j = 0; j < temps.size(); j++) {
-                DatabaseItem item2 = temps.get(j);
-                // check if the items are equal
-                //Log.d("DEBUG", "ACTIVITY FRAGMENT: " + item1.getName() + " COMPAIRED TO " + item2.getName());
-                if (item1.getName().equals(item2.getName())) {
-                    // add the item to the commonItems list if it's present in both lists
-                    if (item1.getType().equals("ACTIVITY")) {
-                        Log.d("DEBUG", "ACTIVITY FRAGMENT: added: " + item1.getName());
-                        activityList.add(item1);
+        switch (GlobalData.getInstance().getCurrentConditions()) {
+            case "RAIN":
+            case "DRIZZLE":
+            case "THUNDERSTORM":
+            case "MIST":
+                rainList = dbManager.getItemsByConditions("RAIN", false);
+                Log.d("DEBUG", "ACTIVITY FRAGMENT: RAINLIST SIZE: " + rainList.size());
+                for (int i = 0; i < rainList.size(); i++) {
+                    //Log.d("DEBUG", "CLOTHES FRAGMENT: i: " + i);
+                    if (rainList.get(i).getType().equals("ACTIVITY")) {
+                        //Log.d("DEBUG", "CLOTHES FRAGMENT: forLoop: " + );
+                        activityList.add(rainList.get(i));
                     }
-
-                    break; // break out of the inner loop to avoid duplicates
                 }
-            }
+                displayList = new ArrayList<>();
+                initData(activityList);
+                initRecyclerView();
+                break;
+            default:
+                for (int i = 0; i < conditions.size(); i++) {
+                    DatabaseItem item1 = conditions.get(i);
+                    // iterate over the second list
+                    for (int j = 0; j < temps.size(); j++) {
+                        DatabaseItem item2 = temps.get(j);
+                        // check if the items are equal
+                        if (item1.getName().equals(item2.getName())) {
+                            // add the item to the commonItems list if it's present in both lists
+                            if (item1.getType().equals("ACTIVITY")) {
+                                Log.d("DEBUG", "ACTIVITY FRAGMENT: added: " + item1.getName());
+                                activityList.add(item1);
+                            }
+                            break; // break out of the inner loop to avoid duplicates
+                        }
+                    }
+                }
+                displayList = new ArrayList<>();
+                initData(activityList);
+                initRecyclerView();
+                break;
         }
-
-        rainList = dbManager.getItemsByConditions("RAIN", false);
-        for (int i = 0; i < rainList.size(); i++ ) {
-            Log.d("DEBUG", "CLOTHES FRAGMENT: i: " + i);
-            if(rainList.get(i).getType().equals("ACTIVITY")) {
-                Log.d("DEBUG", "CLOTHES FRAGMENT: forLoop: " +rainList.get(i).getName() );
-                activityList.add(rainList.get(i));
-            }
-        }
-        displayList = new ArrayList<>();
-        initData();
-        initRecyclerView();
 
         recyclerView = view.findViewById(R.id.recyclerview);
         recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
@@ -118,9 +128,10 @@ public class ActivityFragment extends Fragment { // ACTIVITY
 
     }
 
-    private void initData(){ //CHANGE HERE
-        for(int i = 0; i < activityList.size(); i++) {
-            DatabaseItem dbItem = activityList.get(i);
+    private void initData(List<DatabaseItem> mainList){ //CHANGE HERE
+        Log.d("DEBUG", "ACTIVITY FRAGMENT: FOOD LIST SIZE: " + mainList.size());
+        for(int i = 0; i < mainList.size(); i++) {
+            DatabaseItem dbItem = mainList.get(i);
             switch (dbItem.getName()) {
                 case "CAFE":
                     //displayList.add(new ModelClass(R.drawable.IMAGE, "MAIN_TEXT", dbItem.getLink())); <------
