@@ -182,9 +182,6 @@ public class ActivityFragment extends Fragment { // ACTIVITY
                 case "WATER SPORTS":
                     displayList.add(new ModelClass(R.drawable.watersports, "Water Sports", dbItem.getLink(),dbItem.getRecipe(), dbItem.getComment()));
                     break;
-                default:
-                    displayList.add(new ModelClass(R.drawable.sun, "DEFAULT", dbItem.getLink(),dbItem.getRecipe(), dbItem.getComment()));
-                    break;
             }
         }
     }

@@ -54,7 +54,15 @@ public class RecommendationFragment extends Fragment {
         //Change image based on temperature
         double temp = GlobalData.getInstance().getCurrentTemp() + GlobalData.getInstance().getPersonalTemp();
         System.out.println(temp);
-        if(temp < 11) {
+        if(GlobalData.getInstance().getCurrentConditions().equals("RAIN")
+                || GlobalData.getInstance().getCurrentConditions().equals("DRIZZLE")
+                || GlobalData.getInstance().getCurrentConditions().equals("THUNDERSTORM")
+                || GlobalData.getInstance().getCurrentConditions().equals("MIST")){
+            binding.outfitButton.setImageResource(R.drawable.outfits8);
+            binding.foodButton.setImageResource(R.drawable.food1);
+            binding.activityButton.setImageResource(R.drawable.activity3);
+        }
+        else if(temp < 11) {
             binding.outfitButton.setImageResource(R.drawable.outfits1);
             binding.foodButton.setImageResource(R.drawable.food1);
             binding.activityButton.setImageResource(R.drawable.activity1);

@@ -59,6 +59,7 @@ public class FoodFragment extends Fragment { // FOOD
             case "RAIN":
             case "DRIZZLE":
             case "THUNDERSTORM":
+            case "MIST":
                 rainList = dbManager.getItemsByConditions("RAIN", false);
                 for (int i = 0; i < rainList.size(); i++) {
                     //Log.d("DEBUG", "CLOTHES FRAGMENT: i: " + i);
