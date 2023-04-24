@@ -125,17 +125,19 @@ public class HomeFragment extends Fragment {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
+                    Log.d("DEBUG", "HOME FRAGMENT: Manual ON");
+                    manualCityText.setVisibility(View.VISIBLE);
+                    manualCitySwitch.setVisibility(View.VISIBLE);
                     autocompleteFragment.getView().setVisibility(View.VISIBLE);
                     selectedCityText.setVisibility(View.VISIBLE);
                     cityName = null;
                     GlobalData.getInstance().setManualSwitch(true);
                     selectedCityText.setText("Current Selected City: ");
-                    Log.d("DEBUG", "HOME FRAGMENT: Manual Location On");
                     manual = true;
                 } else {
                     autocompleteFragment.getView().setVisibility(View.GONE);
                     selectedCityText.setVisibility(View.GONE);
-                    Log.d("DEBUG", "SETTINGS FRAGMENT: Manual Off");
+                    Log.d("DEBUG", "HOME FRAGMENT: Manual Off");
                     manual = false;
                     GlobalData.getInstance().setManualSwitch(false);
                     locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
@@ -195,7 +197,8 @@ public class HomeFragment extends Fragment {
         // END --- SETUP DATABASE ---
 
         // START --- SETUP LOCATION ---
-        if(!GlobalData.getInstance().getManualSwitch()) {
+        if(!GlobalData.getInstance().getManualSwitch() || GlobalData.getInstance().getManualURsL() == null) {
+            manualCitySwitch.setChecked(false);
             locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
             requestPermissionLauncher = registerForActivityResult(new ActivityResultContracts.RequestMultiplePermissions(), result -> {
                 boolean allPermissionsGranted = true;
