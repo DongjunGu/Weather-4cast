@@ -132,7 +132,7 @@ public class HomeFragment extends Fragment {
                     selectedCityText.setVisibility(View.VISIBLE);
                     cityName = null;
                     GlobalData.getInstance().setManualSwitch(true);
-                    selectedCityText.setText("Current Selected City: ");
+                    selectedCityText.setText("Current Selected City: " + GlobalData.getInstance().getLocationCity());
                     manual = true;
                 } else {
                     autocompleteFragment.getView().setVisibility(View.GONE);
@@ -250,7 +250,6 @@ public class HomeFragment extends Fragment {
             List<String> urls = GlobalData.getInstance().getManualURsL();
             getWeatherData(urls.get(0));
             getHourlyForecastData(urls.get(1));
-            selectedCityText.setText("Current Selected City: " + GlobalData.getInstance().getLocationCity());
         }
         return root;
     }
