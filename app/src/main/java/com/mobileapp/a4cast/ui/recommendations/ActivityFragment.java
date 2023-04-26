@@ -1,3 +1,8 @@
+/*
+* Weather4cast
+* Robert Russell | Dongjun Gu
+* April/2023
+*/
 package com.mobileapp.a4cast.ui.recommendations;
 
 import android.os.Bundle;
@@ -13,7 +18,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.TextView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.mobileapp.a4cast.DatabaseItem;
@@ -32,10 +36,7 @@ public class ActivityFragment extends Fragment { // ACTIVITY
     RecyclerView recyclerView;
     LinearLayoutManager layoutManager;
     List<ModelClass>displayList;
-    List<DatabaseItem> activityList;
-    List<DatabaseItem> conditions;
-    List<DatabaseItem> temps;
-    List<DatabaseItem> rainList;
+    List<DatabaseItem> activityList, conditions, temps, rainList;
     private SQLiteManager dbManager;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -46,16 +47,21 @@ public class ActivityFragment extends Fragment { // ACTIVITY
         BottomNavigationView bottomNavigationView = getActivity().findViewById(R.id.nav_view);
         bottomNavigationView.setVisibility(View.GONE);
 
-
         // get the conditions list from another fragment
         conditions = GlobalData.getInstance().getConditions();
         temps = GlobalData.getInstance().getTemps();
         Log.d("DEBUG", "ACTIVITY FRAGMENT: condition.size: " + conditions.size());
         Log.d("DEBUG", "ACTIVITY FRAGMENT: temp.size: " + temps.size());
+
+        /**
+         * Example:
+         * activityList.get(INT).getName()
+         * activityList.get(INT).getMinTemp()
+         * activityList.get(INT).getMaxTemp()
+         * activityList.get(INT).getType()
+         * etc...
+         */
         activityList = new ArrayList<>();
-        for (int i = 0; i < temps.size(); i++) {
-            Log.d("DEBUG", "ACTIVITY FRAGMENT: TEST: " + temps.get(i).getName());
-        }
         //CREATE NEW LIST
         switch (GlobalData.getInstance().getCurrentConditions()) {
             case "RAIN":
@@ -63,7 +69,6 @@ public class ActivityFragment extends Fragment { // ACTIVITY
             case "THUNDERSTORM":
             case "MIST":
                 rainList = dbManager.getItemsByConditions("RAIN", false);
-                Log.d("DEBUG", "ACTIVITY FRAGMENT: RAINLIST SIZE: " + rainList.size());
                 for (int i = 0; i < rainList.size(); i++) {
                     //Log.d("DEBUG", "CLOTHES FRAGMENT: i: " + i);
                     if (rainList.get(i).getType().equals("ACTIVITY")) {
@@ -102,18 +107,10 @@ public class ActivityFragment extends Fragment { // ACTIVITY
         recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
         recyclerView.setAdapter(adapter);
 
-        /**
-         * Example:
-         * activityList.get(INT).getName()
-         * activityList.get(INT).getMinTemp()
-         * activityList.get(INT).getMaxTemp()
-         * activityList.get(INT).getType()
-         * etc...
-         */
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.d("DEBUG", "ACTIVITY FRAGMENT: Clothes Button Pressed");
+                Log.d("DEBUG", "ACTIVITY FRAGMENT: Back Button Pressed");
                 NavDirections action = ActivityFragmentDirections.actionActivityFragmentToNavigationRecommendations();
                 Navigation.findNavController(view).navigate(action);
             }
@@ -129,12 +126,10 @@ public class ActivityFragment extends Fragment { // ACTIVITY
     }
 
     private void initData(List<DatabaseItem> mainList){ //CHANGE HERE
-        Log.d("DEBUG", "ACTIVITY FRAGMENT: FOOD LIST SIZE: " + mainList.size());
         for(int i = 0; i < mainList.size(); i++) {
             DatabaseItem dbItem = mainList.get(i);
             switch (dbItem.getName()) {
                 case "CAFE":
-                    //displayList.add(new ModelClass(R.drawable.IMAGE, "MAIN_TEXT", dbItem.getLink())); <------
                     displayList.add(new ModelClass(R.drawable.cafe, "Cafe", dbItem.getLink(),dbItem.getRecipe(), dbItem.getComment()));
                     break;
                 case "SKI":

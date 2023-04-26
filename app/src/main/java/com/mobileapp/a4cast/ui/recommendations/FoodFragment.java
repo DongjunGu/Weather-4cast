@@ -1,3 +1,8 @@
+/*
+ * Weather4cast
+ * Robert Russell | Dongjun Gu
+ * April/2023
+ */
 package com.mobileapp.a4cast.ui.recommendations;
 
 import android.os.Bundle;
@@ -32,10 +37,7 @@ public class FoodFragment extends Fragment { // FOOD
     RecyclerView recyclerView;
     LinearLayoutManager layoutManager;
     List<ModelClass>displayList;
-    List<DatabaseItem> foodList;
-    List<DatabaseItem> conditions;
-    List<DatabaseItem> temps;
-    List<DatabaseItem> rainList;
+    List<DatabaseItem> foodList, conditions, temps, rainList;
     private SQLiteManager dbManager;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -46,14 +48,21 @@ public class FoodFragment extends Fragment { // FOOD
         BottomNavigationView bottomNavigationView = getActivity().findViewById(R.id.nav_view);
         bottomNavigationView.setVisibility(View.GONE);
 
-
         // get the conditions list from another fragment
         conditions = GlobalData.getInstance().getConditions();
         temps = GlobalData.getInstance().getTemps();
         Log.d("DEBUG", "FOOD FRAGMENT: condition.size: " + conditions.size());
         Log.d("DEBUG", "FOOD FRAGMENT: temp.size: " + temps.size());
-        foodList = new ArrayList<>();
 
+        /**
+         * Example:
+         * foodList.get(INT).getName()
+         * foodList.get(INT).getMinTemp()
+         * foodList.get(INT).getMaxTemp()
+         * foodList.get(INT).getType()
+         * etc...
+         */
+        foodList = new ArrayList<>();
         //CREATE NEW LIST
         switch (GlobalData.getInstance().getCurrentConditions()) {
             case "RAIN":
@@ -82,7 +91,6 @@ public class FoodFragment extends Fragment { // FOOD
                         if (item1.getName().equals(item2.getName())) {
                             // add the item to the commonItems list if it's present in both lists
                             if (item1.getType().equals("FOOD")) {
-                                Log.d("DEBUG", "FOOD FRAGMENT: added: " + item1.getName());
                                 foodList.add(item1);
                             }
                             break; // break out of the inner loop to avoid duplicates
@@ -99,14 +107,6 @@ public class FoodFragment extends Fragment { // FOOD
         recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
         recyclerView.setAdapter(adapter);
 
-        /**
-         * Example:
-         * foodList.get(INT).getName()
-         * foodList.get(INT).getMinTemp()
-         * foodList.get(INT).getMaxTemp()
-         * foodList.get(INT).getType()
-         * etc...
-         */
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -125,7 +125,6 @@ public class FoodFragment extends Fragment { // FOOD
     }
 
     private void initData(List<DatabaseItem> mainList){ //CHANGE HERE
-        Log.d("DEBUG", "FOOD FRAGMENT: FOOD LIST SIZE: " + mainList.size());
         for(int i = 0; i < mainList.size(); i++) {
             DatabaseItem dbItem = mainList.get(i);
             switch (dbItem.getName()) {

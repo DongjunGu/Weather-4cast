@@ -1,28 +1,28 @@
+/*
+ * Weather4cast
+ * Robert Russell | Dongjun Gu
+ * April/2023
+ */
 package com.mobileapp.a4cast.ui.recommendations;
 
-import android.media.Image;
 import android.os.Bundle;
 
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.mobileapp.a4cast.DatabaseItem;
 import com.mobileapp.a4cast.GlobalData;
 import com.mobileapp.a4cast.R;
 import com.mobileapp.a4cast.databinding.FragmentRecommendationBinding;
 
-import java.util.List;
 import java.util.Locale;
 
 
@@ -31,19 +31,14 @@ public class RecommendationFragment extends Fragment {
     private FragmentRecommendationBinding binding;
 
     public View onCreateView(@NonNull LayoutInflater inflater,ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_recommendation, container, false);
-        RecommendationViewModel recommendationViewModel = new ViewModelProvider(this).get(RecommendationViewModel.class);
         binding = FragmentRecommendationBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
         double currentTemp = GlobalData.getInstance().getLocationTemp();
-
-
 
         TextView cityText = binding.todayText;
         TextView cityTempText = binding.todayTempText;
 
         cityText.setText(GlobalData.getInstance().getLocationCity());
-
 
         if(!GlobalData.getInstance().getFahrenheit()) {
             double cel = (GlobalData.getInstance().getLocationTemp() - 32) * (0.55556);
@@ -51,9 +46,10 @@ public class RecommendationFragment extends Fragment {
         } else {
             cityTempText.setText(String.format(Locale.getDefault(), "%.0f°F", GlobalData.getInstance().getLocationTemp()));
         }
+
         //Change image based on temperature
-        double temp = GlobalData.getInstance().getCurrentTemp() + GlobalData.getInstance().getPersonalTemp();
-        System.out.println(temp);
+        double temp = currentTemp + GlobalData.getInstance().getPersonalTemp();
+
         if(GlobalData.getInstance().getCurrentConditions().equals("RAIN")
                 || GlobalData.getInstance().getCurrentConditions().equals("DRIZZLE")
                 || GlobalData.getInstance().getCurrentConditions().equals("THUNDERSTORM")
@@ -128,6 +124,7 @@ public class RecommendationFragment extends Fragment {
 
     @Override
     public void onDestroyView() {
+        Log.d("DEBUG", "RECOMMENDATION FRAGMENT: onDestroy");
         super.onDestroyView();
         binding = null;
     }

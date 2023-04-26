@@ -1,3 +1,8 @@
+/*
+ * Weather4cast
+ * Robert Russell | Dongjun Gu
+ * April/2023
+ */
 package com.mobileapp.a4cast.ui.recommendations;
 
 import androidx.lifecycle.LiveData;
@@ -10,7 +15,7 @@ public class RecommendationViewModel extends ViewModel {
 
     public RecommendationViewModel() {
         mText = new MutableLiveData<>();
-        mText.setValue("This is dashboard fragment");
+        mText.setValue("This is Recommendation fragment");
     }
 
     public LiveData<String> getText() {

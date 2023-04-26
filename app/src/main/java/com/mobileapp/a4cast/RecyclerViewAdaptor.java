@@ -1,8 +1,12 @@
+/*
+ * Weather4cast
+ * Robert Russell | Dongjun Gu
+ * April/2023
+ */
 package com.mobileapp.a4cast;
 
 import android.content.Intent;
 import android.net.Uri;
-import android.util.Dumpable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,7 +17,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.DuplicateFormatFlagsException;
 import java.util.List;
 
 public class RecyclerViewAdaptor extends RecyclerView.Adapter<RecyclerViewAdaptor.ViewHolder>{
@@ -27,20 +30,17 @@ public class RecyclerViewAdaptor extends RecyclerView.Adapter<RecyclerViewAdapto
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view;
         switch (recommendSwitch) {
-            case 1: //CLOTHES
-                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.clothes_recyclerview, parent, false);
-                break;
+
             case 2: //ACTIVITY
                 view = LayoutInflater.from(parent.getContext()).inflate(R.layout.activity_recyclerview, parent, false);
                 break;
             case 3: //FOOD
                 view = LayoutInflater.from(parent.getContext()).inflate(R.layout.food_recyclerview, parent, false);
                 break;
-            default:
+            default: //CLOTHES
                 view = LayoutInflater.from(parent.getContext()).inflate(R.layout.clothes_recyclerview, parent, false);
                 break;
         }
-        Log.d("DEBUG", "TEST RECYCLER: SWITCH:" + recommendSwitch);
         return new ViewHolder(view);
     }
 
@@ -123,7 +123,6 @@ public class RecyclerViewAdaptor extends RecyclerView.Adapter<RecyclerViewAdapto
             nameTextView.setText(name);
             itemCommentText.setText(comment);
             itemLink = link;
-            //Log.d("DEBUG", "TEST RECYCLER:" + link + " | " + name);
         }
         public void setDataFood(int resource, String name, String recipe) {
             imageView.setImageResource(resource);

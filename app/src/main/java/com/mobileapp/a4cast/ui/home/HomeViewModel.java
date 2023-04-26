@@ -1,3 +1,8 @@
+/*
+ * Weather4cast
+ * Robert Russell | Dongjun Gu
+ * April/2023
+ */
 package com.mobileapp.a4cast.ui.home;
 
 import androidx.lifecycle.LiveData;

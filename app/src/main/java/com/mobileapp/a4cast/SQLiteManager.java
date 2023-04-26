@@ -1,3 +1,8 @@
+/*
+ * Weather4cast
+ * Robert Russell | Dongjun Gu
+ * April/2023
+ */
 package com.mobileapp.a4cast;
 
 import android.content.Context;
@@ -6,8 +11,6 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
-import com.mobileapp.a4cast.DatabaseItem;
-
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -24,13 +27,6 @@ public class SQLiteManager extends SQLiteOpenHelper {
     public static String DB_PATH = "";
 
     public static final String TABLE_NAME = "weather";
-
-    public static final String COL_1 = "TYPE";
-    public static final String COL_2 = "NAME";
-    public static final String COL_3 = "MIN_TEMP";
-    public static final String COL_4 = "MAX_TEMP";
-    public static final String COL_5 = "CONDITIONS";
-    public static final String COL_6 = "LINK";
     /*
     public static final int TYPE = 0;
     public static final int NAME = 1;
@@ -56,19 +52,6 @@ public class SQLiteManager extends SQLiteOpenHelper {
      * of your application so we are gonna be able to overwrite that database with our database.
      * */
     public void createDataBase() throws IOException {
-        /*
-        Log.d("DEBUG", "DB: onCreateDatabase");
-        //check if the database exists
-        boolean databaseExist = checkDataBase();
-        if(databaseExist){
-            Log.d("DEBUG", "DB: NO COPY");
-            // Do Nothing.
-        }else{
-            Log.d("DEBUG", "DB: COPY");
-            this.getWritableDatabase();
-            copyDataBase();
-        }// end if else dbExist
-         */
         Log.d("DEBUG", "DB: onCreateDatabase");
 
         this.getWritableDatabase(); // This will create an empty database if it doesn't exist
@@ -155,18 +138,13 @@ public class SQLiteManager extends SQLiteOpenHelper {
 
     // Method to get items by TEMP (input one int and gets all items that have that in range)
     public List<DatabaseItem> getItemsByTemp(int temperature) {
-        //Log.d("DEBUG", "DB: TEMP: " + temperature);
         SQLiteDatabase db = this.getReadableDatabase();
         List<DatabaseItem> itemList = new ArrayList<>();
         String query = "SELECT * FROM " + TABLE_NAME + " WHERE MIN_TEMP <= ? AND MAX_TEMP >= ?";
         Cursor cursor = db.rawQuery(query, new String[] { String.valueOf(temperature), String.valueOf(temperature) });
         if (cursor.moveToFirst()) {
             do {
-                //String recommendation = cursor.getString(0);
-                //recommendations.add(recommendation);
                 DatabaseItem item = new DatabaseItem();
-                //item.setId(cursor.getInt(cursor.getColumnIndex(ID)));
-                //Log.d("DEBUG", "DB: ITEM NAME: " + cursor.getString(1));
                 item.setType(cursor.getString(0));
                 item.setName(cursor.getString(1));
                 item.setMinTemp(cursor.getInt(2));
@@ -192,7 +170,6 @@ public class SQLiteManager extends SQLiteOpenHelper {
         if (cursor.moveToFirst()) {
             do {
                 DatabaseItem item = new DatabaseItem();
-                //item.setId(cursor.getInt(cursor.getColumnIndex(ID)));
                 item.setType(cursor.getString(0));
                 item.setName(cursor.getString(1));
                 item.setMinTemp(cursor.getInt(2));
@@ -250,7 +227,6 @@ public class SQLiteManager extends SQLiteOpenHelper {
         if (cursor.moveToFirst()) {
             do {
                 DatabaseItem item = new DatabaseItem();
-                //item.setId(cursor.getInt(cursor.getColumnIndex(ID)));
                 item.setType(cursor.getString(0));
                 item.setName(cursor.getString(1));
                 item.setMinTemp(cursor.getInt(2));

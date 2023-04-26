@@ -1,18 +1,15 @@
+/*
+ * Weather4cast
+ * Robert Russell | Dongjun Gu
+ * April/2023
+ */
 package com.mobileapp.a4cast.ui.recommendations;
 
-import android.content.Intent;
-import android.media.Image;
-import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.lifecycle.viewmodel.CreationExtras;
-import androidx.navigation.NavController;
 import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;
-import androidx.navigation.fragment.NavHostFragment;
-import androidx.navigation.ui.NavigationUI;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -21,8 +18,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.mobileapp.a4cast.DatabaseItem;
@@ -34,7 +29,6 @@ import com.mobileapp.a4cast.SQLiteManager;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public class ClothesFragment extends Fragment { // CLOTHES
 
@@ -43,10 +37,7 @@ public class ClothesFragment extends Fragment { // CLOTHES
     RecyclerView recyclerView;
     LinearLayoutManager layoutManager;
     List<ModelClass>displayList;
-    List<DatabaseItem> clothesList;
-    List<DatabaseItem> conditions;
-    List<DatabaseItem> temps;
-    List<DatabaseItem> rainList;
+    List<DatabaseItem> clothesList, conditions, temps, rainList;
     private SQLiteManager dbManager;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -57,14 +48,22 @@ public class ClothesFragment extends Fragment { // CLOTHES
         BottomNavigationView bottomNavigationView = getActivity().findViewById(R.id.nav_view);
         bottomNavigationView.setVisibility(View.GONE);
 
-
         // get the conditions list from another fragment
         conditions = GlobalData.getInstance().getConditions();
         temps = GlobalData.getInstance().getTemps();
         Log.d("DEBUG", "CLOTHES FRAGMENT: condition.size: " + conditions.size());
         Log.d("DEBUG", "CLOTHES FRAGMENT: temp.size: " + temps.size());
-        clothesList = new ArrayList<>();
 
+        /**
+         * Example:
+         * clothesList.get(INT).getName()
+         * clothesList.get(INT).getMinTemp()
+         * clothesList.get(INT).getMaxTemp()
+         * clothesList.get(INT).getType()
+         * clothesList.get(INT).getLink()
+         * etc...
+         */
+        clothesList = new ArrayList<>();
         //CREATE NEW LIST
         for (int i = 0; i < conditions.size(); i++) {
             DatabaseItem item1 = conditions.get(i);
@@ -75,7 +74,6 @@ public class ClothesFragment extends Fragment { // CLOTHES
                 if (item1.getName().equals(item2.getName())) {
                     // add the item to the commonItems list if it's present in both lists
                     if (item1.getType().equals("CLOTHING")) {
-                        Log.d("DEBUG", "CLOTHES FRAGMENT: added: " + item1.getName());
                         clothesList.add(item1);
                     }
                     break; // break out of the inner loop to avoid duplicates
@@ -102,22 +100,10 @@ public class ClothesFragment extends Fragment { // CLOTHES
         initData();
         initRecyclerView();
 
-
-
         //Setup Recycler View
         recyclerView = view.findViewById(R.id.recyclerview);
         recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
         recyclerView.setAdapter(adapter);
-
-        /**
-         * Example:
-         * clothesList.get(INT).getName()
-         * clothesList.get(INT).getMinTemp()
-         * clothesList.get(INT).getMaxTemp()
-         * clothesList.get(INT).getType()
-         * clothesList.get(INT).getLink()
-         * etc...
-         */
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

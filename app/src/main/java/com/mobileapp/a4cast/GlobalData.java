@@ -1,5 +1,9 @@
+/*
+ * Weather4cast
+ * Robert Russell | Dongjun Gu
+ * April/2023
+ */
 package com.mobileapp.a4cast;
-import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -120,7 +124,6 @@ public class GlobalData {
     }
 
     public void setManualURLs(List<String> manualURLs) {
-        Log.d("DEBUG", "URLS SET");
         this.manualURLs = manualURLs;
     }
     //-----------------MANUALCITY-------------------

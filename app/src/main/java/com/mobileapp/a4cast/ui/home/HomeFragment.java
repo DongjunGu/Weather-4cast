@@ -1,3 +1,8 @@
+/*
+ * Weather4cast
+ * Robert Russell | Dongjun Gu
+ * April/2023
+ */
 package com.mobileapp.a4cast.ui.home;
 
 import static android.content.ContentValues.TAG;
@@ -10,34 +15,28 @@ import android.database.sqlite.SQLiteDatabase;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
-import android.media.Image;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
-import android.widget.ImageView;
-import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.widget.SwitchCompat;
 import androidx.cardview.widget.CardView;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.gms.common.api.Status;
 import com.google.android.libraries.places.api.model.AddressComponent;
@@ -48,18 +47,14 @@ import com.google.android.libraries.places.widget.listener.PlaceSelectionListene
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.mobileapp.a4cast.DatabaseItem;
 import com.mobileapp.a4cast.GlobalData;
-import com.mobileapp.a4cast.MainActivity;
 import com.mobileapp.a4cast.R;
 import com.mobileapp.a4cast.SQLiteManager;
 import com.mobileapp.a4cast.databinding.FragmentHomeBinding;
-import com.mobileapp.a4cast.ui.home.HomeViewModel;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
@@ -75,40 +70,51 @@ public class HomeFragment extends Fragment {
     //---BINDING---
     private FragmentHomeBinding binding;
     //---API WEATHER INFO---
+    // Constants for the API endpoint, parameters, and units
     private static final String API_KEY = "dec0f72ce23604612032a38b00466f12";
     private static final String BASE_URL = "https://api.openweathermap.org/data/2.5/weather";
     private static final String ONE_CALL_API_URL = "https://api.openweathermap.org/data/2.5";
     private static final String UNITS = "imperial";
     private static final String EXCLUDE = "minutely,daily,alerts";
     //---DATABASE---
+    // Instance of SQLiteManager for managing the local database
     private SQLiteManager dbManager;
     //---LOCATION---
+    // Constant for requesting location permission
     private static final int REQUEST_LOCATION_PERMISSION = 1;
+    // ActivityResultLauncher for handling permission requests
     private ActivityResultLauncher<String[]> requestPermissionLauncher;
+    // LocationManager and LocationListener for getting the user's location
     public LocationManager locationManager;
     public LocationListener locationListener;
     //---WEATHER DISPLAY VARS---
+    // Variables for storing weather data
     double temperature = 0, feelsLike = 0, celsius = 0;
     int humidity;
     DecimalFormat df = new DecimalFormat("#");
     String mainDescription = "", description = "", cityName = "", latitude, longitude, tempString = "";
+    // Lists for storing weather-related recommendations
     List<DatabaseItem> conditions, temps;
     List<DatabaseItem> tempRecommendations, activityReco, foodReco, clothingReco;
     //---NAV VAR---
+    // BottomNavigationView for navigating between app screens
     BottomNavigationView bottomNavigationView;
     //---MANUAL VARS---
+    // AutocompleteSupportFragment for allowing manual city selection
     AutocompleteSupportFragment autocompleteFragment;
+    // Switch for toggling manual city selection
     SwitchCompat manualCitySwitch;
+    // TextViews for displaying selected city and manual city selection hint
     TextView selectedCityText, manualCityText;
+    // Boolean for checking if manual city selection is active
     Boolean manual = false;
+    // CardView for displaying weather-related recommendations
     CardView cardView;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        HomeViewModel homeViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
         bottomNavigationView = getActivity().findViewById(R.id.nav_view);
-        //Boolean manual = GlobalData.getInstance().getManualCity();
 
         autocompleteFragment = (AutocompleteSupportFragment) getChildFragmentManager().findFragmentById(R.id.autocomplete_fragment);
         selectedCityText = binding.currentSelectedCity;
@@ -155,7 +161,6 @@ public class HomeFragment extends Fragment {
             autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
                 @Override
                 public void onPlaceSelected(@NonNull Place place) {
-                    //Log.d("DEBUG", "SETTINGS FRAGMENT: PLACE: " + place.getLatLng().latitude);
                     AddressComponents addressComponents = place.getAddressComponents();
 
                     String regularURL = BASE_URL + "?lat=" + place.getLatLng().latitude + "&lon=" + place.getLatLng().longitude + "&appid=" + API_KEY;
