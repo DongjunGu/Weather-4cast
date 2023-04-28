@@ -19,6 +19,7 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.mobileapp.a4cast.databinding.ActivityMainBinding;
+
 /*
 Mobile App Development II -- COMP.4631 Honor Statement
 The practice of good ethical behavior is essential for maintaining good order in the classroom,
@@ -68,6 +69,7 @@ public class MainActivity extends AppCompatActivity {
             Places.initialize(getApplicationContext(), apiKey);
         }
     }
+
     @Override
     public void onBackPressed() {
         FragmentManager fragmentManager = getSupportFragmentManager();

@@ -40,7 +40,7 @@ public class SQLiteManager extends SQLiteOpenHelper {
     static SQLiteDatabase sqliteDataBase;
 
     public SQLiteManager(Context context) {
-        super(context, DB_NAME, null ,DB_VERSION);
+        super(context, DB_NAME, null, DB_VERSION);
         this.context = context;
         DB_PATH = context.getDatabasePath(DB_NAME).getParent() + "/";
         Log.d("DEBUG", "DB_PATH: " + DB_PATH);
@@ -50,7 +50,7 @@ public class SQLiteManager extends SQLiteOpenHelper {
      * Creates a empty database on the system and rewrites it with your own database.
      * By calling this method and empty database will be created into the default system path
      * of your application so we are gonna be able to overwrite that database with our database.
-     * */
+     */
     public void createDataBase() throws IOException {
         Log.d("DEBUG", "DB: onCreateDatabase");
 
@@ -65,20 +65,11 @@ public class SQLiteManager extends SQLiteOpenHelper {
     } // end createDataBase().
 
     /**
-     * Check if the database already exist to avoid re-copying the file each time you open the application.
-     * @return true if it exists, false if it doesn't
-     */
-    public boolean checkDataBase(){
-        File databaseFile = new File(DB_PATH + DB_NAME);
-        return databaseFile.exists();
-    }
-
-    /**
      * Copies your database from your local assets-folder to the just created empty database in the
      * system folder, from where it can be accessed and handled.
      * This is done by transferring byte stream.
-     * */
-    private void copyDataBase() throws IOException{
+     */
+    private void copyDataBase() throws IOException {
         Log.d("DEBUG", "DB: copyDataBase");
         //Open your local db as the input stream
         InputStream myInput = context.getAssets().open(DB_NAME);
@@ -89,7 +80,7 @@ public class SQLiteManager extends SQLiteOpenHelper {
         //transfer bytes from the input file to the output file
         byte[] buffer = new byte[1024];
         int length;
-        while ((length = myInput.read(buffer))>0){
+        while ((length = myInput.read(buffer)) > 0) {
             myOutput.write(buffer, 0, length);
         }
         //Close the streams
@@ -103,9 +94,9 @@ public class SQLiteManager extends SQLiteOpenHelper {
      * First it create the path up till data base of the device.
      * Then create connection with data base.
      */
-    public void openDataBase() throws SQLException{
+    public void openDataBase() throws SQLException {
         //Open the database
-        sqliteDataBase = SQLiteDatabase.openDatabase(DB_PATH+DB_NAME, null, SQLiteDatabase.OPEN_READWRITE);
+        sqliteDataBase = SQLiteDatabase.openDatabase(DB_PATH + DB_NAME, null, SQLiteDatabase.OPEN_READWRITE);
     }
 
     /**
@@ -113,7 +104,7 @@ public class SQLiteManager extends SQLiteOpenHelper {
      */
     @Override
     public synchronized void close() {
-        if(sqliteDataBase != null)
+        if (sqliteDataBase != null)
             sqliteDataBase.close();
         super.close();
     }
@@ -141,7 +132,7 @@ public class SQLiteManager extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
         List<DatabaseItem> itemList = new ArrayList<>();
         String query = "SELECT * FROM " + TABLE_NAME + " WHERE MIN_TEMP <= ? AND MAX_TEMP >= ?";
-        Cursor cursor = db.rawQuery(query, new String[] { String.valueOf(temperature), String.valueOf(temperature) });
+        Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(temperature), String.valueOf(temperature)});
         if (cursor.moveToFirst()) {
             do {
                 DatabaseItem item = new DatabaseItem();
@@ -191,7 +182,7 @@ public class SQLiteManager extends SQLiteOpenHelper {
         List<DatabaseItem> itemList = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor;
-        if(anyBool) {
+        if (anyBool) {
             String query = "SELECT * FROM " + TABLE_NAME + " WHERE CONDITIONS LIKE ? OR CONDITIONS LIKE ?";
             cursor = db.rawQuery(query, new String[]{"%" + conditions + "%", "%ANY%"});
         } else {

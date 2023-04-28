@@ -19,13 +19,15 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
-public class RecyclerViewAdaptor extends RecyclerView.Adapter<RecyclerViewAdaptor.ViewHolder>{
+public class RecyclerViewAdaptor extends RecyclerView.Adapter<RecyclerViewAdaptor.ViewHolder> {
     private List<ModelClass> userList;
     private int recommendSwitch = 0; //0 = default | 1 = clothes | 2 = activity | 3 = food
-    public RecyclerViewAdaptor(List<ModelClass>userList, int intSwitch) {
+
+    public RecyclerViewAdaptor(List<ModelClass> userList, int intSwitch) {
         recommendSwitch = intSwitch;
         this.userList = userList;
     }
+
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view;
@@ -55,16 +57,16 @@ public class RecyclerViewAdaptor extends RecyclerView.Adapter<RecyclerViewAdapto
         switch (recommendSwitch) {
             case 1: //CLOTHES
                 link = userList.get(position).getItemLink();
-                holder.setDataClothes(resource,name,link);
+                holder.setDataClothes(resource, name, link);
                 break;
             case 2: //ACTIVITY
                 link = userList.get(position).getItemLink();
                 comment = userList.get(position).getItemComment();
-                holder.setDataActivity(resource,name,link,comment);
+                holder.setDataActivity(resource, name, link, comment);
                 break;
             case 3: //FOOD
                 recipe = userList.get(position).getItemRecipe(); //getItemRecipe in ModelClass.java
-                holder.setDataFood(resource,name,recipe);
+                holder.setDataFood(resource, name, recipe);
                 break;
         }
     }
@@ -84,7 +86,7 @@ public class RecyclerViewAdaptor extends RecyclerView.Adapter<RecyclerViewAdapto
 
             //All Views
             imageView = itemView.findViewById(R.id.itemImage);
-            nameTextView= itemView.findViewById(R.id.itemNameTextView);
+            nameTextView = itemView.findViewById(R.id.itemNameTextView);
 
             /*
             This switch statement is here to initialize any UI elements that are unique to that recycler view
@@ -118,12 +120,14 @@ public class RecyclerViewAdaptor extends RecyclerView.Adapter<RecyclerViewAdapto
             nameTextView.setText(name);
             itemLink = link;
         }
+
         public void setDataActivity(int resource, String name, String link, String comment) {
             imageView.setImageResource(resource);
             nameTextView.setText(name);
             itemCommentText.setText(comment);
             itemLink = link;
         }
+
         public void setDataFood(int resource, String name, String recipe) {
             imageView.setImageResource(resource);
             nameTextView.setText(name);

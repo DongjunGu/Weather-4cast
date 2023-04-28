@@ -28,6 +28,7 @@ public class GlobalData {
         }
         return instance;
     }
+
     //-----------------FAHRENHEIT-------------------
     public boolean getFahrenheit() {
         return fahrenheit;

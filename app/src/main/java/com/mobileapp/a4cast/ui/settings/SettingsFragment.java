@@ -7,30 +7,24 @@ package com.mobileapp.a4cast.ui.settings;
 
 import android.annotation.SuppressLint;
 import android.database.SQLException;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.CompoundButton;
-import android.widget.EditText;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.SwitchCompat;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
 
-import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
 import com.mobileapp.a4cast.DatabaseItem; //Database item class
 import com.mobileapp.a4cast.GlobalData;
 import com.mobileapp.a4cast.SQLiteManager; //Database helper class
 import com.mobileapp.a4cast.databinding.FragmentSettingsBinding;
 
-import java.text.DecimalFormat;
 import java.util.List;
 
 public class SettingsFragment extends Fragment {
@@ -38,26 +32,12 @@ public class SettingsFragment extends Fragment {
     private FragmentSettingsBinding binding;
     private SQLiteManager dbManager;
 
-    List<DatabaseItem> tempRecommendations, activityReco, foodReco, clothingReco;
-    EditText enterCityTextEdit;
-    Button getWeatherButton;
-    TextView showRecom, showWeatherData, personalTempText, selectedCityText;
+    TextView personalTempText;
     SwitchCompat fToCSwitch;
     SeekBar hotColdSeekBar;
-    AutocompleteSupportFragment autocompleteFragment;
-
-    double temp;
-    int seekBarInt;
-    String descriptionMain, manualCity;
-
-    private static final String API_KEY = "dec0f72ce23604612032a38b00466f12";
-    private static final String BASE_URL = "https://api.openweathermap.org/data/2.5/weather";
-    //https://openweathermap.org/weather-conditions <-- List of conditions
-    DecimalFormat df = new DecimalFormat("#.##");
 
     @SuppressLint("MissingInflatedId")
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        SettingsViewModel settingsViewModel = new ViewModelProvider(this).get(SettingsViewModel.class);
         binding = FragmentSettingsBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
         hotColdSeekBar = (SeekBar) binding.hotColdSeekBar;
@@ -78,9 +58,6 @@ public class SettingsFragment extends Fragment {
             Log.d("DEBUG", "EXCEPTION: " + e);
         }
 
-        SQLiteDatabase db1;
-        db1 = dbManager.getReadableDatabase();
-
         //UI ELEMENTS
         fToCSwitch = binding.fToC;
 
@@ -89,10 +66,10 @@ public class SettingsFragment extends Fragment {
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 progress = progress - 20;
                 Log.d("DEBUG", "SETTING SEEKBAR: " + progress);
-                if(progress >= 0) {
-                    personalTempText.setText("+"+Integer.toString(progress)+"℉");
+                if (progress >= 0) {
+                    personalTempText.setText("+" + Integer.toString(progress) + "℉");
                 } else {
-                    personalTempText.setText(Integer.toString(progress)+"℉");
+                    personalTempText.setText(Integer.toString(progress) + "℉");
                 }
 
                 GlobalData.getInstance().setPersonalTemp(progress);

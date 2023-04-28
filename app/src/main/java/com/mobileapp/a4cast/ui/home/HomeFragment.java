@@ -11,7 +11,6 @@ import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.database.SQLException;
-import android.database.sqlite.SQLiteDatabase;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -31,7 +30,6 @@ import androidx.appcompat.widget.SwitchCompat;
 import androidx.cardview.widget.CardView;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
-
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -81,7 +79,6 @@ public class HomeFragment extends Fragment {
     private SQLiteManager dbManager;
     //---LOCATION---
     // Constant for requesting location permission
-    private static final int REQUEST_LOCATION_PERMISSION = 1;
     // ActivityResultLauncher for handling permission requests
     private ActivityResultLauncher<String[]> requestPermissionLauncher;
     // LocationManager and LocationListener for getting the user's location
@@ -92,10 +89,9 @@ public class HomeFragment extends Fragment {
     double temperature = 0, feelsLike = 0, celsius = 0;
     int humidity;
     DecimalFormat df = new DecimalFormat("#");
-    String mainDescription = "", description = "", cityName = "", latitude, longitude, tempString = "";
+    String mainDescription = "", description = "", cityName = "", latitude, longitude = "";
     // Lists for storing weather-related recommendations
     List<DatabaseItem> conditions, temps;
-    List<DatabaseItem> tempRecommendations, activityReco, foodReco, clothingReco;
     //---NAV VAR---
     // BottomNavigationView for navigating between app screens
     BottomNavigationView bottomNavigationView;
@@ -196,13 +192,20 @@ public class HomeFragment extends Fragment {
 
         // START --- SETUP DATABASE ---
         dbManager = new SQLiteManager(getContext());
-        try { dbManager.createDataBase(); } catch (Exception e) { Log.d("DEBUG", "EXCEPTION: " + e); }
-        try { dbManager.openDataBase(); } catch (SQLException e) { Log.d("DEBUG", "EXCEPTION: " + e); }
-        SQLiteDatabase db1 = dbManager.getReadableDatabase();
+        try {
+            dbManager.createDataBase();
+        } catch (Exception e) {
+            Log.d("DEBUG", "EXCEPTION: " + e);
+        }
+        try {
+            dbManager.openDataBase();
+        } catch (SQLException e) {
+            Log.d("DEBUG", "EXCEPTION: " + e);
+        }
         // END --- SETUP DATABASE ---
 
         // START --- SETUP LOCATION ---
-        if(!GlobalData.getInstance().getManualSwitch() || GlobalData.getInstance().getManualURsL() == null) {
+        if (!GlobalData.getInstance().getManualSwitch() || GlobalData.getInstance().getManualURsL() == null) {
             manualCitySwitch.setChecked(false);
             locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
             requestPermissionLauncher = registerForActivityResult(new ActivityResultContracts.RequestMultiplePermissions(), result -> {
@@ -228,7 +231,7 @@ public class HomeFragment extends Fragment {
             locationListener = new LocationListener() {
                 @Override
                 public void onLocationChanged(Location location) {
-                    if(!GlobalData.getInstance().getManualSwitch()) {
+                    if (!GlobalData.getInstance().getManualSwitch()) {
                         locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
                         //ADDED
                         latitude = String.valueOf(location.getLatitude());
@@ -261,10 +264,13 @@ public class HomeFragment extends Fragment {
 
     private void getLocation() {
         if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-            try { locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 10, locationListener);
+            try {
+                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 10, locationListener);
                 bottomNavigationView = getActivity().findViewById(R.id.nav_view);
                 bottomNavigationView.setVisibility(View.GONE);
-            } catch (Exception e) { Log.d("DEBUG", "EXCEPTION: " + e); }
+            } catch (Exception e) {
+                Log.d("DEBUG", "EXCEPTION: " + e);
+            }
         }
     }
 
@@ -333,7 +339,9 @@ public class HomeFragment extends Fragment {
                             manualCityText.setVisibility(View.VISIBLE);
 
 
-                        } catch (JSONException e) { e.printStackTrace(); }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
                     }
                 }, new Response.ErrorListener() {
             @Override
@@ -379,7 +387,7 @@ public class HomeFragment extends Fragment {
                                 } else {
                                     sb1.append(df.format(temp)).append("°F").append("\n\n");
                                 }
-                               //Set Hourly Images
+                                //Set Hourly Images
                                 binding.hourlyImage1.setImageResource(getImageConditions(main));
                                 binding.hourlyImage2.setImageResource(getImageConditions(main));
                                 binding.hourlyImage3.setImageResource(getImageConditions(main));
@@ -452,6 +460,7 @@ public class HomeFragment extends Fragment {
         if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED) {
             getLocation();
+
         }
     }
 

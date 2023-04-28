@@ -1,8 +1,8 @@
 /*
-* Weather4cast
-* Robert Russell | Dongjun Gu
-* April/2023
-*/
+ * Weather4cast
+ * Robert Russell | Dongjun Gu
+ * April/2023
+ */
 package com.mobileapp.a4cast.ui.recommendations;
 
 import android.os.Bundle;
@@ -35,9 +35,10 @@ public class ActivityFragment extends Fragment { // ACTIVITY
     RecyclerViewAdaptor adapter;
     RecyclerView recyclerView;
     LinearLayoutManager layoutManager;
-    List<ModelClass>displayList;
+    List<ModelClass> displayList;
     List<DatabaseItem> activityList, conditions, temps, rainList;
     private SQLiteManager dbManager;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         dbManager = new SQLiteManager(getContext());
@@ -47,7 +48,7 @@ public class ActivityFragment extends Fragment { // ACTIVITY
         BottomNavigationView bottomNavigationView = getActivity().findViewById(R.id.nav_view);
         bottomNavigationView.setVisibility(View.GONE);
 
-        // get the conditions list from another fragment
+        // Get the conditions list from another fragment
         conditions = GlobalData.getInstance().getConditions();
         temps = GlobalData.getInstance().getTemps();
         Log.d("DEBUG", "ACTIVITY FRAGMENT: condition.size: " + conditions.size());
@@ -125,64 +126,65 @@ public class ActivityFragment extends Fragment { // ACTIVITY
 
     }
 
-    private void initData(List<DatabaseItem> mainList){ //CHANGE HERE
-        for(int i = 0; i < mainList.size(); i++) {
+    //Set initial data
+    private void initData(List<DatabaseItem> mainList) { //CHANGE HERE
+        for (int i = 0; i < mainList.size(); i++) {
             DatabaseItem dbItem = mainList.get(i);
             switch (dbItem.getName()) {
                 case "CAFE":
-                    displayList.add(new ModelClass(R.drawable.cafe, "Cafe", dbItem.getLink(),dbItem.getRecipe(), dbItem.getComment()));
+                    displayList.add(new ModelClass(R.drawable.cafe, "Cafe", dbItem.getLink(), dbItem.getRecipe(), dbItem.getComment()));
                     break;
                 case "SKI":
-                    displayList.add(new ModelClass(R.drawable.ski, "Ski", dbItem.getLink(),dbItem.getRecipe(), dbItem.getComment()));
+                    displayList.add(new ModelClass(R.drawable.ski, "Ski", dbItem.getLink(), dbItem.getRecipe(), dbItem.getComment()));
                     break;
                 case "ICE FISHING":
-                    displayList.add(new ModelClass(R.drawable.icefishing, "Ice Fishing", dbItem.getLink(),dbItem.getRecipe(), dbItem.getComment()));
+                    displayList.add(new ModelClass(R.drawable.icefishing, "Ice Fishing", dbItem.getLink(), dbItem.getRecipe(), dbItem.getComment()));
                     break;
                 case "ICE SKATE":
-                    displayList.add(new ModelClass(R.drawable.iceskate, "Ice Skating", dbItem.getLink(),dbItem.getRecipe(), dbItem.getComment()));
+                    displayList.add(new ModelClass(R.drawable.iceskate, "Ice Skating", dbItem.getLink(), dbItem.getRecipe(), dbItem.getComment()));
                     break;
                 case "MUSEUM":
-                    displayList.add(new ModelClass(R.drawable.museum, "Museum", dbItem.getLink(),dbItem.getRecipe(), dbItem.getComment()));
+                    displayList.add(new ModelClass(R.drawable.museum, "Museum", dbItem.getLink(), dbItem.getRecipe(), dbItem.getComment()));
                     break;
                 case "PLAY":
-                    displayList.add(new ModelClass(R.drawable.play, "Play", dbItem.getLink(),dbItem.getRecipe(), dbItem.getComment()));
+                    displayList.add(new ModelClass(R.drawable.play, "Play", dbItem.getLink(), dbItem.getRecipe(), dbItem.getComment()));
                     break;
                 case "BOWLING":
-                    displayList.add(new ModelClass(R.drawable.bowling, "Bowling", dbItem.getLink(),dbItem.getRecipe(), dbItem.getComment()));
+                    displayList.add(new ModelClass(R.drawable.bowling, "Bowling", dbItem.getLink(), dbItem.getRecipe(), dbItem.getComment()));
                     break;
                 case "MOVIE":
-                    displayList.add(new ModelClass(R.drawable.movie, "Movie", dbItem.getLink(),dbItem.getRecipe(), dbItem.getComment()));
+                    displayList.add(new ModelClass(R.drawable.movie, "Movie", dbItem.getLink(), dbItem.getRecipe(), dbItem.getComment()));
                     break;
                 case "HIKE":
-                    displayList.add(new ModelClass(R.drawable.hike, "Hike", dbItem.getLink(),dbItem.getRecipe(), dbItem.getComment()));
+                    displayList.add(new ModelClass(R.drawable.hike, "Hike", dbItem.getLink(), dbItem.getRecipe(), dbItem.getComment()));
                     break;
                 case "BIKE":
-                    displayList.add(new ModelClass(R.drawable.bike, "Bike", dbItem.getLink(),dbItem.getRecipe(), dbItem.getComment()));
+                    displayList.add(new ModelClass(R.drawable.bike, "Bike", dbItem.getLink(), dbItem.getRecipe(), dbItem.getComment()));
                     break;
                 case "AMUSEMENT PARK":
-                    displayList.add(new ModelClass(R.drawable.amusementpark, "Amusement Park", dbItem.getLink(),dbItem.getRecipe(), dbItem.getComment()));
+                    displayList.add(new ModelClass(R.drawable.amusementpark, "Amusement Park", dbItem.getLink(), dbItem.getRecipe(), dbItem.getComment()));
                     break;
                 case "PICNIC":
-                    displayList.add(new ModelClass(R.drawable.picnic, "Picnic", dbItem.getLink(),dbItem.getRecipe(), dbItem.getComment()));
+                    displayList.add(new ModelClass(R.drawable.picnic, "Picnic", dbItem.getLink(), dbItem.getRecipe(), dbItem.getComment()));
                     break;
                 case "BEACH":
-                    displayList.add(new ModelClass(R.drawable.beach, "Beach", dbItem.getLink(),dbItem.getRecipe(), dbItem.getComment()));
+                    displayList.add(new ModelClass(R.drawable.beach, "Beach", dbItem.getLink(), dbItem.getRecipe(), dbItem.getComment()));
                     break;
                 case "CONCERT":
-                    displayList.add(new ModelClass(R.drawable.concert, "Concert", dbItem.getLink(),dbItem.getRecipe(), dbItem.getComment()));
+                    displayList.add(new ModelClass(R.drawable.concert, "Concert", dbItem.getLink(), dbItem.getRecipe(), dbItem.getComment()));
                     break;
                 case "WATER PARK":
-                    displayList.add(new ModelClass(R.drawable.waterpark, "Water Park", dbItem.getLink(),dbItem.getRecipe(), dbItem.getComment()));
+                    displayList.add(new ModelClass(R.drawable.waterpark, "Water Park", dbItem.getLink(), dbItem.getRecipe(), dbItem.getComment()));
                     break;
                 case "WATER SPORTS":
-                    displayList.add(new ModelClass(R.drawable.watersports, "Water Sports", dbItem.getLink(),dbItem.getRecipe(), dbItem.getComment()));
+                    displayList.add(new ModelClass(R.drawable.watersports, "Water Sports", dbItem.getLink(), dbItem.getRecipe(), dbItem.getComment()));
                     break;
             }
         }
     }
 
     private void initRecyclerView() {
-        recyclerView=view.findViewById(R.id.recyclerview);
+        recyclerView = view.findViewById(R.id.recyclerview);
         layoutManager = new LinearLayoutManager(view.getContext());
         layoutManager.setOrientation(RecyclerView.VERTICAL);
         recyclerView.setLayoutManager(layoutManager);
