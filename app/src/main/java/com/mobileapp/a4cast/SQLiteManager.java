@@ -27,14 +27,6 @@ public class SQLiteManager extends SQLiteOpenHelper {
     public static String DB_PATH = "";
 
     public static final String TABLE_NAME = "weather";
-    /*
-    public static final int TYPE = 0;
-    public static final int NAME = 1;
-    public static final int MIN_TEMP = 2;
-    public static final int MAX_TEMP = 3;
-    public static final int CONDITIONS = 4;
-    public static final int LINK = 5;
-     */
 
     public Context context;
     static SQLiteDatabase sqliteDataBase;

@@ -6,7 +6,6 @@
 package com.mobileapp.a4cast.ui.home;
 
 import static android.content.ContentValues.TAG;
-
 import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
@@ -22,7 +21,6 @@ import android.view.ViewGroup;
 import android.widget.CompoundButton;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
@@ -48,11 +46,9 @@ import com.mobileapp.a4cast.GlobalData;
 import com.mobileapp.a4cast.R;
 import com.mobileapp.a4cast.SQLiteManager;
 import com.mobileapp.a4cast.databinding.FragmentHomeBinding;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
