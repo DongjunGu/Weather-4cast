@@ -34,10 +34,8 @@ I certify that the work submitted with this assignment is mine and was generated
 consistent with this document, the course academic policy on the course website on Blackboard,
 and the UMass Lowell academic code.
 
-Date: 26/04/2023
+Date: 27/04/2023
 Name: Dongjun Gu, Robert Russell
-PRE-RELEASE - https://github.com/UML-COMP4630-LIN/project-prerelease-group9_dongjungu_robertrussell
-FINAL-RELEASE -
 */
 public class MainActivity extends AppCompatActivity {
 
